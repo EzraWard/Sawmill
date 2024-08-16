@@ -22,7 +22,7 @@ public class ColourProvider : IColourProvider
 
         Swatches = swatches.ToDictionary(s => s.Name);
 
-        var accents = swatches.Where(s => s.SecondaryHues is not null).ToArray();
+        var accents = swatches.Where(s => s.IsAccented).ToArray();
         var orders = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         ThemeConstants.Themes.Select((str,idx)=>new {str,idx})
@@ -54,7 +54,7 @@ public class ColourProvider : IColourProvider
             .OrderBy(x => orders.Lookup(x.Name).ValueOr(() => 100))
             .SelectMany(swatch =>
             {
-                return swatch.SecondaryHues.Select(hue => new Hue(swatch.Name, hue.Name, hue.Foreground, hue.Color));
+                return swatch.AccentHues.Select(hue => new Hue(swatch.Name, hue.Name, hue.Foreground, hue.Color));
             })
             .Union(greys)
             .ToArray();
@@ -80,7 +80,7 @@ public class ColourProvider : IColourProvider
         var colour = theme.GetAccentColor();
         var swatch = Swatches.Lookup(colour);
 
-        return swatch.Convert(s=> new Hue(s.Name, s.ExemplarHue.Name, s.ExemplarHue.Foreground, s.ExemplarHue.Color))
+        return swatch.Convert(s=> new Hue(s.Name, s.AccentExemplarHue.Name, s.AccentExemplarHue.Foreground, s.AccentExemplarHue.Color))
             .ValueOrThrow(()=> new ArgumentOutOfRangeException(colour));
     }
 

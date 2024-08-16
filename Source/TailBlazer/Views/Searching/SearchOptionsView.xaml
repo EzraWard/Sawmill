@@ -46,7 +46,7 @@
                 <Setter Property="Height" Value="24" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="wpf:ElevationAssist.Elevation" Value="Dp3" />
+                <Setter Property="wpf:ShadowAssist.ShadowDepth" Value="Depth2" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="UseLayoutRounding" Value="True" />

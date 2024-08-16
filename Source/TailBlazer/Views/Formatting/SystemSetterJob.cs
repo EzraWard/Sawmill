@@ -31,7 +31,7 @@ public sealed class SystemSetterJob: IDisposable
             {
                 var isDark = userTheme == UserTheme.Dark;
 
-                ModifyTheme(theme => theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light));
+                ModifyTheme(theme => theme.SetBaseTheme(isDark ? MaterialDesignThemes.Wpf.Theme.Dark : MaterialDesignThemes.Wpf.Theme.Light));
                 ApplyAccent(isDark ? swatches["yellow"] : swatches["indigo"]);
             });
 
@@ -51,16 +51,16 @@ public sealed class SystemSetterJob: IDisposable
 
     private static void ApplyAccent(Swatch swatch)
     {
-        if (swatch.ExemplarHue is Hue accentHue)
+        if (swatch.AccentExemplarHue is Hue accentHue)
         {
             ModifyTheme(theme => theme.SetSecondaryColor(accentHue.Color));
         }
     }
 
-    private static void ModifyTheme(Action<MaterialDesignThemes.Wpf.Theme> modificationAction)
+    private static void ModifyTheme(Action<ITheme> modificationAction)
     {
         PaletteHelper paletteHelper = new PaletteHelper();
-        MaterialDesignThemes.Wpf.Theme theme = paletteHelper.GetTheme();
+        ITheme theme = paletteHelper.GetTheme();
 
         modificationAction?.Invoke(theme);
 
