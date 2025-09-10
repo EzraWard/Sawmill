@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using MaterialDesignExtensions.Controls;
 
 namespace TailBlazer.Controls;
 
-public class TailBlazerWindow : MaterialWindow
+public class TailBlazerWindow : Window
 {
     static TailBlazerWindow()
     {
