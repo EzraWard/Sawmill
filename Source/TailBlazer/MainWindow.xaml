@@ -175,21 +175,38 @@
                     <Grid>
 
                         <dockablz:Layout x:Name="Layout">
-                            <dragablz:TabablzControl
-                                x:Name="InitialTabablzControl"
-                                Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}"
-                                ClosingItemCallback="{Binding ClosingTabItemHandler}"
-                                HeaderMemberPath="Header"
-                                IsTabStop="True"
-                                ItemsSource="{Binding Views}"
-                                SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                ShowDefaultCloseButton="True"
-                                TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}">
+                            <Grid>
+                                <!-- keep existing Dragablz control collapsed for compatibility; new TabControl used for UI -->
+                                <dragablz:TabablzControl
+                                    x:Name="InitialTabablzControl"
+                                    Visibility="Collapsed"
+                                    Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}"
+                                    ClosingItemCallback="{Binding ClosingTabItemHandler}"
+                                    HeaderMemberPath="Header"
+                                    IsTabStop="True"
+                                    ItemsSource="{Binding Views}"
+                                    SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ShowDefaultCloseButton="True"
+                                    TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}">
 
-                                <dragablz:TabablzControl.InterTabController>
-                                    <dragablz:InterTabController InterTabClient="{Binding InterTabClient}" />
-                                </dragablz:TabablzControl.InterTabController>
-                            </dragablz:TabablzControl>
+                                    <dragablz:TabablzControl.InterTabController>
+                                        <dragablz:InterTabController InterTabClient="{Binding InterTabClient}" />
+                                    </dragablz:TabablzControl.InterTabController>
+                                </dragablz:TabablzControl>
+
+                                <!-- Standard WPF TabControl replacing the visible tab UI -->
+                                <TabControl x:Name="InitialTabControl"
+                                            Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}"
+                                            ItemsSource="{Binding Views}"
+                                            SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}">
+                                    <TabControl.ItemContainerStyle>
+                                        <Style TargetType="{x:Type TabItem}">
+                                            <Setter Property="Header" Value="{Binding Header}" />
+                                        </Style>
+                                    </TabControl.ItemContainerStyle>
+                                </TabControl>
+                            </Grid>
                         </dockablz:Layout>
 
                         <StackPanel 
