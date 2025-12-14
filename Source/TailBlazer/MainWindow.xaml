@@ -38,10 +38,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Font.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/MaterialDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <infrastucture:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+
+            <infrastucture:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <DataTemplate DataType="{x:Type infrastucture:FileHeader}">
                 <TextBlock
@@ -103,7 +105,11 @@
                             </ResourceDictionary>
                         </StackPanel.Resources>
 
-                        <ToggleButton
+                        <Button Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding CloseSettingsCommand}" Width="28" Height="28" Margin="0,0,6,0" ToolTip="Back">
+                        <TextBlock Text="←" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+
+                    <ToggleButton
                     x:Name="MenuToggleButton"
                     Width="24"
                     Height="24"
@@ -209,7 +215,18 @@
                     </Grid>
                 </materialDesign:DrawerHost>
 
-            </Grid>
+                    <!-- Full screen settings overlay -->
+                    <Border Grid.RowSpan="3" Background="{DynamicResource MaterialDesignBackground}" Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <DockPanel>
+                            <!-- Back button in overlay header -->
+                            <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" Width="36" Height="36" Margin="8">
+                                <TextBlock Text="←" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Button>
+                            <ContentControl Content="{Binding FullScreenContent}" />
+                        </DockPanel>
+                    </Border>
+
+                </Grid>
         </materialDesign:DialogHost>
     </AdornerDecorator>
 </controls1:TailBlazerWindow>

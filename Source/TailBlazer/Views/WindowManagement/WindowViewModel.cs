@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -42,11 +42,26 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public string Version { get; }
     public ICommand ExitCommmand { get; }
     public ICommand OpenSettingsCommand { get; }
+    public ICommand CloseSettingsCommand { get; }
     public ICommand ZoomInCommand { get; }
     public ICommand ZoomOutCommand { get; }
     public Command CollectMemoryCommand { get; }
 
     public FileDropMonitor DropMonitor { get; } = new FileDropMonitor();
+
+    private bool _isShowingSettings;
+    private object _fullScreenContent;
+    public bool IsShowingSettings
+    {
+        get => _isShowingSettings;
+        set => SetAndRaise(ref _isShowingSettings, value);
+    }
+
+    public object FullScreenContent
+    {
+        get => _fullScreenContent;
+        set => SetAndRaise(ref _fullScreenContent, value);
+    }
     public ItemActionCallback ClosingTabItemHandler => ClosingTabItemHandlerImpl;
     public ApplicationExitingDelegate WindowExiting { get; }
 
@@ -70,6 +85,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
 
         ShowInGitHubCommand = new Command(()=>   Process.Start("https://github.com/RolandPheasant"));
         OpenSettingsCommand = new Command(OpenSettings);
+        CloseSettingsCommand = new Command(CloseSettings);
         ZoomOutCommand= new Command(()=> { GeneralOptions.Scale = (int)GeneralOptions.Scale + 5; });
         ZoomInCommand = new Command(() => { GeneralOptions.Scale = (int)GeneralOptions.Scale - 5; });
         CollectMemoryCommand = new Command(() =>
@@ -161,8 +177,20 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     {
         // Create the settings view and set its DataContext to the shared GeneralOptions view model
         var settingsView = new SettingsView { DataContext = GeneralOptions };
-        var headered = new HeaderedView("Settings", settingsView);
-        OpenView(headered);
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            FullScreenContent = settingsView;
+            IsShowingSettings = true;
+        });
+    }
+
+    private void CloseSettings()
+    {
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            IsShowingSettings = false;
+            FullScreenContent = null;
+        });
     }
 
     private void OpenFile(FileInfo file)
