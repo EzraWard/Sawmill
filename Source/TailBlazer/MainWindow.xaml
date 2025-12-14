@@ -83,38 +83,14 @@
                     <RowDefinition Height="32"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="0">
-                    <StackPanel Orientation="Horizontal"  TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
-                        <TextBlock
-            VerticalAlignment="Center"
-            Opacity="0.6"
-            Text="{Binding Version}" />
-
-                        <materialDesign:PopupBox
-            Height="22"
-            Margin="0,0,-6,0"
-            VerticalAlignment="Center"
-            Visibility="Visible">
-                            <StackPanel Margin="2" Orientation="Vertical">
-
-                                <Button
-                    Margin="6,0,0,0"
-                    Command="{Binding ExitCommmand}"
-                    ToolTip="Exit Tail Blazer">
-                                    <StackPanel Orientation="Horizontal">
-                                        <controls1:ExitIcon Width="18" Height="18" />
-                                        <TextBlock
-                            Margin="8,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Exit and save layout" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                        </materialDesign:PopupBox>
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0">
+                    <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                        <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0">
+                            <controls1:SettingsIcon Width="16" Height="16" />
+                        </Button>
                     </StackPanel>
                 </Grid>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
                     <StackPanel Orientation="Horizontal" >
                         <StackPanel.Resources>
                             <ResourceDictionary>
