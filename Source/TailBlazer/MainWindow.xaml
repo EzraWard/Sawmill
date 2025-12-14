@@ -85,7 +85,7 @@
                 </Grid.RowDefinitions>
                 <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0">
                     <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
-                        <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0">
+                        <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0" Command="{Binding OpenSettingsCommand}">
                             <controls1:SettingsIcon Width="16" Height="16" />
                         </Button>
                     </StackPanel>
@@ -138,8 +138,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <options:GeneralOptionsView Margin="6,12,6,0" DataContext="{Binding GeneralOptions}" />
-
+                            
                             <recent:RecentFilesView
                                 Grid.Row="1"
                                 Margin="6,12,6,0"

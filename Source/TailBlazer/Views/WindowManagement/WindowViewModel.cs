@@ -41,6 +41,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public Command ShowInGitHubCommand { get; }
     public string Version { get; }
     public ICommand ExitCommmand { get; }
+    public ICommand OpenSettingsCommand { get; }
     public ICommand ZoomInCommand { get; }
     public ICommand ZoomOutCommand { get; }
     public Command CollectMemoryCommand { get; }
@@ -68,6 +69,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         OpenFileCommand =  new Command(OpenFile);
 
         ShowInGitHubCommand = new Command(()=>   Process.Start("https://github.com/RolandPheasant"));
+        OpenSettingsCommand = new Command(OpenSettings);
         ZoomOutCommand= new Command(()=> { GeneralOptions.Scale = (int)GeneralOptions.Scale + 5; });
         ZoomInCommand = new Command(() => { GeneralOptions.Scale = (int)GeneralOptions.Scale - 5; });
         CollectMemoryCommand = new Command(() =>
@@ -153,6 +155,14 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
 
         foreach (var file in files)
             OpenFile(new FileInfo(file));
+    }
+
+    private void OpenSettings()
+    {
+        // Create the settings view and set its DataContext to the shared GeneralOptions view model
+        var settingsView = new SettingsView { DataContext = GeneralOptions };
+        var headered = new HeaderedView("Settings", settingsView);
+        OpenView(headered);
     }
 
     private void OpenFile(FileInfo file)
