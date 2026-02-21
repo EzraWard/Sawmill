@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Linq;
 using FluentAssertions;
 using TailBlazer.Domain.Formatting;
 using TailBlazer.Views.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class ColourProviderFixture
 {
-    [Fact]
+    [TestMethod]
     public void ColourProviderLookupShouldFindAHue()
     {
         var provider = new ColourProvider();
@@ -21,7 +22,7 @@ public class ColourProviderFixture
         result.Value.Key.Should().Be(key);
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderLookupWithIncorrectKeyShouldReturnEmptyValue()
     {
         var provider = new ColourProvider();
@@ -32,7 +33,7 @@ public class ColourProviderFixture
         result.HasValue.Should().Be(false);
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderLookupWithNullKeyShouldReturnEmptyValue()
     {
         var provider = new ColourProvider();
@@ -42,7 +43,7 @@ public class ColourProviderFixture
         result.HasValue.Should().Be(false);
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderHuesShouldNotBeEmpty()
     {
         var provider = new ColourProvider();
@@ -52,7 +53,7 @@ public class ColourProviderFixture
         result.Any().Should().BeTrue();
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderLookupShouldFindAllHues()
     {
         var provider = new ColourProvider();
@@ -63,7 +64,7 @@ public class ColourProviderFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderGetAccentShouldSupportAllThemes()
     {
         var provider = new ColourProvider();
@@ -74,7 +75,7 @@ public class ColourProviderFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void ColourProviderDefaultAccentShouldReturnSomething()
     {
         var provider = new ColourProvider();
@@ -83,3 +84,4 @@ public class ColourProviderFixture
     }
 
 }
+

@@ -1,14 +1,15 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using TailBlazer.Domain.Formatting;
 using TailBlazer.Infrastructure.Virtualisation;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class DisplayTextFixture
 {
-    [Fact]
+    [TestMethod]
     public void CanVirtualise()
     {
         var input = new[]
@@ -36,7 +37,7 @@ public class DisplayTextFixture
         result.Should().BeEquivalentTo(expected);
     }
 
-    [Fact]
+    [TestMethod]
     public void CanVirtualise2()
     {
         var input = new[]
@@ -63,3 +64,4 @@ public class DisplayTextFixture
         result.Should().BeEquivalentTo(expected);
     }
 }
+

@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentAssertions;
 using TailBlazer.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class LogFixtures
 {
 
-    [Fact]
+    [TestMethod]
     public void LogNameDisplaysReadablyGenerics()
     {
         var subject = new List<int>();
@@ -17,7 +18,7 @@ public class LogFixtures
 
     }
 
-    [Fact]
+    [TestMethod]
     public void LogNameDisplayTakesTypeNameOnly()
     {
         var logger = new Log4NetLogger(typeof(int));
@@ -25,3 +26,4 @@ public class LogFixtures
 
     }
 }
+

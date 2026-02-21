@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Subjects;
@@ -6,13 +6,14 @@ using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class IndexerFixture
 {
-    [Fact]
+    [TestMethod]
     public void CanReadIndiciesBack_SmallFile()
     {
         var pulse = new Subject<Unit>();
@@ -49,7 +50,7 @@ public class IndexerFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanReadIndiciesBack_LargeFile()
     { 
         var pulse = new Subject<Unit>();
@@ -88,7 +89,7 @@ public class IndexerFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanProduceIndices()
     {
         var pulse = new Subject<Unit>();
@@ -120,7 +121,7 @@ public class IndexerFixture
     }
 
 
-    [Fact]
+    [TestMethod]
     public void WillAutoTail()
     {
         var pulse = new Subject<Unit>();
@@ -149,3 +150,4 @@ public class IndexerFixture
 
     }
 }
+

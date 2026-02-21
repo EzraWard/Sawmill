@@ -4,14 +4,15 @@ using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileTailerFixture
 {
 
-    //  [Fact]
+    //  [TestMethod]
     //public void AutoTail()
     //{
     //    var scheduler  = new TestScheduler();
@@ -34,7 +35,7 @@ public class FileTailerFixture
     //    }
     //}
 
-    //[Fact]
+    //[TestMethod]
     //public void WillNotApplyFilterWhenTextIsLessThan3Character()
     //{
     //    var file = Path.GetTempFileName();
@@ -64,7 +65,7 @@ public class FileTailerFixture
     //    }
     //}
 
-    [Fact]
+    [TestMethod]
     public void AutoTailWithFilter()
     {
 
@@ -117,7 +118,7 @@ public class FileTailerFixture
     }
 
 
-    //[Fact]
+    //[TestMethod]
     //public void ScrollToSpecificLine()
     //{
     //    var file = Path.GetTempFileName();
@@ -144,7 +145,7 @@ public class FileTailerFixture
 
     //}
 
-    //[Fact]
+    //[TestMethod]
     //public void AnEmptyFileDoesNotBomb()
     //{
     //    var file = Path.GetTempFileName();
@@ -162,3 +163,4 @@ public class FileTailerFixture
     //    }
     //}
 }
+

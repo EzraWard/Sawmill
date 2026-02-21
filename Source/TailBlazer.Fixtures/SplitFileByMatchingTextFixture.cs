@@ -1,14 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Linq;
 using FluentAssertions;
 using TailBlazer.Domain.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class SplitFileByMatchingTextFixture
 {
-    [Fact]
+    [TestMethod]
     public void FindMatchingText()
     {
       
@@ -23,7 +24,7 @@ public class SplitFileByMatchingTextFixture
         multijoined.Should().Be(input);
     }
 
-    [Fact]
+    [TestMethod]
     public void FindWithNoMatch()
     {
         var input = "The lazy cat could not catch a mouse";
@@ -37,7 +38,7 @@ public class SplitFileByMatchingTextFixture
         multijoined.Should().Be(input);
     }
 
-    [Fact]
+    [TestMethod]
     public void MatchAtEnd()
     {
         var input = "The lazy cat could not catch a mouse";
@@ -52,7 +53,7 @@ public class SplitFileByMatchingTextFixture
         multijoined.Should().Be(input);
     }
 
-    [Fact]
+    [TestMethod]
     public void MatchAtStart()
     {
         var input = "The lazy cat could not catch a mouse";
@@ -66,7 +67,7 @@ public class SplitFileByMatchingTextFixture
         multijoined.Should().Be(input);
     }
 
-    [Fact]
+    [TestMethod]
     public void NoMatch()
     {
         var input = "The lazy cat could not catch a mouse";
@@ -80,3 +81,4 @@ public class SplitFileByMatchingTextFixture
     }
 
 }
+

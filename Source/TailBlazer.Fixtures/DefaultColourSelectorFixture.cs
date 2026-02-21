@@ -1,13 +1,14 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using TailBlazer.Views.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class DefaultColourSelectorFixture
 {
-    [Fact]
+    [TestMethod]
     public void DefaultColourSelectorLookupShouldWork()
     {
         var provider = new ColourProvider();
@@ -19,7 +20,7 @@ public class DefaultColourSelectorFixture
         result.Key.Should().Be(key);
     }
 
-    [Fact]
+    [TestMethod]
     public void DefaultColourSelectorSelectShouldWork()
     {
         var provider = new ColourProvider();
@@ -30,3 +31,4 @@ public class DefaultColourSelectorFixture
         result.Should().NotBeNull();
     }
 }
+

@@ -1,18 +1,19 @@
-﻿#region Usings
+#region Usings
 
 using System;
 using FluentAssertions;
 using TailBlazer.Domain.Settings;
 using TailBlazer.Domain.StateHandling;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endregion
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class StateBucketFixture
 {
-    [Fact]
+    [TestMethod]
     public void WriteState()
     {
         var converter = new StateBucketConverter();
@@ -27,7 +28,7 @@ public class StateBucketFixture
         buckets.Should().BeEquivalentTo(restored);
     }
 
-    //[Fact]
+    //[TestMethod]
     //public void WriteComplexState()
     //{
     //    var state = new State(1, "<<something weird<> which breaks xml {}");
@@ -39,3 +40,4 @@ public class StateBucketFixture
     //    restored.Should().Be(state);
     //}
 }
+

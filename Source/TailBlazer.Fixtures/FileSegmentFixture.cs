@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -6,13 +6,14 @@ using System.Reactive.Subjects;
 using FluentAssertions;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileSegmentFixture
 {
-    [Fact]
+    [TestMethod]
     public void FileChanged()
     {
         //need to make this test
@@ -47,7 +48,7 @@ public class FileSegmentFixture
         File.Delete(file);
     }
 
-    [Fact]
+    [TestMethod]
     public void NotifiesOfSegmentWhenFileIsCreated()
     {
         //need to make this test
@@ -84,3 +85,4 @@ public class FileSegmentFixture
         File.Delete(file);
     }
 }
+

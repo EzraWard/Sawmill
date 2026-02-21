@@ -1,16 +1,16 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using TailBlazer.Views.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
 public class DefaultIconSelectorFixture
 {
-    [Theory,
-     InlineData("DEBUG", false),
-     InlineData("DEBUG", true),
-     InlineData(null, true),
-     InlineData(null, false)
+    [DataTestMethod,
+     DataRow("DEBUG", false),
+     DataRow("DEBUG", true),
+     DataRow(null, true),
+     DataRow(null, false)
     ]
     public void GetIconForShouldWork(string text, bool useRegex)
     {
@@ -21,12 +21,12 @@ public class DefaultIconSelectorFixture
         result.Should().NotBeNullOrEmpty();
     }
 
-    [Theory,
-     InlineData("DEBUG", true, "INFO"),
-     InlineData("DEBUG", false, "INFO"),
-     InlineData("DEBUG", true, "xxxxxxx"),
-     InlineData("DEBUG", false, "xxxxxxx"),
-     InlineData("Bug", false, "xxxxxxx")
+    [DataTestMethod,
+     DataRow("DEBUG", true, "INFO"),
+     DataRow("DEBUG", false, "INFO"),
+     DataRow("DEBUG", true, "xxxxxxx"),
+     DataRow("DEBUG", false, "xxxxxxx"),
+     DataRow("Bug", false, "xxxxxxx")
     ]
     public void GetIconOrDefaultShouldWork(string text, bool useRegex, string iconKind)
     {
@@ -37,3 +37,4 @@ public class DefaultIconSelectorFixture
         result.Should().NotBeNullOrEmpty();
     }
 }
+

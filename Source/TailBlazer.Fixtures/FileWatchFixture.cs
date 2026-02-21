@@ -1,17 +1,18 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileWatchFixture
 {
 
-    [Fact]
+    [TestMethod]
     public void Notify()
     {
         var file = Path.GetTempFileName();
@@ -42,3 +43,4 @@ public class FileWatchFixture
         }
     }
 }
+

@@ -1,18 +1,19 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using FluentAssertions;
 using TailBlazer.Domain.FileHandling;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures
 {
-    public class ReadLinesFixture
+    [TestClass]
+public class ReadLinesFixture
     {
 
 
-        [Fact]
+        [TestMethod]
         public void ReadSpecificFileLines()
         {
             using (var file=new TestFile())
@@ -26,3 +27,4 @@ namespace TailBlazer.Fixtures
         }
     }
 }
+

@@ -1,13 +1,14 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using TailBlazer.Views.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class IconProviderFixture
 {
-    [Fact]
+    [TestMethod]
     public void IconProviderShouldHaveIcons()
     {
         using (var provider = new IconProvider(new DefaultIconSelector()))
@@ -18,3 +19,4 @@ public class IconProviderFixture
         }
     }
 }
+
