@@ -77,34 +77,17 @@
         <materialDesign:DialogHost Identifier="{x:Static tailBlazer:DialogNames.EntireWindow}">
 
             <Grid infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0" Panel.ZIndex="10">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0" Panel.ZIndex="10"
+                      Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                         <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0" Command="{Binding OpenSettingsCommand}">
                             <controls1:SettingsIcon Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,38,0,0" Panel.ZIndex="10">
-                    <StackPanel Orientation="Horizontal" >
-                        <StackPanel.Resources>
-                            <ResourceDictionary>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
 
-                                </Style>
-                            </ResourceDictionary>
-                        </StackPanel.Resources>
 
-                        <Button Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding CloseSettingsCommand}" Width="28" Height="28" Margin="0,0,6,0" ToolTip="Back">
-                        <TextBlock Text="←" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Button>
-
-                    </StackPanel>
-                </Grid>
-
-                <materialDesign:DrawerHost>
+                <materialDesign:DrawerHost Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
                     <Grid>
 
@@ -220,8 +203,10 @@
                             Background="{DynamicResource SettingsMicaBrush}"
                             Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>
-                            <!-- Back button in overlay header -->
-                            <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" Width="36" Height="36" Margin="8">
+                            <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" HorizontalAlignment="Left"
+                                    Width="36" Height="36" Margin="8" ToolTip="Back"
+                                    BorderThickness="0" Background="Transparent"
+                                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                                 <TextBlock Text="←" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Button>
                             <ContentControl Content="{Binding FullScreenContent}" />
