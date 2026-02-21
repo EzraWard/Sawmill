@@ -77,18 +77,14 @@
         <materialDesign:DialogHost Identifier="{x:Static tailBlazer:DialogNames.EntireWindow}">
 
             <Grid infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
-                <Grid.RowDefinitions>
-					<RowDefinition Height="32"/>
-					<RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="0">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0">
                     <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                         <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0" Command="{Binding OpenSettingsCommand}">
                             <controls1:SettingsIcon Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,38,0,0">
                     <StackPanel Orientation="Horizontal" >
                         <StackPanel.Resources>
                             <ResourceDictionary>
@@ -105,39 +101,10 @@
                         <TextBlock Text="←" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
 
-                    <ToggleButton
-                    x:Name="MenuToggleButton"
-                    Width="24"
-                    Height="24"
-                    IsChecked="{Binding MenuIsOpen}"
-                    Cursor="Hand"
-
-                    Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
-
-                        <Button Command="{Binding OpenFileCommand}" ToolTip="Open file">
-							<TextBlock Text="Open"/>
-						</Button>
                     </StackPanel>
                 </Grid>
 
-                <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}" Grid.Row="2">
-                    <materialDesign:DrawerHost.LeftDrawerContent>
-
-                        <Grid TextElement.Foreground="{DynamicResource  MaterialDesignBody}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            
-                            <recent:RecentFilesView
-                                Grid.Row="1"
-                                Margin="6,12,6,0"
-                                DataContext="{Binding RecentFiles}" />
-                        </Grid>
-
-                    </materialDesign:DrawerHost.LeftDrawerContent>
+                <materialDesign:DrawerHost>
 
                     <Grid>
 
@@ -173,7 +140,7 @@
                                             <Setter Property="BorderBrush" Value="#553C82F6" />
                                             <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                             <Setter Property="Padding" Value="10,4" />
-                                            <Setter Property="Margin" Value="2,3,2,0" />
+                                            <Setter Property="Margin" Value="2,3,4,0" />
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type TabItem}">
@@ -205,15 +172,16 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <ContentPresenter Content="{Binding Header}" />
                                                 <Button Margin="8,0,0,0"
-                                                        Width="16"
-                                                        Height="16"
-                                                        BorderThickness="0"
-                                                        Background="Transparent"
-                                                        Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
-                                                        Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                        CommandParameter="{Binding}"
-                                                        ToolTip="Close tab">
-                                                    <TextBlock Text="✕" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                         Width="16"
+                                                         Height="16"
+                                                         Padding="0"
+                                                         BorderThickness="0"
+                                                         Background="Transparent"
+                                                         Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
+                                                         Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                         CommandParameter="{Binding}"
+                                                         ToolTip="Close tab">
+                                                    <TextBlock Text="x" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Button>
                                             </StackPanel>
                                         </DataTemplate>
@@ -248,7 +216,7 @@
                 </materialDesign:DrawerHost>
 
                     <!-- Full screen settings overlay -->
-                    <Border Grid.RowSpan="3"
+                    <Border
                             Background="{DynamicResource SettingsMicaBrush}"
                             Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>

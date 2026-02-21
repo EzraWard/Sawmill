@@ -140,6 +140,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
                     currentSelection.IsSelected = true;
             });
 
+        EnsureStartTab();
 
         _cleanUp = new CompositeDisposable(recentFilesViewModel,
             isEmptyChecker,
@@ -284,8 +285,18 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
             Selected = Views.FirstOrDefault(vc => vc != container);
 
         Views.Remove(container);
+        EnsureStartTab();
         var disposable = container.Content as IDisposable;
         disposable?.Dispose();
+    }
+
+    private void EnsureStartTab()
+    {
+        if (Views.Any(v => v.Content is StartTabViewModel)) return;
+
+        var startTab = new HeaderedView("Open", new StartTabViewModel(OpenFileCommand));
+        Views.Insert(0, startTab);
+        Selected ??= startTab;
     }
 
     public HeaderedView Selected

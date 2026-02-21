@@ -6,6 +6,7 @@
     xmlns:fileDrop="clr-namespace:TailBlazer.Views.FileDrop"
     xmlns:searching="clr-namespace:TailBlazer.Views.Searching"
     xmlns:tail="clr-namespace:TailBlazer.Views.Tail"
+    xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     ShutdownMode="OnLastWindowClose"
     >
     <Application.Resources>
@@ -90,6 +91,10 @@
 
             <DataTemplate DataType="{x:Type tail:TailViewModel}">
                 <tail:TailView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type windowManagement:StartTabViewModel}">
+                <windowManagement:StartTabView />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type fileDrop:FileDropContainer}">
