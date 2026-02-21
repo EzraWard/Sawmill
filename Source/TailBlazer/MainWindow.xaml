@@ -205,7 +205,9 @@
                 </materialDesign:DrawerHost>
 
                     <!-- Full screen settings overlay -->
-                    <Border Grid.RowSpan="3" Background="{DynamicResource MaterialDesignBackground}" Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Border Grid.RowSpan="3"
+                            Background="{DynamicResource SettingsMicaBrush}"
+                            Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>
                             <!-- Back button in overlay header -->
                             <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" Width="36" Height="36" Margin="8">

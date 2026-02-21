@@ -4,18 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:options="clr-namespace:TailBlazer.Views.Options"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
 
-    <!-- Settings page that aggregates the slide-over options -->
-    <Grid>
-        <ScrollViewer>
-            <StackPanel Margin="12">
-                <TextBlock Text="Settings" FontSize="20" FontWeight="SemiBold" Margin="0 0 0 8" />
-
-                <!-- Reuse existing GeneralOptionsView. It will inherit DataContext from this control when created and bound in code. -->
-                <options:GeneralOptionsView />
-
+    <Grid Background="{DynamicResource SettingsMicaBrush}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="32,24" MaxWidth="980">
+                <TextBlock Text="Settings"
+                           FontSize="30"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,4" />
+                <TextBlock Text="Personalize TailBlazer behavior and appearance."
+                           Opacity="0.8"
+                           Margin="0,0,0,20" />
+                <Border Background="{DynamicResource SettingsCardBrush}"
+                        BorderBrush="{DynamicResource SettingsCardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="20">
+                    <options:GeneralOptionsView />
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>
