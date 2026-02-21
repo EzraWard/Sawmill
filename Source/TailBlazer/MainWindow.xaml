@@ -77,14 +77,14 @@
         <materialDesign:DialogHost Identifier="{x:Static tailBlazer:DialogNames.EntireWindow}">
 
             <Grid infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0" Panel.ZIndex="10">
                     <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                         <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0" Command="{Binding OpenSettingsCommand}">
                             <controls1:SettingsIcon Width="16" Height="16" />
                         </Button>
                     </StackPanel>
                 </Grid>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,38,0,0">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,38,0,0" Panel.ZIndex="10">
                     <StackPanel Orientation="Horizontal" >
                         <StackPanel.Resources>
                             <ResourceDictionary>
