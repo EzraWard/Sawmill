@@ -43,6 +43,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public ICommand ExitCommmand { get; }
     public ICommand OpenSettingsCommand { get; }
     public ICommand CloseSettingsCommand { get; }
+    public ICommand CloseViewCommand { get; }
     public ICommand ZoomInCommand { get; }
     public ICommand ZoomOutCommand { get; }
     public Command CollectMemoryCommand { get; }
@@ -86,6 +87,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         ShowInGitHubCommand = new Command(()=>   Process.Start("https://github.com/RolandPheasant"));
         OpenSettingsCommand = new Command(OpenSettings);
         CloseSettingsCommand = new Command(CloseSettings);
+        CloseViewCommand = new Command<HeaderedView>(CloseView);
         ZoomOutCommand= new Command(()=> { GeneralOptions.Scale = (int)GeneralOptions.Scale + 5; });
         ZoomInCommand = new Command(() => { GeneralOptions.Scale = (int)GeneralOptions.Scale - 5; });
         CollectMemoryCommand = new Command(() =>
@@ -271,13 +273,17 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
 
     private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
     {
+        CloseView((HeaderedView)args.DragablzItem.DataContext);
+    }
+
+    private void CloseView(HeaderedView container)
+    {
         _logger.Info("Tab is closing. {0} view to close", Views.Count);
-        var container = (HeaderedView)args.DragablzItem.DataContext;
         _windowsController.Remove(container);
         if (container.Equals(Selected))
-        {
             Selected = Views.FirstOrDefault(vc => vc != container);
-        }
+
+        Views.Remove(container);
         var disposable = container.Content as IDisposable;
         disposable?.Dispose();
     }
