@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf"
              xmlns:infrastucture="clr-namespace:TailBlazer.Infrastructure"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:search="clr-namespace:TailBlazer.Domain.FileHandling.Search;assembly=TailBlazer.Domain"
@@ -23,12 +23,6 @@
     <Control.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.listbox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.textbox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.combobox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.Font.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/ProgressBar.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Buttons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/ToggleButtons.xaml" />
@@ -139,11 +133,7 @@
                             TabIndex="0"
                              x:Name="SearchTextBox"
                             Text="{Binding SearchHints.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                            wpf:HintAssist.Hint="{Binding SearchHints.Message.Value}" 
                             VerticalAlignment="Bottom"
-                            wpf:ValidationAssist.UsePopup="False"
-                            Style="{StaticResource FloatingHintAndErrorTextBox}"
-                            Validation.ErrorTemplate="{StaticResource BorderOnlyValidationErrorTemplate}" 
                             MinWidth="200">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter" Command="{Binding SearchHints.AddSearchCommand}"/>
@@ -377,7 +367,7 @@
                                 Foreground="{DynamicResource MaterialDesignPaper}"
                                 PopupMode="Click"
                                 Padding="0"
-                                PlacementMode="TopAndAlignLeftEdges">
+                                PlacementMode="Top">
                             <wpf:PopupBox.ToggleContent>
                                 <TextBlock FontSize="10" Text="{Binding Name}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             </wpf:PopupBox.ToggleContent>
@@ -505,3 +495,4 @@
     </wpf:DialogHost>
 
 </UserControl>
+

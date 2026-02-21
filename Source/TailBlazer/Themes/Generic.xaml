@@ -13,7 +13,7 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <Style BasedOn="{StaticResource MaterialDesignTabablzControlStyle}" TargetType="{x:Type dragablz:TabablzControl}" />
+    <Style TargetType="{x:Type dragablz:TabablzControl}" />
 
     <Style TargetType="{x:Type controls:HighlightTextControl}">
         <Setter Property="BorderThickness" Value="2" />
