@@ -31,7 +31,7 @@ public class FileSegmentFixture
         using (var indexer = segmenter.Segments.Subscribe(segment => result = segment))
         {
             result.Should().NotBeNull();
-            result.Count.Should().BeGreaterOrEqualTo(2);
+            result.Count.Should().BeGreaterThanOrEqualTo(2);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Head);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Tail);
             result.FileLength.Should().Be(info.Length);
@@ -68,7 +68,7 @@ public class FileSegmentFixture
             refresher.Once();
 
             result.Should().NotBeNull();
-            result.Count.Should().BeGreaterOrEqualTo(2);
+            result.Count.Should().BeGreaterThanOrEqualTo(2);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Head);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Tail);
             result.FileLength.Should().Be(info.Length);

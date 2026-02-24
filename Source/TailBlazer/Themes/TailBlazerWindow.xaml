@@ -5,8 +5,17 @@
     <Style TargetType="{x:Type controls:TailBlazerWindow}" >
         <Setter Property="Background" Value="{DynamicResource MaterialDesignBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+        <Setter Property="WindowStyle" Value="None" />
         <Setter Property="MinWidth" Value="128" />
         <Setter Property="MinHeight" Value="128" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="40"
+                              UseAeroCaptionButtons="False"
+                              GlassFrameThickness="-1"
+                              ResizeBorderThickness="4" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:TailBlazerWindow}" >
@@ -60,17 +69,131 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="40" />
                                     <RowDefinition Height="100*" />
                                 </Grid.RowDefinitions>
 
-                                <!-- Left Header Content -->
-                                <ContentPresenter Focusable="True" 
+                                <!-- Left Header Content (titlebar tabs) -->
+                                <ContentPresenter Grid.Column="1"
+                                    Grid.Row="0"
+                                    Panel.ZIndex="2048"
+                                    Focusable="True" 
                                     IsHitTestVisible="True"
                                     WindowChrome.IsHitTestVisibleInChrome="True"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" FocusVisualStyle="{x:Null}"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" FocusVisualStyle="{x:Null}"
+                                    Margin="0,0,184,0"
                                     Content="{Binding Path=LeftHeaderContent, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <StackPanel Grid.Column="2"
+                                            Grid.Row="0"
+                                            Panel.ZIndex="2049"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Stretch"
+                                            WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Height" Value="40" />
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="CaptionButtonRoot"
+                                                                Background="{TemplateBinding Background}">
+                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="CaptionButtonRoot" Property="Background" Value="#22FFFFFF" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <Button Width="46"
+                                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            ToolTip="Minimize">
+                                        <TextBlock Text="&#xE921;"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                    </Button>
+                                    <Button Width="46"
+                                            Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            ToolTip="Maximize">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type controls:TailBlazerWindow}}}" Value="Maximized">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <TextBlock Text="&#xE922;"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                    </Button>
+                                    <Button Width="46"
+                                            Command="{x:Static SystemCommands.RestoreWindowCommand}"
+                                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            ToolTip="Restore">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type controls:TailBlazerWindow}}}" Value="Maximized">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <TextBlock Text="&#xE923;"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                    </Button>
+                                    <Button Width="46"
+                                            Command="{x:Static SystemCommands.CloseWindowCommand}"
+                                            CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            ToolTip="Close">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#C42B1C" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <TextBlock Text="&#xE8BB;"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="10"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                    </Button>
+                                </StackPanel>
 
                                 <!-- window content -->
                                 <Border Grid.ColumnSpan="3" Grid.Row="1" Panel.ZIndex="2047" Background="{TemplateBinding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -98,8 +221,7 @@
                                     </AdornerDecorator>
                                 </Border>
 
-                                <!-- resize grip -->
-                                <ResizeGrip x:Name="resizeGrip" Grid.Column="2" Grid.Row="1" Panel.ZIndex="2048" Style="{StaticResource ResizeGripStyle}" />
+                                <!-- resize grip intentionally omitted: resize border handles resizing -->
                             </Grid>
                         </Border>
                     </Border>

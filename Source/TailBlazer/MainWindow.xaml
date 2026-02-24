@@ -1,4 +1,4 @@
-<controls1:TailBlazerWindow
+<Window
     x:Class="TailBlazer.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,12 +9,14 @@
     xmlns:infrastucture="clr-namespace:TailBlazer.Infrastructure"
     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
     xmlns:tailBlazer="clr-namespace:TailBlazer"
     xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     x:Name="Window"
-    Title="Sawmill"
+    Title=""
     Width="950"
     Height="650"
+    WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
     infrastucture:WindowAssist.ApplicationClosing="{Binding WindowExiting}"
@@ -24,6 +26,14 @@
     WindowStartupLocation="CenterScreen"
    
     mc:Ignorable="d">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome
+            CaptionHeight="0"
+            ResizeBorderThickness="4"
+            GlassFrameThickness="-1"
+            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
         <ResourceDictionary>
@@ -67,7 +77,135 @@
         <materialDesign:DialogHost Identifier="{x:Static tailBlazer:DialogNames.EntireWindow}">
 
             <Grid infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,38,0,0" Panel.ZIndex="10"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Height="40" Margin="10,0,0,0" Background="Transparent" shell:WindowChrome.IsHitTestVisibleInChrome="True" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <controls1:TailBlazerIcon Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,140,0">
+                        <TabControl x:Name="TitleBarTabs"
+                                    ItemsSource="{Binding Views}"
+                                    SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Height="38"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                            <TabControl.Resources>
+                                <Style TargetType="{x:Type TabItem}">
+                                    <Setter Property="MinWidth" Value="120" />
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                    <Setter Property="Background" Value="#1FFFFFFF" />
+                                    <Setter Property="BorderBrush" Value="#33FFFFFF" />
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="Padding" Value="10,4" />
+                                    <Setter Property="Margin" Value="0,3,8,3" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TabItem}">
+                                                <Border x:Name="TabRoot"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="7"
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="TabRoot" Property="Background" Value="#44FFFFFF" />
+                                                        <Setter TargetName="TabRoot" Property="BorderBrush" Value="#66FFFFFF" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="TabRoot" Property="Background" Value="#2AFFFFFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TabControl.Resources>
+                            <TabControl.Template>
+                                <ControlTemplate TargetType="TabControl">
+                                    <Grid ClipToBounds="False">
+                                        <TabPanel IsItemsHost="True" Margin="0,1,2,1" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </TabControl.Template>
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ContentPresenter Content="{Binding Header}" />
+                                        <Button Margin="8,0,0,0"
+                                                Width="16"
+                                                Height="16"
+                                                Padding="0"
+                                                BorderThickness="0"
+                                                Background="Transparent"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
+                                                Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip="Close tab">
+                                            <TextBlock Text="x" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                        </TabControl>
+                        <Button Width="16"
+                                Height="16"
+                                Margin="6,0,0,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                FontSize="10"
+                                Padding="0"
+                                Content="+"
+                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                ToolTip="New tab"
+                                Command="{Binding NewTabCommand}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                        <Button Width="46"
+                                Height="40"
+                                Padding="0"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                Click="MinimizeButton_Click">
+                            <TextBlock Text="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
+                        <Button Width="46"
+                                Height="40"
+                                Padding="0"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                Click="MaximizeRestoreButton_Click">
+                            <TextBlock Text="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
+                        <Button Width="46"
+                                Height="40"
+                                Padding="0"
+                                BorderThickness="0"
+                                Background="Transparent"
+                                Click="CloseButton_Click">
+                            <TextBlock Text="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0" Panel.ZIndex="10"
                       Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                         <Button Width="40" Height="40" ToolTip="Settings" Margin="4,0,6,0" Command="{Binding OpenSettingsCommand}">
@@ -76,7 +214,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <Grid Grid.Row="1" Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
                         <dockablz:Layout x:Name="Layout">
                             <Grid>
@@ -98,30 +236,8 @@
                                     </dragablz:TabablzControl.InterTabController>
                                 </dragablz:TabablzControl>
 
-                                <!-- Standard WPF TabControl replacing the visible tab UI -->
-                                <TabControl x:Name="InitialTabControl"
-                                            ItemsSource="{Binding Views}"
-                                            SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <TabControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <ContentPresenter Content="{Binding Header}" />
-                                                <Button Margin="8,0,0,0"
-                                                         Width="16"
-                                                         Height="16"
-                                                         Padding="0"
-                                                         BorderThickness="0"
-                                                         Background="Transparent"
-                                                         Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
-                                                         Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                         CommandParameter="{Binding}"
-                                                         ToolTip="Close tab">
-                                                    <TextBlock Text="x" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </Button>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </TabControl.ItemTemplate>
-                                </TabControl>
+                                <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
+                                <ContentControl Content="{Binding Selected}" />
                             </Grid>
                         </dockablz:Layout>
 
@@ -150,7 +266,7 @@
                 </Grid>
 
                     <!-- Full screen settings overlay -->
-                    <Border
+                    <Border Grid.RowSpan="2"
                             Background="{DynamicResource SettingsMicaBrush}"
                             Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>
@@ -167,5 +283,5 @@
                 </Grid>
         </materialDesign:DialogHost>
     </AdornerDecorator>
-</controls1:TailBlazerWindow>
+</Window>
 

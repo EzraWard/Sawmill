@@ -34,6 +34,12 @@ public class TailBlazerWindow : Window
     public static readonly DependencyProperty LeftHeaderContentProperty = DependencyProperty.Register(
         "LeftHeaderContent", typeof(object), typeof(TailBlazerWindow), new PropertyMetadata(default(object)));
 
+    public object LeftHeaderContent
+    {
+        get => GetValue(LeftHeaderContentProperty);
+        set => SetValue(LeftHeaderContentProperty, value);
+    }
+
     public static void SetLeftHeaderContent(DependencyObject element, object value)
     {
         element.SetValue(LeftHeaderContentProperty, value);
@@ -46,6 +52,12 @@ public class TailBlazerWindow : Window
 
     public static readonly DependencyProperty RightHeaderContentProperty = DependencyProperty.Register(
         "RightHeaderContent", typeof(object), typeof(TailBlazerWindow), new PropertyMetadata(default(object)));
+
+    public object RightHeaderContent
+    {
+        get => GetValue(RightHeaderContentProperty);
+        set => SetValue(RightHeaderContentProperty, value);
+    }
 
     public static void SetRightHeaderContent(DependencyObject element, object value)
     {

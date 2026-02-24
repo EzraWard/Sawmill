@@ -44,6 +44,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public ICommand OpenSettingsCommand { get; }
     public ICommand CloseSettingsCommand { get; }
     public ICommand CloseViewCommand { get; }
+    public ICommand NewTabCommand { get; }
     public ICommand ZoomInCommand { get; }
     public ICommand ZoomOutCommand { get; }
     public Command CollectMemoryCommand { get; }
@@ -88,6 +89,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         OpenSettingsCommand = new Command(OpenSettings);
         CloseSettingsCommand = new Command(CloseSettings);
         CloseViewCommand = new Command<HeaderedView>(CloseView);
+        NewTabCommand = new Command(AddNewTab);
         ZoomOutCommand= new Command(()=> { GeneralOptions.Scale = (int)GeneralOptions.Scale + 5; });
         ZoomInCommand = new Command(() => { GeneralOptions.Scale = (int)GeneralOptions.Scale - 5; });
         CollectMemoryCommand = new Command(() =>
@@ -290,11 +292,33 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         disposable?.Dispose();
     }
 
+    private void AddNewTab()
+    {
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            var newTab = new HeaderedView("New Tab", new StartTabViewModel(OpenFileCommand));
+            Views.Add(newTab);
+            Selected = newTab;
+        });
+    }
+
     private void EnsureStartTab()
     {
-        if (Views.Any(v => v.Content is StartTabViewModel)) return;
+        var existingStartTab = Views.FirstOrDefault(v => v.Content is StartTabViewModel);
+        if (existingStartTab != null)
+        {
+            if (!Equals(existingStartTab.Header, "New Tab"))
+            {
+                var existingIndex = Views.IndexOf(existingStartTab);
+                var renamedStartTab = new HeaderedView("New Tab", existingStartTab.Content);
+                Views[existingIndex] = renamedStartTab;
+                if (ReferenceEquals(Selected, existingStartTab))
+                    Selected = renamedStartTab;
+            }
+            return;
+        }
 
-        var startTab = new HeaderedView("Open", new StartTabViewModel(OpenFileCommand));
+        var startTab = new HeaderedView("New Tab", new StartTabViewModel(OpenFileCommand));
         Views.Insert(0, startTab);
         Selected ??= startTab;
     }
