@@ -9,8 +9,6 @@
     xmlns:infrastucture="clr-namespace:TailBlazer.Infrastructure"
     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:options="clr-namespace:TailBlazer.Views.Options"
-    xmlns:recent="clr-namespace:TailBlazer.Views.Recent"
     xmlns:tailBlazer="clr-namespace:TailBlazer"
     xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     x:Name="Window"
@@ -27,16 +25,8 @@
    
     mc:Ignorable="d">
 
-    <!--Background="#FF37474F"
-    FontFamily="{StaticResource MaterialDesignFont}"
-    TextElement.FontSize="12"
-    TextElement.FontWeight="Regular"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"-->
-
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary.MergedDictionaries>
 
             <infrastucture:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
 
@@ -86,10 +76,7 @@
                     </StackPanel>
                 </Grid>
 
-
-                <materialDesign:DrawerHost Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
-
-                    <Grid>
+                <Grid Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
                         <dockablz:Layout x:Name="Layout">
                             <Grid>
@@ -113,43 +100,8 @@
 
                                 <!-- Standard WPF TabControl replacing the visible tab UI -->
                                 <TabControl x:Name="InitialTabControl"
-                                            Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}"
                                             ItemsSource="{Binding Views}"
-                                            SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}">
-                                    <TabControl.Resources>
-                                        <Style TargetType="{x:Type TabItem}">
-                                            <Setter Property="Background" Value="#332A2D33" />
-                                            <Setter Property="BorderBrush" Value="#553C82F6" />
-                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                            <Setter Property="Padding" Value="10,4" />
-                                            <Setter Property="Margin" Value="2,3,4,0" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type TabItem}">
-                                                        <Border x:Name="Root"
-                                                                Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="1,1,1,0"
-                                                                CornerRadius="8,8,0,0"
-                                                                Padding="{TemplateBinding Padding}">
-                                                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsSelected" Value="True">
-                                                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
-                                                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
-                                                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
-                                                            </Trigger>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </TabControl.Resources>
+                                            SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <TabControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -195,8 +147,7 @@
                                 FontSize="26"
                                 Text="to open" />
                         </StackPanel>
-                    </Grid>
-                </materialDesign:DrawerHost>
+                </Grid>
 
                     <!-- Full screen settings overlay -->
                     <Border
