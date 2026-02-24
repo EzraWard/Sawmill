@@ -16,6 +16,8 @@
     Title=""
     Width="950"
     Height="650"
+    MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}"
+    MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}"
     WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
