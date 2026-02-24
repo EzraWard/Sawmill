@@ -84,57 +84,19 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Height="40" Margin="10,0,0,0" Background="Transparent" shell:WindowChrome.IsHitTestVisibleInChrome="True" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Grid.Row="0" Height="36" Margin="10,0,0,0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <controls1:TailBlazerIcon Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,140,0">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,140,0" Height="50">
                         <TabControl x:Name="TitleBarTabs"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Height="38"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    shell:WindowChrome.IsHitTestVisibleInChrome="True">
-                            <TabControl.Resources>
-                                <Style TargetType="{x:Type TabItem}">
-                                    <Setter Property="MinWidth" Value="120" />
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                    <Setter Property="Background" Value="#1FFFFFFF" />
-                                    <Setter Property="BorderBrush" Value="#33FFFFFF" />
-                                    <Setter Property="BorderThickness" Value="1" />
-                                    <Setter Property="Padding" Value="10,4" />
-                                    <Setter Property="Margin" Value="0,3,8,3" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type TabItem}">
-                                                <Border x:Name="TabRoot"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        CornerRadius="7"
-                                                        Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter TargetName="TabRoot" Property="Background" Value="#44FFFFFF" />
-                                                        <Setter TargetName="TabRoot" Property="BorderBrush" Value="#66FFFFFF" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="TabRoot" Property="Background" Value="#2AFFFFFF" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </TabControl.Resources>
+                                    VerticalAlignment="Center">
                             <TabControl.Template>
                                 <ControlTemplate TargetType="TabControl">
                                     <Grid ClipToBounds="False">
@@ -152,7 +114,6 @@
                                                 Padding="0"
                                                 BorderThickness="0"
                                                 Background="Transparent"
-                                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
                                                 Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                 CommandParameter="{Binding}"
@@ -171,15 +132,13 @@
                                 FontSize="10"
                                 Padding="0"
                                 Content="+"
-                                shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                 ToolTip="New tab"
                                 Command="{Binding NewTabCommand}" />
                     </StackPanel>
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Stretch"
-                                shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                                VerticalAlignment="Stretch">
                         <Button Width="46"
                                 Height="40"
                                 Padding="0"
