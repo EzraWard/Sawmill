@@ -219,7 +219,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
                 //do the work on the ui thread
                 _schedulerProvider.MainThread.Schedule(() =>
                 {
-                    Views.Add(newItem);
+                    ReplaceSelectedView(newItem);
                     _logger.Info($"Opened '{file.FullName}'");
                     Selected = newItem;
                 });
@@ -283,11 +283,17 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     {
         _logger.Info("Tab is closing. {0} view to close", Views.Count);
         _windowsController.Remove(container);
-        if (container.Equals(Selected))
-            Selected = Views.FirstOrDefault(vc => vc != container);
-
         Views.Remove(container);
-        EnsureStartTab();
+
+        if (Views.Count == 0)
+        {
+            Application.Current.Shutdown();
+            return;
+        }
+
+        if (container.Equals(Selected) || Selected == null)
+            Selected = Views[0];
+
         var disposable = container.Content as IDisposable;
         disposable?.Dispose();
     }
@@ -300,6 +306,29 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
             Views.Add(newTab);
             Selected = newTab;
         });
+    }
+
+    private void ReplaceSelectedView(HeaderedView newItem)
+    {
+        if (Selected == null)
+        {
+            Views.Add(newItem);
+            return;
+        }
+
+        var current = Selected;
+        var index = Views.IndexOf(current);
+        if (index < 0)
+        {
+            Views.Add(newItem);
+            return;
+        }
+
+        _windowsController.Remove(current);
+        if (current.Content is IDisposable disposable)
+            disposable.Dispose();
+
+        Views[index] = newItem;
     }
 
     private void EnsureStartTab()

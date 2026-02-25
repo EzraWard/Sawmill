@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
+using TailBlazer.Infrastructure;
 using TailBlazer.Views.WindowManagement;
 
 namespace TailBlazer;
@@ -18,6 +20,7 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         Closing += MainWindow_Closing;
+        Loaded += MainWindow_Loaded;
     }
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
@@ -25,6 +28,15 @@ public partial class MainWindow : Window
 
         var windowsModel = DataContext as WindowViewModel;
         windowsModel?.OnWindowClosing();
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        TitleBarTabs.SelectionChanged += (_, _) => UpdateSelectedTabConnectionGap();
+        TitleBarTabs.SizeChanged += (_, _) => UpdateSelectedTabConnectionGap();
+        SizeChanged += (_, _) => UpdateSelectedTabConnectionGap();
+
+        Dispatcher.BeginInvoke(UpdateSelectedTabConnectionGap, DispatcherPriority.Loaded);
     }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -69,5 +81,54 @@ public partial class MainWindow : Window
         }
 
         return false;
+    }
+
+    private void TitleBarTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton != MouseButton.Middle)
+            return;
+
+        if (sender is not TabItem tabItem || tabItem.DataContext is not HeaderedView headeredView)
+            return;
+
+        if (DataContext is not WindowViewModel vm || !vm.CloseViewCommand.CanExecute(headeredView))
+            return;
+
+        vm.CloseViewCommand.Execute(headeredView);
+        e.Handled = true;
+    }
+
+    private void UpdateSelectedTabConnectionGap()
+    {
+        if (TitleBarTabs.SelectedItem == null)
+        {
+            SelectedTabTopGap.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        if (TitleBarTabs.ItemContainerGenerator.ContainerFromItem(TitleBarTabs.SelectedItem) is not TabItem selectedTab)
+        {
+            SelectedTabTopGap.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        if (!selectedTab.IsLoaded || !ContentFrameHost.IsLoaded)
+        {
+            SelectedTabTopGap.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var tabTopLeft = selectedTab.TransformToVisual(ContentFrameHost).Transform(new Point(0, 0));
+        var gapWidth = Math.Max(0, selectedTab.ActualWidth - 2);
+
+        if (gapWidth <= 0)
+        {
+            SelectedTabTopGap.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        SelectedTabTopGap.Margin = new Thickness(Math.Max(0, tabTopLeft.X + 1), 0, 0, 0);
+        SelectedTabTopGap.Width = gapWidth;
+        SelectedTabTopGap.Visibility = Visibility.Visible;
     }
 }

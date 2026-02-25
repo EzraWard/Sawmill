@@ -84,23 +84,28 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Height="36" Margin="10,0,0,0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Grid.Row="0" Height="40" Margin="10,0,0,0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <controls1:TailBlazerIcon Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,140,0" Height="50">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,140,0">
                         <TabControl x:Name="TitleBarTabs"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Bottom">
+                            <TabControl.Resources>
+                                <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                                    <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
+                                </Style>
+                            </TabControl.Resources>
                             <TabControl.Template>
                                 <ControlTemplate TargetType="TabControl">
                                     <Grid ClipToBounds="False">
-                                        <TabPanel IsItemsHost="True" Margin="0,1,2,1" />
+                                        <TabPanel IsItemsHost="True" Margin="0,0,0,0" />
                                     </Grid>
                                 </ControlTemplate>
                             </TabControl.Template>
@@ -198,7 +203,17 @@
                                 </dragablz:TabablzControl>
 
                                 <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
-                                <ContentControl Content="{Binding Selected}" />
+                                <Grid x:Name="ContentFrameHost" Margin="0,0,6,6">
+                                    <Border x:Name="ContentFrameBorder" BorderBrush="#33000000" BorderThickness="1">
+                                        <ContentControl Content="{Binding Selected}" />
+                                    </Border>
+                                    <Border x:Name="SelectedTabTopGap"
+                                            Height="1"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Background="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}"
+                                            Visibility="Collapsed" />
+                                </Grid>
                             </Grid>
                         </dockablz:Layout>
 
