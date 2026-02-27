@@ -1,0 +1,1 @@
+- View models/services typically own a `CompositeDisposable` and must dispose stream subscriptions/resources explicitly.
