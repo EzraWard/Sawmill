@@ -136,9 +136,12 @@
                                 HorizontalAlignment="Left"
                                 FontSize="10"
                                 Padding="0"
-                                Content="+"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
                                 ToolTip="New tab"
-                                Command="{Binding NewTabCommand}" />
+                                Command="{Binding NewTabCommand}">
+                            <TextBlock Text="+" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
                     </StackPanel>
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
@@ -242,7 +245,7 @@
                 </Grid>
 
                     <!-- Full screen settings overlay -->
-                    <Border Grid.RowSpan="2"
+                    <Border Grid.Row="1"
                             Background="{DynamicResource SettingsMicaBrush}"
                             Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>

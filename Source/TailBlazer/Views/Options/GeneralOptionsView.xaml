@@ -47,6 +47,7 @@
                        VerticalAlignment="Center" Margin="4 6 4 6" />
             <Slider Grid.Row="1"
                     Grid.Column="1" Minimum="80" Maximum="200"
+                    Style="{StaticResource {x:Type Slider}}"
                     SmallChange="5"
                     LargeChange="5"
                     Width="150"
@@ -94,6 +95,7 @@
             <TextBlock Text="Rate this computer" VerticalAlignment="Center" />
             <Slider Margin="6 0 0 0"
                     Grid.Column="1"
+                    Style="{StaticResource {x:Type Slider}}"
                     VerticalAlignment="Center"
                     Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True"
                     Value="{Binding Rating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -141,6 +143,7 @@
             </TextBlock>
 
             <Slider Grid.Row="1" Grid.Column="1" Minimum="0.25" Maximum="10"
+                    Style="{StaticResource {x:Type Slider}}"
                     Margin="6 4 4 4"
 
                     Visibility="Collapsed"

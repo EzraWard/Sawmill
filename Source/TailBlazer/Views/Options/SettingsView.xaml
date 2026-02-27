@@ -6,7 +6,7 @@
              xmlns:options="clr-namespace:TailBlazer.Views.Options"
              mc:Ignorable="d">
 
-    <Grid Background="{DynamicResource SettingsMicaBrush}">
+    <Grid Background="Transparent">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="32,24" MaxWidth="980">
                 <TextBlock Text="Settings"
@@ -16,13 +16,7 @@
                 <TextBlock Text="Personalize TailBlazer behavior and appearance."
                            Opacity="0.8"
                            Margin="0,0,0,20" />
-                <Border Background="{DynamicResource SettingsCardBrush}"
-                        BorderBrush="{DynamicResource SettingsCardBorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="20">
-                    <options:GeneralOptionsView />
-                </Border>
+                <options:GeneralOptionsView />
             </StackPanel>
         </ScrollViewer>
     </Grid>

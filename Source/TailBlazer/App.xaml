@@ -35,7 +35,7 @@
             <SolidColorBrush x:Key="ValidationErrorBrush" Color="#FFE85A5A" />
             <SolidColorBrush x:Key="GrayBrush2" Color="#888888" />
 
-            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#CC202228" />
+            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#CC202124" />
             <SolidColorBrush x:Key="SettingsCardBrush" Color="#B324272E" />
             <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#66FFFFFF" />
 

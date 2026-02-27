@@ -331,7 +331,7 @@
                           Height="5" 
                           ResizeDirection="Rows"
                           Visibility="{Binding Path=DataContext.InlineViewerVisible.Value, ElementName=Control,Converter={StaticResource BooleanToVisibilityConverter}}"
-                          Background="{DynamicResource PrimaryHueMidBrush}"
+                          Background="{DynamicResource SettingsMicaBrush}"
                           BorderThickness="1" HorizontalAlignment="Stretch"/>
 
 
@@ -339,7 +339,7 @@
                     ContentTemplate="{StaticResource LinesDataTemplate}"
                     Content="{Binding InlineViewer,Mode=OneWay}" />
 
-                <Grid    Grid.Row="4" Margin = "0 0 0 -4"   Background="{DynamicResource PrimaryHueMidBrush}">
+                <Grid    Grid.Row="4" Margin = "0 0 0 -4"   Background="{DynamicResource SettingsMicaBrush}">
 
                     <Grid.Resources>
                         <Style TargetType="{x:Type TextBlock}">
