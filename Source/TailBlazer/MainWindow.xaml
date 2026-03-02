@@ -97,8 +97,57 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom">
                             <TabControl.Resources>
-                                <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                                <Style TargetType="{x:Type TabItem}">
                                     <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                    <Setter Property="Padding" Value="12,8,4,8" />
+                                    <Setter Property="Panel.ZIndex" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TabItem">
+                                                <Grid x:Name="Root" Margin="0,4,0,0" SnapsToDevicePixels="True">
+                                                    <Border x:Name="TabBorder"
+                                                            Background="Transparent"
+                                                            CornerRadius="8,8,0,0"
+                                                            Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <Path x:Name="LeftCorner"
+                                                          Data="M 0,8 A 8,8 0 0 1 8,0 L 8,8 Z"
+                                                          Fill="#FF282828"
+                                                          Width="8" Height="8"
+                                                          HorizontalAlignment="Left"
+                                                          VerticalAlignment="Bottom"
+                                                          Margin="-8,0,0,0"
+                                                          Visibility="Collapsed" />
+                                                    <Path x:Name="RightCorner"
+                                                          Data="M 8,8 A 8,8 0 0 1 0,0 L 0,8 Z"
+                                                          Fill="#FF282828"
+                                                          Width="8" Height="8"
+                                                          HorizontalAlignment="Right"
+                                                          VerticalAlignment="Bottom"
+                                                          Margin="0,0,-8,0"
+                                                          Visibility="Collapsed" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="TabBorder" Property="Background" Value="#FF282828" />
+                                                        <Setter TargetName="LeftCorner" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="RightCorner" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="Root" Property="Margin" Value="0,0,0,0" />
+                                                        <Setter Property="Panel.ZIndex" Value="1" />
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsMouseOver" Value="True" />
+                                                            <Condition Property="IsSelected" Value="False" />
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter TargetName="TabBorder" Property="Background" Value="#15FFFFFF" />
+                                                    </MultiTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </TabControl.Resources>
                             <TabControl.Template>
