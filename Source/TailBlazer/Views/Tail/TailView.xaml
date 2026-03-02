@@ -13,7 +13,7 @@
              xmlns:fileHandling="clr-namespace:TailBlazer.Domain.FileHandling;assembly=TailBlazer.Domain"
              xmlns:converters="clr-namespace:Dragablz.Converters;assembly=Dragablz"
              xmlns:virtualisation="clr-namespace:TailBlazer.Infrastructure.Virtualisation"
-             Background="{DynamicResource MaterialDesignPaper}"
+             Background="Transparent"
              x:Name="Control"
              mc:Ignorable="d" 
               FocusManager.FocusedElement="{Binding ElementName= SearchTextBox}"
@@ -95,27 +95,48 @@
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
 
-                <Grid 
-                    Margin="0 4 0 2" KeyboardNavigation.TabNavigation="Cycle">
+                <Border BorderBrush="#18FFFFFF" BorderThickness="0,0,0,1" Margin="0,0,0,2" Background="#FF282828">
+                <Grid MinHeight="36" KeyboardNavigation.TabNavigation="Cycle">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Notepad-style menu bar -->
+                    <Menu Grid.Column="0" Background="Transparent" VerticalAlignment="Center" Margin="4,0,8,0">
+                        <MenuItem Header="_File">
+                            <MenuItem Header="_Open in Default App" Command="{Binding OpenFileCommand}" />
+                            <MenuItem Header="Show in _Explorer" Command="{Binding OpenFolderCommand}" />
+                            <MenuItem Header="Copy _Path" Command="{Binding CopyPathToClipboardCommand}" />
+                        </MenuItem>
+                        <MenuItem Header="_Edit">
+                            <MenuItem Header="_Copy" Command="{Binding CopyToClipboardCommand}" InputGestureText="Ctrl+C" />
+                            <Separator />
+                            <MenuItem Header="Cl_ear" Command="{Binding ClearCommand}" />
+                            <MenuItem Header="_Un-Clear" Command="{Binding UnClearCommand}" />
+                        </MenuItem>
+                        <MenuItem Header="_View">
+                            <MenuItem Header="Follow _Tail" IsCheckable="True" IsChecked="{Binding AutoTail, Mode=TwoWay}" />
+                            <MenuItem Header="Show _Inline" IsCheckable="True" IsChecked="{Binding ShowInline, Mode=TwoWay}" />
+                            <Separator />
+                            <MenuItem Header="Use _Regex" IsCheckable="True" IsChecked="{Binding SearchHints.UseRegex, Mode=TwoWay}" />
+                            <MenuItem Header="Search _Options..." Command="{Binding OpenSearchOptionsCommand}" />
+                        </MenuItem>
+                    </Menu>
 
                     <ToggleButton
-                                    
-                                   VerticalAlignment="Bottom" 
-                                   Margin="2 0 0 0"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,2,0"
                                    Padding="2"
                                    TabIndex="5"
                                    IsTabStop="False"
-                                   Width="32" 
-                                   Height="32" 
+                                   Width="28" 
+                                   Height="28" 
                                    IsChecked="{Binding SearchHints.UseRegex}">
 
                         <ToggleButton.Style>
@@ -129,11 +150,11 @@
                         </ToggleButton.Style>
                     </ToggleButton>
 
-                    <TextBox Grid.Column="1" 
+                    <TextBox Grid.Column="2" 
                             TabIndex="0"
                              x:Name="SearchTextBox"
                             Text="{Binding SearchHints.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Center"
                             MinWidth="200">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter" Command="{Binding SearchHints.AddSearchCommand}"/>
@@ -142,7 +163,7 @@
 
                     <TextBlock     
                             Margin="8 0 0 0" 
-                            Grid.Column="2"
+                            Grid.Column="3"
                             Opacity="0.56"
                             Width="43"
                             TextAlignment="Center"
@@ -151,10 +172,9 @@
                             VerticalAlignment="Center"
                             Text="Switch Results"/>
 
-
                     <ListBox
                         TabIndex="1"
-                        Grid.Column="3" Margin="4 2 0 2" 
+                        Grid.Column="4" Margin="4 2 0 2" 
                         Visibility="{Binding SearchCollection.Count, Converter={StaticResource NotEqualsToVisibilityConverter}, ConverterParameter={StaticResource One}}"
                         SelectedItem="{Binding SearchCollection.Selected}"
                         ItemsSource="{Binding SearchCollection.Items}" 
@@ -193,7 +213,6 @@
                                             Minimum="0"
                                             IsIndeterminate="False"/>
 
-
                                     <Button Visibility="{Binding SearchType, Converter={StaticResource EqualityToVisibilityConverter},ConverterParameter={x:Static search:SearchType.User}}"
                                         Grid.Row="0"  Grid.Column="2"
                                         ToolTip="{Binding RemoveTooltip}"
@@ -221,53 +240,44 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
 
-
-                    <!--</Border>-->
-
-                    <Button Grid.Column="4" 
-                            TabIndex="2"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Command="{Binding OpenSearchOptionsCommand}"
-                        HorizontalAlignment="Left"
-                        ToolTip="Search options"
-                        Width="24" Height="24"
-                        Padding="0"
-                        VerticalAlignment="Center">
-                        <controls:SettingsIcon  Width="14" Height="14"/>
-  
+                    <!-- Settings cog (right-aligned) -->
+                    <Button Grid.Column="5"
+                            Width="32" Height="32"
+                            Margin="4,0,6,0"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ToolTip="Settings"
+                            Command="{Binding DataContext.OpenSettingsCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="4">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#15FFFFFF" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#22FFFFFF" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                                   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
-
-                    <StackPanel    
-                        VerticalAlignment="Center"
-                        Grid.Column="5" Margin="4 0 4 0" Orientation="Vertical">
-
-                        <CheckBox HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            TabIndex="3"
-                            IsChecked="{Binding AutoTail, Mode=TwoWay}"
-                            Margin="4 0 4 0"
-                            Content="Follow Tail">
-                            <!--<CheckBox.InputBindings>
-                                <KeyBinding Key="Space"
-                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.KeyAutoTail}"/>
-                            </CheckBox.InputBindings>-->
-                        </CheckBox>
-
-                        <CheckBox Visibility="{Binding CanViewInline.Value, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            TabIndex="4"
-                            IsChecked="{Binding ShowInline}"
-                            Content="Show inline"
-                            Margin="4 0 4 0"/>
-
-
-                    </StackPanel>
                 </Grid>
+                </Border>
 
                 <Border Grid.Row="0" Grid.Column="0" 
                             Visibility="Collapsed"
                             BorderThickness="0 0 0 1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"/>
+
+                <!-- Opaque background for content rows below the menu -->
+                <Border Grid.Row="1" Grid.RowSpan="4" Background="{DynamicResource MaterialDesignPaper}" />
                
                 <!--infrastucture:DependencyObjectHook.Receiver="{Binding KeyboardNavigationHandler}"-->
 
