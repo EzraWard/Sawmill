@@ -90,13 +90,17 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <controls1:TailBlazerIcon Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,140,0">
-                        <TabControl x:Name="TitleBarTabs"
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
+                        <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom">
                             <TabControl.Resources>
+                                <Style TargetType="TabPanel">
+                                    <Setter Property="ClipToBounds" Value="False" />
+                                    <Setter Property="Margin" Value="8,0,0,0" />
+                                </Style>
                                 <Style TargetType="{x:Type TabItem}">
                                     <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
                                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
@@ -113,21 +117,27 @@
                                                         <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
                                                     </Border>
                                                     <Path x:Name="LeftCorner"
-                                                          Data="M 0,8 A 8,8 0 0 1 8,0 L 8,8 Z"
+                                                          Data="M 0,8 A 8,8 0 0 0 8,0 L 8,8 Z"
                                                           Fill="#FF282828"
                                                           Width="8" Height="8"
                                                           HorizontalAlignment="Left"
                                                           VerticalAlignment="Bottom"
-                                                          Margin="-8,0,0,0"
-                                                          Visibility="Collapsed" />
+                                                          Visibility="Collapsed">
+                                                        <Path.RenderTransform>
+                                                            <TranslateTransform X="-8" />
+                                                        </Path.RenderTransform>
+                                                    </Path>
                                                     <Path x:Name="RightCorner"
                                                           Data="M 8,8 A 8,8 0 0 1 0,0 L 0,8 Z"
                                                           Fill="#FF282828"
                                                           Width="8" Height="8"
                                                           HorizontalAlignment="Right"
                                                           VerticalAlignment="Bottom"
-                                                          Margin="0,0,-8,0"
-                                                          Visibility="Collapsed" />
+                                                          Visibility="Collapsed">
+                                                        <Path.RenderTransform>
+                                                            <TranslateTransform X="8" />
+                                                        </Path.RenderTransform>
+                                                    </Path>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsSelected" Value="True">
