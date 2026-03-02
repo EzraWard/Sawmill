@@ -112,6 +112,8 @@
                             <MenuItem Header="_Open in Default App" Command="{Binding OpenFileCommand}" />
                             <MenuItem Header="Show in _Explorer" Command="{Binding OpenFolderCommand}" />
                             <MenuItem Header="Copy _Path" Command="{Binding CopyPathToClipboardCommand}" />
+                            <Separator />
+                            <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
                         </MenuItem>
                         <MenuItem Header="_Edit">
                             <MenuItem Header="_Copy" Command="{Binding CopyToClipboardCommand}" InputGestureText="Ctrl+C" />

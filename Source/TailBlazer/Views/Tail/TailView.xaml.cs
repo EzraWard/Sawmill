@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace TailBlazer.Views.Tail;
@@ -29,5 +30,10 @@ public partial class TailView : UserControl
     private void ApplicationCommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         FocusSearchTextBox();
+    }
+
+    private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
     }
 }

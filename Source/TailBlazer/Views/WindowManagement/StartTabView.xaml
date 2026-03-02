@@ -4,41 +4,118 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:recent="clr-namespace:TailBlazer.Views.Recent"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Background="Transparent"
              mc:Ignorable="d">
-    <Grid Margin="24">
-        <StackPanel Orientation="Vertical"
-                    MaxWidth="700"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <Border Padding="24"
-                    CornerRadius="12"
-                    Background="{DynamicResource SettingsCardBrush}"
-                    BorderBrush="{DynamicResource SettingsCardBorderBrush}"
-                    BorderThickness="1">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Open a log file"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               HorizontalAlignment="Center" />
-                    <TextBlock Text="Start by selecting a file to tail."
-                               Margin="0,8,0,16"
-                               Opacity="0.8"
-                               HorizontalAlignment="Center" />
-                    <Button Content="Open File..."
-                            Width="120"
+    <Grid Margin="-4,-4,-4,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Menu bar matching TailView style -->
+        <Border BorderBrush="#18FFFFFF" BorderThickness="0,0,0,1" Margin="0,0,0,2" Background="#FF282828">
+            <Grid MinHeight="36">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Menu Grid.Column="0" Background="Transparent" VerticalAlignment="Center" Margin="4,0,8,0">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Open File..." Command="{Binding OpenFileCommand}" />
+                        <Separator />
+                        <MenuItem Header="Open in _Default App" IsEnabled="False" />
+                        <MenuItem Header="Show in _Explorer" IsEnabled="False" />
+                        <MenuItem Header="Copy _Path" IsEnabled="False" />
+                        <Separator />
+                        <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
+                    </MenuItem>
+                    <MenuItem Header="_Edit" IsEnabled="False">
+                        <MenuItem Header="_Copy" IsEnabled="False" />
+                        <Separator />
+                        <MenuItem Header="Cl_ear" IsEnabled="False" />
+                        <MenuItem Header="_Un-Clear" IsEnabled="False" />
+                    </MenuItem>
+                    <MenuItem Header="_View" IsEnabled="False">
+                        <MenuItem Header="Follow _Tail" IsEnabled="False" />
+                        <MenuItem Header="Show _Inline" IsEnabled="False" />
+                        <Separator />
+                        <MenuItem Header="Use _Regex" IsEnabled="False" />
+                        <MenuItem Header="Search _Options..." IsEnabled="False" />
+                    </MenuItem>
+                </Menu>
+
+                <!-- Settings cog (right-aligned) -->
+                <Button Grid.Column="2"
+                        Width="32" Height="32"
+                        Margin="4,0,6,0"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ToolTip="Settings"
+                        Command="{Binding DataContext.OpenSettingsCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="#15FFFFFF" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="#22FFFFFF" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
+                               Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Content area with opaque background -->
+        <Border Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}">
+            <Grid Margin="24">
+                <StackPanel Orientation="Vertical"
+                            MaxWidth="700"
                             HorizontalAlignment="Center"
-                            Style="{DynamicResource MaterialDesignFlatButton}"
-                            Command="{Binding OpenFileCommand}" />
+                            VerticalAlignment="Center">
+                    <Border Padding="24"
+                            CornerRadius="12"
+                            Background="{DynamicResource SettingsCardBrush}"
+                            BorderBrush="{DynamicResource SettingsCardBorderBrush}"
+                            BorderThickness="1">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Open a log file"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="Start by selecting a file to tail."
+                                       Margin="0,8,0,16"
+                                       Opacity="0.8"
+                                       HorizontalAlignment="Center" />
+                            <Button Content="Open File..."
+                                    Width="120"
+                                    HorizontalAlignment="Center"
+                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                    Command="{Binding OpenFileCommand}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="0,16,0,0"
+                            Padding="16"
+                            CornerRadius="12"
+                            Background="{DynamicResource SettingsCardBrush}"
+                            BorderBrush="{DynamicResource SettingsCardBorderBrush}"
+                            BorderThickness="1">
+                        <recent:RecentFilesView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RecentFiles}" />
+                    </Border>
                 </StackPanel>
-            </Border>
-            <Border Margin="0,16,0,0"
-                    Padding="16"
-                    CornerRadius="12"
-                    Background="{DynamicResource SettingsCardBrush}"
-                    BorderBrush="{DynamicResource SettingsCardBorderBrush}"
-                    BorderThickness="1">
-                <recent:RecentFilesView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RecentFiles}" />
-            </Border>
-        </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
