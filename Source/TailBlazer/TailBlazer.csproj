@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>tailblazer.ico</ApplicationIcon>
+    <ApplicationIcon>sawmill.ico</ApplicationIcon>
     <Version>0.10.0</Version>
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
@@ -13,19 +13,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="tailblazer.ico" />
+    <None Remove="sawmill.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Remove="Themes\ComboBox.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tailblazer.ico" />
+    <Content Include="sawmill.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="tailblazer.ico">
+    <EmbeddedResource Include="sawmill.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sawmill.png" />
   </ItemGroup>
 
   <ItemGroup>

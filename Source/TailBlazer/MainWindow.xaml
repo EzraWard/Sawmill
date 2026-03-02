@@ -14,6 +14,7 @@
     xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     x:Name="Window"
     Title=""
+    Icon="sawmill.ico"
     Width="950"
     Height="650"
     
@@ -89,7 +90,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <controls1:TailBlazerIcon Grid.Column="0" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <Image Grid.Column="0" Source="/Images/sawmill.png" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
                         <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"

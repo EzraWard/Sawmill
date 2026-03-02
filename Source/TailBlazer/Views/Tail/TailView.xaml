@@ -74,10 +74,10 @@
                     IsHitTestVisible="False">
 
                 <TextBlock  FontSize="26" HorizontalAlignment="Center" Margin="0 0 0 4" Text="Cannot blaze this tail"/>
-                <controls:TailBlazerIcon
-                    Foreground="{DynamicResource ValidationErrorBrush}"
+                <Image Source="/Images/sawmill.png"
                     Width="48"
-                    Height="48"/>
+                    Height="48"
+                    RenderOptions.BitmapScalingMode="HighQuality" />
                 <TextBlock FontSize="26" Margin="0 4 0 0" Text="When possible business will resume" HorizontalAlignment="Center"/>
 
             </StackPanel>
