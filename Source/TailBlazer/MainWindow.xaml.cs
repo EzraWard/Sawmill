@@ -92,7 +92,6 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
-
         var windowsModel = DataContext as WindowViewModel;
         windowsModel?.OnWindowClosing();
     }

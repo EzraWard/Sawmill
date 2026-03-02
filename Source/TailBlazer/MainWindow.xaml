@@ -30,7 +30,7 @@
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome
-            CaptionHeight="0"
+            CaptionHeight="1"
             ResizeBorderThickness="4"
             GlassFrameThickness="-1"
             UseAeroCaptionButtons="False" />
@@ -77,7 +77,7 @@
     <AdornerDecorator>
         <materialDesign:DialogHost Identifier="{x:Static tailBlazer:DialogNames.EntireWindow}">
 
-            <Grid infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
+            <Grid x:Name="RootContent" infrastucture:DependencyObjectHook.Receiver="{Binding DropMonitor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
                     <RowDefinition Height="*" />
