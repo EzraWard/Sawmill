@@ -12,8 +12,8 @@
                     VerticalAlignment="Center">
             <Border Padding="24"
                     CornerRadius="12"
-                    Background="#332A2D33"
-                    BorderBrush="#553C82F6"
+                    Background="{DynamicResource SettingsCardBrush}"
+                    BorderBrush="{DynamicResource SettingsCardBorderBrush}"
                     BorderThickness="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Open a log file"
@@ -27,14 +27,15 @@
                     <Button Content="Open File..."
                             Width="120"
                             HorizontalAlignment="Center"
+                            Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding OpenFileCommand}" />
                 </StackPanel>
             </Border>
             <Border Margin="0,16,0,0"
                     Padding="16"
                     CornerRadius="12"
-                    Background="#332A2D33"
-                    BorderBrush="#553C82F6"
+                    Background="{DynamicResource SettingsCardBrush}"
+                    BorderBrush="{DynamicResource SettingsCardBorderBrush}"
                     BorderThickness="1">
                 <recent:RecentFilesView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RecentFiles}" />
             </Border>

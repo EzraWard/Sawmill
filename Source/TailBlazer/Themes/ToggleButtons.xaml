@@ -11,7 +11,11 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    <Border Margin="1"
+                            CornerRadius="6"
+                            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            BorderThickness="1.5"
+                            SnapsToDevicePixels="True" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -23,11 +27,11 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="4 4 4 4"/>
+        <Setter Property="Padding" Value="3"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -79,10 +83,10 @@
 
                         <Border x:Name="border" 
                                 Background="{TemplateBinding Background}" 
-                                CornerRadius="2"/>
+                                CornerRadius="6"/>
 
                         <materialDesign:Ripple   Focusable="True" 
-                                                Feedback="{DynamicResource MaterialDesignBody}"
+                                                Feedback="{DynamicResource PrimaryHueMidBrush}"
                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 Padding="{TemplateBinding Padding}" 

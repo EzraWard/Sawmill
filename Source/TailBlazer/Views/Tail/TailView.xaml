@@ -369,7 +369,7 @@
                                 Padding="0"
                                 PlacementMode="Top">
                             <wpf:PopupBox.ToggleContent>
-                                <TextBlock FontSize="10" Text="{Binding Name}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <TextBlock FontSize="12" Text="{Binding Name}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
                             </wpf:PopupBox.ToggleContent>
                             
                             
@@ -383,7 +383,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="Margin" Value="5 0 0 0"/>
                                         <Setter Property="FontWeight" Value="Light"/>
-                                        <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="FontSize" Value="12"/>
                                         <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
                                     </Style>
 
@@ -394,7 +394,7 @@
                                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                         <Setter Property="Margin" Value="4 0 4 0"/>
                                         <Setter Property="FontWeight" Value="Light"/>
-                                        <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="FontSize" Value="12"/>
                                         <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
                                         <Setter Property="BorderThickness" Value="0"/>
                                     </Style>
@@ -463,7 +463,7 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
 
-                        <Button Width="22" Height="22"
+                        <Button Width="28" Height="28"
                                 Margin="4 0 0 0" 
                                 Padding="0"
                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
@@ -471,10 +471,10 @@
                                 ToolTip="Un-clear to monitor entire file"
                                 Style="{StaticResource MaterialDesignFlatButton}" 
                                 Command="{Binding UnClearCommand}">
-                            <wpf:PackIcon Kind="Undo" Width="16" Height="16"/>
+                            <wpf:PackIcon Kind="Undo" Width="18" Height="18"/>
                         </Button>
                         
-                        <Button  Width="22" Height="22"
+                        <Button Width="28" Height="28"
                                  Margin="4 0 0 0" 
                                  Padding="0"
                                  Opacity="0.76"
@@ -482,7 +482,7 @@
                                  Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                 Style="{StaticResource MaterialDesignFlatButton}" 
                                 Command="{Binding ClearCommand}">
-                            <wpf:PackIcon Kind="Eraser" Width="16" Height="16"/>
+                            <wpf:PackIcon Kind="Eraser" Width="18" Height="18"/>
                         </Button>
 
 

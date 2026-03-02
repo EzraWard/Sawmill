@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance options:GeneralOptionsViewModel, IsDesignTimeCreatable=False}">
 
-    <Grid>
+    <Grid Margin="0,4,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
@@ -19,15 +19,22 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock  Text="Look And Feel" FontSize="16" FontWeight="SemiBold"/>
-        <Grid Grid.Row="1" Margin="8">
+        <TextBlock Text="Look And Feel" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <Border Grid.Row="1"
+                Margin="0,0,0,12"
+                Padding="10"
+                CornerRadius="10"
+                BorderThickness="1"
+                Background="{DynamicResource SettingsCardBrush}"
+                BorderBrush="{DynamicResource SettingsCardBorderBrush}">
+        <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="32"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -50,7 +57,7 @@
                     Style="{StaticResource {x:Type Slider}}"
                     SmallChange="5"
                     LargeChange="5"
-                    Width="150"
+                     Width="220"
                     Margin="6 6 4 6"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
@@ -80,12 +87,20 @@
                       IsChecked="{Binding ShowLineNumbers}" />
 
         </Grid>
+        </Border>
 
         <TextBlock
-            Margin="0 8 0 0"
+            Margin="0,4,0,6"
             Text="Performance" Grid.Row="2" FontSize="16" FontWeight="SemiBold" />
 
-        <Grid Grid.Row="3" Margin="8 8 8 0" Height="32">
+        <Border Grid.Row="3"
+                Margin="0,0,0,12"
+                Padding="10"
+                CornerRadius="10"
+                BorderThickness="1"
+                Background="{DynamicResource SettingsCardBrush}"
+                BorderBrush="{DynamicResource SettingsCardBorderBrush}">
+        <Grid Height="32">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -99,7 +114,7 @@
                     VerticalAlignment="Center"
                     Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True"
                     Value="{Binding Rating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Margin="6 0 0 0" Grid.Column="2" Text="(Reduce for lower CPU usage)" VerticalAlignment="Center" />
+            <TextBlock Margin="8,0,0,0" Grid.Column="2" Text="(Reduce for lower CPU usage)" VerticalAlignment="Center" />
 
             <StackPanel Grid.Column="3"
                         Margin="6 2 4 4"
@@ -108,8 +123,9 @@
 
                 <Button Command="{Binding RestartCommand}"
                         HorizontalAlignment="Left"
-                        Margin="0 -2 0 0"
-                        Padding="4 2">
+                        Margin="0,-2,0,0"
+                        Padding="8,3"
+                        Style="{DynamicResource MaterialDesignFlatButton}">
                     <TextBlock Text="Restart" FontSize="12" />
                 </Button>
 
@@ -120,6 +136,7 @@
             </StackPanel>
 
         </Grid>
+        </Border>
 
 
         <Grid Grid.Row="5" Margin="8">
