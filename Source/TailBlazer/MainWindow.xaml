@@ -249,12 +249,8 @@
                                 </dragablz:TabablzControl>
 
                                 <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
-                                <Grid x:Name="ContentFrameHost" Margin="0,0,6,6">
-                                    <Border x:Name="ContentFrameBorder"
-                                            BorderBrush="{DynamicResource SettingsCardBorderBrush}"
-                                            BorderThickness="1">
-                                        <ContentControl Content="{Binding Selected}" />
-                                    </Border>
+                                <Grid x:Name="ContentFrameHost">
+                                    <ContentControl x:Name="ContentFrameBorder" Content="{Binding Selected}" />
                                     <Border x:Name="SelectedTabTopGap"
                                             Height="1"
                                             VerticalAlignment="Top"
