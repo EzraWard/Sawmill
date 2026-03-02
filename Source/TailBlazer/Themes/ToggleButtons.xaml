@@ -103,8 +103,14 @@
                                         <TranslateTransform/>
                                     </TransformGroup>
                                 </Grid.RenderTransform>
-                                <controls:RegexIcon   x:Name="CheckedImage" Opacity="0" />
-                                <controls:SearchIcon   x:Name="UnCheckedImage" Opacity="1" />
+                                <TextBlock x:Name="CheckedImage" Opacity="0"
+                                           Text=".*" FontFamily="Consolas" FontSize="13" FontWeight="Bold"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock x:Name="UnCheckedImage" Opacity="1"
+                                           Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                             </Grid>
 

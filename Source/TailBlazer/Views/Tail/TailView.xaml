@@ -100,9 +100,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
@@ -130,42 +130,9 @@
                         </MenuItem>
                     </Menu>
 
-                    <ToggleButton
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center" 
-                                   Margin="0,0,2,0"
-                                   Padding="2"
-                                   TabIndex="5"
-                                   IsTabStop="False"
-                                   Width="28" 
-                                   Height="28" 
-                                   IsChecked="{Binding SearchHints.UseRegex}">
-
-                        <ToggleButton.Style>
-                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource  SearchToggleStyle}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SearchHints.IsValid.Value}" Value="False">
-                                        <Setter Property="Foreground" Value="{DynamicResource ValidationErrorBrush}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ToggleButton.Style>
-                    </ToggleButton>
-
-                    <TextBox Grid.Column="2" 
-                            TabIndex="0"
-                             x:Name="SearchTextBox"
-                            Text="{Binding SearchHints.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                            VerticalAlignment="Center"
-                            MinWidth="200">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Enter" Command="{Binding SearchHints.AddSearchCommand}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-
                     <TextBlock     
-                            Margin="8 0 0 0" 
-                            Grid.Column="3"
+                            Margin="8,0,0,0" 
+                            Grid.Column="1"
                             Opacity="0.56"
                             Width="43"
                             TextAlignment="Center"
@@ -176,7 +143,7 @@
 
                     <ListBox
                         TabIndex="1"
-                        Grid.Column="4" Margin="4 2 0 2" 
+                        Grid.Column="2" Margin="4,2,0,2" 
                         Visibility="{Binding SearchCollection.Count, Converter={StaticResource NotEqualsToVisibilityConverter}, ConverterParameter={StaticResource One}}"
                         SelectedItem="{Binding SearchCollection.Selected}"
                         ItemsSource="{Binding SearchCollection.Items}" 
@@ -241,6 +208,39 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
+
+                    <ToggleButton
+                                   Grid.Column="3"
+                                   VerticalAlignment="Center" 
+                                   Margin="4,0,2,0"
+                                   Padding="2"
+                                   TabIndex="5"
+                                   IsTabStop="False"
+                                   Width="28" 
+                                   Height="28" 
+                                   IsChecked="{Binding SearchHints.UseRegex}">
+
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource  SearchToggleStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SearchHints.IsValid.Value}" Value="False">
+                                        <Setter Property="Foreground" Value="{DynamicResource ValidationErrorBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+
+                    <TextBox Grid.Column="4" 
+                            TabIndex="0"
+                             x:Name="SearchTextBox"
+                            Text="{Binding SearchHints.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            VerticalAlignment="Center"
+                            MinWidth="200">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding SearchHints.AddSearchCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
 
                     <!-- Settings cog (right-aligned) -->
                     <Button Grid.Column="5"
