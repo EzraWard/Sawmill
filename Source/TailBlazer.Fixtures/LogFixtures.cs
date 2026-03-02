@@ -13,7 +13,7 @@ public class LogFixtures
     public void LogNameDisplaysReadablyGenerics()
     {
         var subject = new List<int>();
-        var logger = new Log4NetLogger(subject.GetType());
+        var logger = new SimpleFileLogger(subject.GetType());
         logger.Name.Should().Be("List<Int32>");
 
     }
@@ -21,7 +21,7 @@ public class LogFixtures
     [TestMethod]
     public void LogNameDisplayTakesTypeNameOnly()
     {
-        var logger = new Log4NetLogger(typeof(int));
+        var logger = new SimpleFileLogger(typeof(int));
         logger.Name.Should().Be("Int32");
 
     }

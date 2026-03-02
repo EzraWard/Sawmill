@@ -1,75 +1,79 @@
-﻿using System.Collections;
-using log4net;
+﻿using System.IO;
 using TailBlazer.Domain.Infrastructure;
 
 namespace TailBlazer.Infrastructure;
 
-public class Log4NetLogger : ILogger
+public class SimpleFileLogger : ILogger
 {
-    private readonly ILog _log;
+    private readonly string _name;
+    private static readonly Lock _lock = new();
+    private static readonly string LogPath;
 
-    public string Name => _log.Logger.Name;
+    public string Name => _name;
 
-    public Log4NetLogger(Type type)
+    static SimpleFileLogger()
+    {
+        var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        Directory.CreateDirectory(logDir);
+        LogPath = Path.Combine(logDir, "logger.log");
+    }
+
+    public SimpleFileLogger(Type type)
     {
         var name = type.Name;
         var genericArgs = type.GenericTypeArguments;
 
         if (!genericArgs.Any())
         {
-            _log = LogManager.GetLogger(name);
+            _name = name;
         }
         else
         {
-
             var startOfGeneric = name.IndexOf("`", StringComparison.Ordinal);
-            name = name.Substring(0,startOfGeneric);
-            var generics = genericArgs.Select(t=>t.Name).ToDelimited();
-            _log = LogManager.GetLogger($"{name}<{generics}>");
+            name = name.Substring(0, startOfGeneric);
+            var generics = string.Join(",", genericArgs.Select(t => t.Name));
+            _name = $"{name}<{generics}>";
         }
     }
 
-    public Log4NetLogger(string name)
+    public SimpleFileLogger(string name)
     {
-        _log = LogManager.GetLogger(name);
+        _name = name;
     }
 
-    public void Debug(string message, params object[] values)
-    {
-        if (!_log.IsDebugEnabled) return;
-        _log.DebugFormat(message, values);
-    }
-
-    public void Info(string message, params object[] values)
-    {
-        if (!_log.IsInfoEnabled) return;
-        if (values.Length == 0)
-        {
-            _log.Info(message);
-        
-        }
-        else
-        {
-            _log.InfoFormat(message, values);
-        }
-
-    }
-
-    public void Warn(string message, params object[] values)
-    {
-        if (!_log.IsWarnEnabled) return;
-        _log.WarnFormat(message, values);
-    }
+    public void Debug(string message, params object[] values) => Write("DEBUG", Format(message, values));
+    public void Info(string message, params object[] values) => Write("INFO", Format(message, values));
+    public void Warn(string message, params object[] values) => Write("WARN", Format(message, values));
+    public void Fatal(string message, params object[] values) => Write("FATAL", Format(message, values));
 
     public void Error(Exception ex, string message, params object[] values)
     {
-        if (!_log.IsErrorEnabled) return;
-        _log.Error(string.Format(message, values), ex);
+        Write("ERROR", $"{Format(message, values)} {ex}");
     }
 
-    public void Fatal(string message, params object[] values)
+    private void Write(string level, string formatted)
     {
-        if (!_log.IsFatalEnabled) return;
-        _log.FatalFormat(message, values);
+        var line = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss,fff} {level} {Environment.CurrentManagedThreadId} {_name} {formatted}";
+
+        System.Diagnostics.Debug.WriteLine($"[TailBlazer] {level} {DateTime.Now:HH:mm:ss,fff} - {formatted}");
+
+        try
+        {
+            lock (_lock)
+            {
+                File.AppendAllText(LogPath, line + Environment.NewLine);
+            }
+        }
+        catch
+        {
+            // Swallow file write errors to avoid crashing the app
+        }
+    }
+
+    private static string Format(string message, object[] values)
+    {
+        if (values.Length == 0) return message;
+        try { return string.Format(message, values); }
+        catch { return message; }
     }
 }

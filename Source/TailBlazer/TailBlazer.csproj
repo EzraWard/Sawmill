@@ -31,8 +31,6 @@
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.234" />
     <PackageReference Include="DynamicData" Version="9.4.1" />
-    <PackageReference Include="log4net" Version="3.3.0" />
-    <PackageReference Include="ReactiveUI.WPF" Version="22.3.1" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
   </ItemGroup>
 
@@ -48,9 +46,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Log4Net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
