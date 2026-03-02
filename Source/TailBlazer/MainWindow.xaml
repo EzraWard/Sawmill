@@ -16,8 +16,7 @@
     Title=""
     Width="950"
     Height="650"
-    MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}"
-    MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}"
+    
     WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
@@ -181,11 +180,23 @@
                                 Click="MinimizeButton_Click">
                             <TextBlock Text="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Button>
-                        <Button Width="46"
+                        <Button x:Name="MaximizeRestoreButton"
+                                Width="46"
                                 Height="40"
                                 Padding="0"
                                 Click="MaximizeRestoreButton_Click">
-                            <TextBlock Text="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="&#xE922;" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Maximized">
+                                                <Setter Property="Text" Value="&#xE923;" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </Button>
                         <Button Width="46"
                                 Height="40"
