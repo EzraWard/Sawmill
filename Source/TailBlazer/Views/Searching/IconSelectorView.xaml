@@ -98,7 +98,7 @@
             <Button Grid.Column="1" IsDefault="False"
                     HorizontalAlignment="Right"
                     Style="{DynamicResource MaterialDesignFlatButton}"
-                    ToolTip="Allow Tail Blazer to choose you icon"
+                    ToolTip="Allow Sawmill to choose your icon"
                     Content="Use Default"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                     CommandParameter="{x:Static local:IconSelectorResult.UseDefault}" />

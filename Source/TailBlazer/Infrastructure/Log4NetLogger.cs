@@ -55,7 +55,7 @@ public class SimpleFileLogger : ILogger
     {
         var line = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss,fff} {level} {Environment.CurrentManagedThreadId} {_name} {formatted}";
 
-        System.Diagnostics.Debug.WriteLine($"[TailBlazer] {level} {DateTime.Now:HH:mm:ss,fff} - {formatted}");
+        System.Diagnostics.Debug.WriteLine($"[Sawmill] {level} {DateTime.Now:HH:mm:ss,fff} - {formatted}");
 
         try
         {

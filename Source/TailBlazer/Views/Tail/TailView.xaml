@@ -73,7 +73,7 @@
                     Orientation="Vertical"
                     IsHitTestVisible="False">
 
-                <TextBlock  FontSize="26" HorizontalAlignment="Center" Margin="0 0 0 4" Text="Cannot blaze this tail"/>
+                <TextBlock  FontSize="26" HorizontalAlignment="Center" Margin="0 0 0 4" Text="Cannot tail this file"/>
                 <Image Source="/Images/sawmill.png"
                     Width="48"
                     Height="48"
