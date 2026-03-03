@@ -4,179 +4,100 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:options="clr-namespace:TailBlazer.Views.Options"
+             xmlns:controls="clr-namespace:TailBlazer.Controls"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance options:GeneralOptionsViewModel, IsDesignTimeCreatable=False}">
 
-    <Grid Margin="0,4,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <StackPanel Margin="0,2,0,0">
 
+        <!-- ════════════════ Look and Feel ════════════════ -->
+        <TextBlock Text="Look and Feel"
+                   Style="{DynamicResource SettingsSectionHeaderTextBlockStyle}" />
 
-        <TextBlock Text="Look And Feel" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6" />
-        <Border Grid.Row="1"
-                Margin="0,0,0,12"
-                Padding="10"
-                CornerRadius="10"
-                BorderThickness="1"
-                Background="{DynamicResource SettingsCardBrush}"
-                BorderBrush="{DynamicResource SettingsCardBorderBrush}">
-        <Grid>
+        <controls:SettingsCard Header="Theme"
+                               Description="Set the color scheme you prefer">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <ComboBox ItemsSource="{Binding ThemeOptions}"
+                      SelectedItem="{Binding SelectedTheme}"
+                      MinWidth="120" />
+        </controls:SettingsCard>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                      Content="Dark Theme"
-                      VerticalAlignment="Center"
-                      Margin="4 6 4 6"
-                      IsChecked="{Binding UseDarkTheme}" />
-
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Zoom"
-                       VerticalAlignment="Center" Margin="4 6 4 6" />
-            <Slider Grid.Row="1"
-                    Grid.Column="1" Minimum="80" Maximum="200"
-                    Style="{StaticResource {x:Type Slider}}"
-                    SmallChange="5"
-                    LargeChange="5"
-                     Width="220"
-                    Margin="6 6 4 6"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Value="{Binding Scale}" />
-            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ScaleText.Value}"
-                       VerticalAlignment="Center" Margin="4 6 4 6" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
-                       Margin="4 6 4 6">Highlight Tail?</TextBlock>
-            <CheckBox Grid.Row="2" Grid.Column="1"
-                      VerticalAlignment="Center"
-                      Margin="4"
-                      IsChecked="{Binding  HighlightTail}" />
-
-            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
-                       Margin="4 6 4 6">Open Recent Files On Startup?</TextBlock>
-            <CheckBox Grid.Row="3" Grid.Column="1"
-                      VerticalAlignment="Center"
-                      Margin="4"
-                      IsChecked="{Binding  OpenRecentOnStartup}" />
-
-            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
-                       Margin="4 6 4 6">Show Line Numbers?</TextBlock>
-            <CheckBox Grid.Row="4" Grid.Column="1"
-                      VerticalAlignment="Center"
-                      Margin="4"
-                      IsChecked="{Binding ShowLineNumbers}" />
-
-        </Grid>
-        </Border>
-
-        <TextBlock
-            Margin="0,4,0,6"
-            Text="Performance" Grid.Row="2" FontSize="16" FontWeight="SemiBold" />
-
-        <Border Grid.Row="3"
-                Margin="0,0,0,12"
-                Padding="10"
-                CornerRadius="10"
-                BorderThickness="1"
-                Background="{DynamicResource SettingsCardBrush}"
-                BorderBrush="{DynamicResource SettingsCardBorderBrush}">
-        <Grid Height="32">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Rate this computer" VerticalAlignment="Center" />
-            <Slider Margin="6 0 0 0"
-                    Grid.Column="1"
-                    Style="{StaticResource {x:Type Slider}}"
-                    VerticalAlignment="Center"
-                    Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True"
-                    Value="{Binding Rating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Margin="8,0,0,0" Grid.Column="2" Text="(Reduce for lower CPU usage)" VerticalAlignment="Center" />
-
-            <StackPanel Grid.Column="3"
-                        Margin="6 2 4 4"
-                        Visibility="{Binding RequiresRestart.Value, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        HorizontalAlignment="Left" Orientation="Horizontal">
-
-                <Button Command="{Binding RestartCommand}"
-                        HorizontalAlignment="Left"
-                        Margin="0,-2,0,0"
-                        Padding="8,3"
-                        Style="{DynamicResource MaterialDesignFlatButton}">
-                    <TextBlock Text="Restart" FontSize="12" />
-                </Button>
-
-                <TextBlock Text="Restart to apply"
-                           Margin="4 0 0 0"
-                           FontSize="12"
-                           VerticalAlignment="Center" />
+        <controls:SettingsCard Header="Zoom"
+                               Description="Adjust the text size">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE8E9;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Slider Minimum="80" Maximum="200"
+                        Style="{StaticResource {x:Type Slider}}"
+                        SmallChange="5" LargeChange="5"
+                        Width="180"
+                        VerticalAlignment="Center"
+                        Value="{Binding Scale}" />
+                <TextBlock Text="{Binding ScaleText.Value}"
+                           VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           MinWidth="48" />
             </StackPanel>
+        </controls:SettingsCard>
 
-        </Grid>
-        </Border>
+        <controls:SettingsCard Header="Highlight tail"
+                               Description="Flash new lines as they appear">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE7E6;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <CheckBox IsChecked="{Binding HighlightTail}" />
+        </controls:SettingsCard>
 
+        <controls:SettingsCard Header="Open recent files on startup"
+                               Description="Automatically reopen previously viewed files">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE81C;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <CheckBox IsChecked="{Binding OpenRecentOnStartup}" />
+        </controls:SettingsCard>
 
-        <Grid Grid.Row="5" Margin="8">
+        <controls:SettingsCard Header="Show line numbers"
+                               Description="Display line numbers alongside log content">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE8A4;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <CheckBox IsChecked="{Binding ShowLineNumbers}" />
+        </controls:SettingsCard>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <!-- ════════════════ Performance ════════════════ -->
+        <TextBlock Text="Performance"
+                   Style="{DynamicResource SettingsSectionHeaderTextBlockStyle}" />
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <controls:SettingsCard Header="Rate this computer"
+                               Description="Reduce for lower CPU usage">
+            <controls:SettingsCard.HeaderIcon>
+                <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+            </controls:SettingsCard.HeaderIcon>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Slider Style="{StaticResource {x:Type Slider}}"
+                        VerticalAlignment="Center"
+                        Minimum="1" Maximum="5"
+                        TickFrequency="1" IsSnapToTickEnabled="True"
+                        Width="140"
+                        Value="{Binding Rating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="8,0,0,0"
+                            Visibility="{Binding RequiresRestart.Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button Command="{Binding RestartCommand}"
+                            Padding="8,3"
+                            Style="{DynamicResource MaterialDesignFlatButton}">
+                        <TextBlock Text="Restart" FontSize="12" />
+                    </Button>
+                    <TextBlock Text="Restart to apply"
+                               Margin="4,0,0,0"
+                               FontSize="12"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </controls:SettingsCard>
 
-
-            <TextBlock Grid.Row="1" Grid.Column="0"
-                       Visibility="Collapsed"
-                       VerticalAlignment="Center">
-                Highlight Duration
-            </TextBlock>
-
-            <Slider Grid.Row="1" Grid.Column="1" Minimum="0.25" Maximum="10"
-                    Style="{StaticResource {x:Type Slider}}"
-                    Margin="6 4 4 4"
-
-                    Visibility="Collapsed"
-                    Width="200"
-                    SmallChange="0.25"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    LargeChange="1"
-                    Value="{Binding HighlightDuration}" />
-
-            <TextBlock Grid.Row="1" Grid.Column="2"
-                       Visibility="Collapsed"
-                       VerticalAlignment="Center"
-                       Text="{Binding HighlightDurationText.Value}" />
-
-        </Grid>
-
-    </Grid>
+    </StackPanel>
 </UserControl>

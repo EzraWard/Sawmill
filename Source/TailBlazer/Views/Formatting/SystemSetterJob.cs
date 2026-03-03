@@ -29,7 +29,12 @@ public sealed class SystemSetterJob: IDisposable
             .ObserveOn(schedulerProvider.MainThread)
             .Subscribe(userTheme =>
             {
-                var isDark = userTheme == UserTheme.Dark;
+                var isDark = userTheme switch
+                {
+                    UserTheme.Light => false,
+                    UserTheme.Dark => true,
+                    _ => IsSystemDarkTheme()
+                };
 
                 ModifyTheme(theme => theme.SetBaseTheme(isDark ? MaterialDesignThemes.Wpf.Theme.Dark : MaterialDesignThemes.Wpf.Theme.Light));
                 ApplyAccent(isDark ? swatches["yellow"] : swatches["indigo"]);
@@ -65,6 +70,21 @@ public sealed class SystemSetterJob: IDisposable
         modificationAction?.Invoke(theme);
 
         paletteHelper.SetTheme(theme);
+    }
+
+    private static bool IsSystemDarkTheme()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
+                @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            var value = key?.GetValue("AppsUseLightTheme");
+            return value is int i && i == 0;
+        }
+        catch
+        {
+            return true;
+        }
     }
 
 

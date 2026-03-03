@@ -133,7 +133,25 @@ public partial class MainWindow : Window
             return;
         }
 
-        DragMove();
+        if (WindowState == WindowState.Maximized)
+        {
+            // Drag-to-restore: restore window positioned under cursor, then start drag
+            var mousePos = PointToScreen(e.GetPosition(this));
+            var restoreWidth = RestoreBounds.Width;
+            var proportionalX = e.GetPosition(this).X / ActualWidth;
+
+            WindowState = WindowState.Normal;
+
+            Left = mousePos.X - (restoreWidth * proportionalX);
+            Top = mousePos.Y - 10;
+
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+        else
+        {
+            DragMove();
+        }
     }
 
     private static bool IsFromInteractiveControl(DependencyObject source)
@@ -162,6 +180,15 @@ public partial class MainWindow : Window
 
         vm.CloseViewCommand.Execute(headeredView);
         e.Handled = true;
+    }
+
+    private void TabScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is ScrollViewer sv)
+        {
+            sv.ScrollToHorizontalOffset(sv.HorizontalOffset - e.Delta);
+            e.Handled = true;
+        }
     }
 
     private void UpdateSelectedTabConnectionGap()

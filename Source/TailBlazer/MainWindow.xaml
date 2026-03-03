@@ -69,6 +69,10 @@
             Key="O"
             Command="{Binding OpenFileCommand}"
             Modifiers="Ctrl" />
+        <KeyBinding
+            Key="T"
+            Command="{Binding NewTabCommand}"
+            Modifiers="Ctrl" />
         <KeyBinding Key="F8" Command="{Binding CollectMemoryCommand}" />
 
         <MouseBinding Command="{Binding ZoomInCommand}" Gesture="{x:Static infrastucture:MouseWheelGesture.ControlDown}" />
@@ -84,14 +88,20 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Height="40" Margin="10,0,0,0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Grid.Row="0" x:Name="TitleBarGrid" Height="40" Margin="10,0,0,0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="/Images/sawmill.png" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
+                    <Grid Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      CanContentScroll="False"
+                                      PreviewMouseWheel="TabScrollViewer_PreviewMouseWheel"
+                                      ClipToBounds="False">
+                            <StackPanel Orientation="Horizontal" ClipToBounds="False">
                         <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -106,6 +116,7 @@
                                     <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
                                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
                                     <Setter Property="Padding" Value="12,8,4,8" />
+                                    <Setter Property="MaxWidth" Value="240" />
                                     <Setter Property="Panel.ZIndex" Value="0" />
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -200,7 +211,7 @@
                                 Padding="0"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                ToolTip="New tab"
+                                ToolTip="New tab (Ctrl+T)"
                                 Command="{Binding NewTabCommand}">
                             <TextBlock Text="&#xE710;"
                                        FontFamily="Segoe MDL2 Assets"
@@ -208,7 +219,9 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
                         </Button>
-                    </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right"
