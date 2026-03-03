@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -122,7 +123,7 @@ public partial class MainWindow : Window
         Close();
     }
 
-    private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void TitleBar_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (IsFromInteractiveControl(e.OriginalSource as DependencyObject))
             return;
@@ -130,12 +131,12 @@ public partial class MainWindow : Window
         if (e.ClickCount == 2)
         {
             MaximizeRestoreButton_Click(sender, e);
+            e.Handled = true;
             return;
         }
 
         if (WindowState == WindowState.Maximized)
         {
-            // Drag-to-restore: restore window positioned under cursor, then start drag
             var mousePos = PointToScreen(e.GetPosition(this));
             var restoreWidth = RestoreBounds.Width;
             var proportionalX = e.GetPosition(this).X / ActualWidth;
@@ -158,7 +159,7 @@ public partial class MainWindow : Window
     {
         while (source != null)
         {
-            if (source is Button || source is TabItem)
+            if (source is Button || source is TabItem || source is ScrollBar)
                 return true;
 
             source = VisualTreeHelper.GetParent(source);
