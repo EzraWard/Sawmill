@@ -137,14 +137,15 @@ public partial class MainWindow : Window
 
         if (WindowState == WindowState.Maximized)
         {
-            var mousePos = PointToScreen(e.GetPosition(this));
-            var restoreWidth = RestoreBounds.Width;
-            var proportionalX = e.GetPosition(this).X / ActualWidth;
+            // Get cursor position relative to window before restoring
+            var cursorPos = e.GetPosition(this);
+            var proportionalX = cursorPos.X / ActualWidth;
 
             WindowState = WindowState.Normal;
 
-            Left = mousePos.X - (restoreWidth * proportionalX);
-            Top = mousePos.Y - 10;
+            // Position window so cursor stays at same proportional X, near top
+            Left = cursorPos.X + Left - (ActualWidth * proportionalX);
+            Top = 0;
 
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 DragMove();
