@@ -15,7 +15,8 @@
                    Style="{DynamicResource SettingsSectionHeaderTextBlockStyle}" />
 
         <controls:SettingsCard Header="Theme"
-                               Description="Set the color scheme you prefer">
+                               Description="Set the color scheme you prefer"
+                               Visibility="Collapsed">
             <controls:SettingsCard.HeaderIcon>
                 <TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
             </controls:SettingsCard.HeaderIcon>
