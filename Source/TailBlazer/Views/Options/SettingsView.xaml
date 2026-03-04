@@ -33,7 +33,7 @@
                                RenderOptions.BitmapScalingMode="HighQuality" />
                     </controls:SettingsExpander.HeaderIcon>
                     <controls:SettingsExpander.Content>
-                        <TextBlock Text="v0.10.0"
+                        <TextBlock Text="v1.0.0"
                                    Opacity="0.6"
                                    FontSize="12" />
                     </controls:SettingsExpander.Content>
