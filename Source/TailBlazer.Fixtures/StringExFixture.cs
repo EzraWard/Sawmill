@@ -1,21 +1,14 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using FluentAssertions;
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class StringExFixture
 {
-    private readonly ITestOutputHelper output;
-
-    public StringExFixture(ITestOutputHelper output)
-    {
-        this.output = output;
-    }
-
-    [Fact]
+    [TestMethod]
     public void FormatWithAbbreviation()
     {
         long x = 1024 * 1024;
@@ -24,7 +17,7 @@ public class StringExFixture
         result.Should().BeEquivalentTo("1 MB");
     }
 
-    [Fact]
+    [TestMethod]
     public void FormatWithAbbreviationShouldHandleMinValue()
     {
         var result = long.MinValue.FormatWithAbbreviation();
@@ -32,7 +25,7 @@ public class StringExFixture
         result.Should().BeEquivalentTo("-9223372036854775808 B");
     }
 
-    [Fact]
+    [TestMethod]
     public void FormatWithAbbreviationShouldHandleMaxValue()
     {
         var result = long.MaxValue.FormatWithAbbreviation();
@@ -40,10 +33,10 @@ public class StringExFixture
         result.Should().BeEquivalentTo("8 EB");
     }
 
-    [Theory
-     , InlineData((long)12 * 1024 * 1024)
-     , InlineData((long)12 * 1024 * 1024 + 1234567)
-     , InlineData((long)3 * 1024 * 1024 * 1024 + 987652342)]
+    [DataTestMethod
+     , DataRow((long)12 * 1024 * 1024)
+     , DataRow((long)12 * 1024 * 1024 + 1234567)
+     , DataRow((long)3 * 1024 * 1024 * 1024 + 987652342)]
     public void FormatWithAbbreviationShouldBeEquivalentToFormatWithAbbreviationOld(long input)
     {
         var watch = new Stopwatch();
@@ -61,7 +54,7 @@ public class StringExFixture
         result.Should().Be(resultOld);
         resultTime.Should().BeLessThan(resultOldTime);
 
-        output.WriteLine($"calculation for {result} took new: {resultTime} old: {resultOldTime}");
+        Debug.WriteLine($"calculation for {result} took new: {resultTime} old: {resultOldTime}");
     }
 }
 
@@ -82,3 +75,6 @@ public static class OldMethods
         return $"{len:0.##} {sizes[order]}";
     }
 }
+
+
+

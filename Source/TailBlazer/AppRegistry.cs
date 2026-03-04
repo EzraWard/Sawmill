@@ -1,5 +1,4 @@
-﻿using System.IO;
-using StructureMap;
+﻿using StructureMap;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.FileHandling.Search;
 using TailBlazer.Domain.Formatting;
@@ -17,19 +16,7 @@ internal class AppRegistry : Registry
 {
     public AppRegistry()
     {
-        //set up logging
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config");
-        if (!File.Exists(path))
-        {
-            // should use the default config which is a resource
-            using var stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(TailBlazer.Properties.Resources.log4net));
-            log4net.Config.XmlConfigurator.Configure(stream);
-        }
-        else
-        {
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(path));
-        }
-        For<ILogger>().Use<Log4NetLogger>().Ctor<Type>("type").Is(x => x.ParentType).AlwaysUnique();
+        For<ILogger>().Use<SimpleFileLogger>().Ctor<Type>("type").Is(x => x.ParentType).AlwaysUnique();
 
         For<ISelectionMonitor>().Use<SelectionMonitor>();
         For<ISearchInfoCollection>().Use<SearchInfoCollection>();

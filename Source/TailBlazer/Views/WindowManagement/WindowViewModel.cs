@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -41,11 +41,29 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public Command ShowInGitHubCommand { get; }
     public string Version { get; }
     public ICommand ExitCommmand { get; }
+    public ICommand OpenSettingsCommand { get; }
+    public ICommand CloseSettingsCommand { get; }
+    public ICommand CloseViewCommand { get; }
+    public ICommand NewTabCommand { get; }
     public ICommand ZoomInCommand { get; }
     public ICommand ZoomOutCommand { get; }
     public Command CollectMemoryCommand { get; }
 
     public FileDropMonitor DropMonitor { get; } = new FileDropMonitor();
+
+    private bool _isShowingSettings;
+    private object _fullScreenContent;
+    public bool IsShowingSettings
+    {
+        get => _isShowingSettings;
+        set => SetAndRaise(ref _isShowingSettings, value);
+    }
+
+    public object FullScreenContent
+    {
+        get => _fullScreenContent;
+        set => SetAndRaise(ref _fullScreenContent, value);
+    }
     public ItemActionCallback ClosingTabItemHandler => ClosingTabItemHandlerImpl;
     public ApplicationExitingDelegate WindowExiting { get; }
 
@@ -68,6 +86,10 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         OpenFileCommand =  new Command(OpenFile);
 
         ShowInGitHubCommand = new Command(()=>   Process.Start("https://github.com/RolandPheasant"));
+        OpenSettingsCommand = new Command(OpenSettings);
+        CloseSettingsCommand = new Command(CloseSettings);
+        CloseViewCommand = new Command<HeaderedView>(CloseView);
+        NewTabCommand = new Command(AddNewTab);
         ZoomOutCommand= new Command(()=> { GeneralOptions.Scale = (int)GeneralOptions.Scale + 5; });
         ZoomInCommand = new Command(() => { GeneralOptions.Scale = (int)GeneralOptions.Scale - 5; });
         CollectMemoryCommand = new Command(() =>
@@ -120,6 +142,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
                     currentSelection.IsSelected = true;
             });
 
+        EnsureStartTab();
 
         _cleanUp = new CompositeDisposable(recentFilesViewModel,
             isEmptyChecker,
@@ -155,6 +178,26 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
             OpenFile(new FileInfo(file));
     }
 
+    private void OpenSettings()
+    {
+        // Create the settings view and set its DataContext to the shared GeneralOptions view model
+        var settingsView = new SettingsView { DataContext = GeneralOptions };
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            FullScreenContent = settingsView;
+            IsShowingSettings = true;
+        });
+    }
+
+    private void CloseSettings()
+    {
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            IsShowingSettings = false;
+            FullScreenContent = null;
+        });
+    }
+
     private void OpenFile(FileInfo file)
     {
         _schedulerProvider.Background.Schedule(() =>
@@ -176,7 +219,7 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
                 //do the work on the ui thread
                 _schedulerProvider.MainThread.Schedule(() =>
                 {
-                    Views.Add(newItem);
+                    ReplaceSelectedView(newItem);
                     _logger.Info($"Opened '{file.FullName}'");
                     Selected = newItem;
                 });
@@ -233,15 +276,80 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
 
     private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
     {
+        CloseView((HeaderedView)args.DragablzItem.DataContext);
+    }
+
+    private void CloseView(HeaderedView container)
+    {
         _logger.Info("Tab is closing. {0} view to close", Views.Count);
-        var container = (HeaderedView)args.DragablzItem.DataContext;
         _windowsController.Remove(container);
-        if (container.Equals(Selected))
+        Views.Remove(container);
+
+        if (Views.Count == 0)
         {
-            Selected = Views.FirstOrDefault(vc => vc != container);
+            Application.Current.Shutdown();
+            return;
         }
+
+        if (container.Equals(Selected) || Selected == null)
+            Selected = Views[0];
+
         var disposable = container.Content as IDisposable;
         disposable?.Dispose();
+    }
+
+    private void AddNewTab()
+    {
+        _schedulerProvider.MainThread.Schedule(() =>
+        {
+            var newTab = new HeaderedView("New Tab", new StartTabViewModel(OpenFileCommand));
+            Views.Add(newTab);
+            Selected = newTab;
+        });
+    }
+
+    private void ReplaceSelectedView(HeaderedView newItem)
+    {
+        if (Selected == null)
+        {
+            Views.Add(newItem);
+            return;
+        }
+
+        var current = Selected;
+        var index = Views.IndexOf(current);
+        if (index < 0)
+        {
+            Views.Add(newItem);
+            return;
+        }
+
+        _windowsController.Remove(current);
+        if (current.Content is IDisposable disposable)
+            disposable.Dispose();
+
+        Views[index] = newItem;
+    }
+
+    private void EnsureStartTab()
+    {
+        var existingStartTab = Views.FirstOrDefault(v => v.Content is StartTabViewModel);
+        if (existingStartTab != null)
+        {
+            if (!Equals(existingStartTab.Header, "New Tab"))
+            {
+                var existingIndex = Views.IndexOf(existingStartTab);
+                var renamedStartTab = new HeaderedView("New Tab", existingStartTab.Content);
+                Views[existingIndex] = renamedStartTab;
+                if (ReferenceEquals(Selected, existingStartTab))
+                    Selected = renamedStartTab;
+            }
+            return;
+        }
+
+        var startTab = new HeaderedView("New Tab", new StartTabViewModel(OpenFileCommand));
+        Views.Insert(0, startTab);
+        Selected ??= startTab;
     }
 
     public HeaderedView Selected

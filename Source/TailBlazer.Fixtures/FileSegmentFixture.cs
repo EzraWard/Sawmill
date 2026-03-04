@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -6,13 +6,14 @@ using System.Reactive.Subjects;
 using FluentAssertions;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileSegmentFixture
 {
-    [Fact]
+    [TestMethod]
     public void FileChanged()
     {
         //need to make this test
@@ -30,7 +31,7 @@ public class FileSegmentFixture
         using (var indexer = segmenter.Segments.Subscribe(segment => result = segment))
         {
             result.Should().NotBeNull();
-            result.Count.Should().BeGreaterOrEqualTo(2);
+            result.Count.Should().BeGreaterThanOrEqualTo(2);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Head);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Tail);
             result.FileLength.Should().Be(info.Length);
@@ -47,7 +48,7 @@ public class FileSegmentFixture
         File.Delete(file);
     }
 
-    [Fact]
+    [TestMethod]
     public void NotifiesOfSegmentWhenFileIsCreated()
     {
         //need to make this test
@@ -67,7 +68,7 @@ public class FileSegmentFixture
             refresher.Once();
 
             result.Should().NotBeNull();
-            result.Count.Should().BeGreaterOrEqualTo(2);
+            result.Count.Should().BeGreaterThanOrEqualTo(2);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Head);
             result.Segments.Select(fs => fs.Type).Should().Contain(FileSegmentType.Tail);
             result.FileLength.Should().Be(info.Length);
@@ -84,3 +85,4 @@ public class FileSegmentFixture
         File.Delete(file);
     }
 }
+

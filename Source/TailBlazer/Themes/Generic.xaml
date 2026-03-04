@@ -9,11 +9,12 @@
         <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Lines.xaml" />
         <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/SearchResultIndicator.xaml" />
         <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/TailBlazerWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/SettingsStyles.xaml" />
         <!--<ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Colours.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 
 
-    <Style BasedOn="{StaticResource MaterialDesignTabablzControlStyle}" TargetType="{x:Type dragablz:TabablzControl}" />
+    <Style TargetType="{x:Type dragablz:TabablzControl}" />
 
     <Style TargetType="{x:Type controls:HighlightTextControl}">
         <Setter Property="BorderThickness" Value="2" />

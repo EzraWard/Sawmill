@@ -1,12 +1,14 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class LargeFileGenerator
 {
-    //  [Fact]
+    //  [TestMethod]
     public void GenerateFile()
     {
         string fileName = @"U:\Large Files\SuperGiantFile.txt";
@@ -20,7 +22,7 @@ public class LargeFileGenerator
         } 
     }
 
-    //  [Fact]
+    //  [TestMethod]
     public void GenerateWideLinesInFile()
     {
         // string fileName = @"U:\Large Files\WideFile.txt";
@@ -50,3 +52,4 @@ public class LargeFileGenerator
 
     }
 }
+

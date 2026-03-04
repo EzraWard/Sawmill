@@ -1,39 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>tailblazer.ico</ApplicationIcon>
-    <Version>0.9.5</Version>
+    <ApplicationIcon>sawmill.ico</ApplicationIcon>
+    <Version>0.10.0</Version>
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>false</SelfContained>
     <ImplicitUsings>true</ImplicitUsings>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="tailblazer.ico" />
+    <None Remove="sawmill.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Remove="Themes\ComboBox.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tailblazer.ico" />
+    <Content Include="sawmill.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="tailblazer.ico">
+    <EmbeddedResource Include="sawmill.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sawmill.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.234" />
-    <PackageReference Include="DynamicData" Version="7.12.1" />
-    <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="MaterialDesignExtensions" Version="3.3.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.7.0-ci364" />
-    <PackageReference Include="ReactiveUI.WPF" Version="18.3.1" />
+    <PackageReference Include="DynamicData" Version="9.4.1" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
   </ItemGroup>
 
@@ -49,9 +49,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Log4Net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

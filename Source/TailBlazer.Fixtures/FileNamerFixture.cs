@@ -1,13 +1,14 @@
-﻿using System.Linq;
+using System.Linq;
 using TailBlazer.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.IO.Path;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileNamerFixture
 {
-    [Fact]
+    [TestMethod]
     public void ReturnsCorrectDistinctPath()
     {
         var paths = new[]
@@ -36,6 +37,7 @@ public class FileNamerFixture
 
         var result = paths.Select(path => trie.GetName(path)).ToArray();
 
-        Assert.Equal(expected, result);
+        CollectionAssert.AreEqual(expected, result);
     }
 }
+

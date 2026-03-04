@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using TailBlazer.Domain.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class SplitFileByMatchingRegexFixture
 {
     public SplitFileByMatchingRegexFixture()
     {
     }
 
-    [Fact]
+    [TestMethod]
     public void Test()
     {
 
@@ -34,7 +35,7 @@ public class SplitFileByMatchingRegexFixture
     }
 
 
-    [Fact]
+    [TestMethod]
     public void FindMatchingText()
     {
 
@@ -51,7 +52,7 @@ public class SplitFileByMatchingRegexFixture
         multijoined.Should().Be(input);
     }
 
-    //[Fact]
+    //[TestMethod]
     //public void FindWithNoMatch()
     //{
     //    var input = "The lazy cat could not catch a mouse";
@@ -65,7 +66,7 @@ public class SplitFileByMatchingRegexFixture
     //    multijoined.Should().Be(input);
     //}
 
-    //[Fact]
+    //[TestMethod]
     //public void MatchAtEnd()
     //{
     //    var input = "The lazy cat could not catch a mouse";
@@ -80,7 +81,7 @@ public class SplitFileByMatchingRegexFixture
     //    multijoined.Should().Be(input);
     //}
 
-    //[Fact]
+    //[TestMethod]
     //public void MatchAtStart()
     //{
     //    var input = "The lazy cat could not catch a mouse";
@@ -94,7 +95,7 @@ public class SplitFileByMatchingRegexFixture
     //    multijoined.Should().Be(input);
     //}
 
-    //[Fact]
+    //[TestMethod]
     //public void NoMatch()
     //{
     //    var input = "The lazy cat could not catch a mouse";
@@ -108,3 +109,4 @@ public class SplitFileByMatchingRegexFixture
     //}
 
 }
+

@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class StartFromFixture
 {
-    [Fact]
+    [TestMethod]
     public void EmptyForEmptyFile()
     {
         FileNotification result = null;
@@ -31,7 +32,7 @@ public class StartFromFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void StartAfterEndOfFileShouldReturnNothing()
     {
         FileNotification result = null;
@@ -56,7 +57,7 @@ public class StartFromFixture
     }
 
 
-    [Fact]
+    [TestMethod]
     public void StartFromFirstPosition()
     {
         var firstLine = "This is the first line";
@@ -82,7 +83,7 @@ public class StartFromFixture
     }        
 
 
-    [Fact]
+    [TestMethod]
     public void SkipFirstLine()
     {
         var firstLine = "This is the first line";
@@ -112,7 +113,7 @@ public class StartFromFixture
     }
 
 
-    [Fact]
+    [TestMethod]
     public void StartFromSecondLine()
     {
         var firstLine = "This is the first line";
@@ -150,7 +151,7 @@ public class StartFromFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void StartFromBegining()
     {
         var firstLine = "This is the first line";
@@ -185,3 +186,4 @@ public class StartFromFixture
     }
 
 }
+

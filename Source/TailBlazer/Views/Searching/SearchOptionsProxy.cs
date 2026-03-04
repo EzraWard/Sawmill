@@ -149,6 +149,7 @@ public class SearchOptionsProxy : AbstractNotifyPropertyChanged, IDisposable, IE
     private async Task ShowIconSelector()
     {
         var dialogResult = await DialogHost.Show(IconSelector, ParentId);
+        if (dialogResult is null) return;
 
         var result = (IconSelectorResult) dialogResult;
         if (result == IconSelectorResult.UseDefault)

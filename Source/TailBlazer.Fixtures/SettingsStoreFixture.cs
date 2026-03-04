@@ -1,17 +1,18 @@
-﻿#region Usings
+#region Usings
 
 using FluentAssertions;
 using TailBlazer.Domain.Infrastructure;
 using TailBlazer.Domain.Settings;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endregion
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class SettingsStoreFixture
 {
-    [Fact]
+    [TestMethod]
     public void WriteState()
     {
         var state = new State(1, "Test");
@@ -23,7 +24,7 @@ public class SettingsStoreFixture
         restored.Should().Be(state);
     }
 
-    [Fact]
+    [TestMethod]
     public void WriteComplexState()
     {
         var state = new State(1, "<<something weird<> which breaks xml {}");
@@ -35,3 +36,4 @@ public class SettingsStoreFixture
         restored.Should().Be(state);
     }
 }
+

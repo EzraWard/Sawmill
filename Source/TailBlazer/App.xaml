@@ -6,22 +6,80 @@
     xmlns:fileDrop="clr-namespace:TailBlazer.Views.FileDrop"
     xmlns:searching="clr-namespace:TailBlazer.Views.Searching"
     xmlns:tail="clr-namespace:TailBlazer.Views.Tail"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     ShutdownMode="OnLastWindowClose"
     >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark" 
-                                             PrimaryColor="Green" 
-                                             SecondaryColor="Amber" />
-
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml" />
-
                 <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
+
                 <!--<ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Colours.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
+            <SolidColorBrush x:Key="MaterialDesignBackground" Color="#FF1F2024" />
+            <SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF2A2D33" />
+            <SolidColorBrush x:Key="MaterialDesignBody" Color="#FFF3F3F3" />
+            <SolidColorBrush x:Key="MaterialDesignTextBoxBorder" Color="#66FFFFFF" />
+            <SolidColorBrush x:Key="MaterialDesignFlatButtonClick" Color="#22FFFFFF" />
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3C82F6" />
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF1E4F9E" />
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFF4F6FB" />
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF78A9FF" />
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF0E1624" />
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF46B5A7" />
+            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FF06211E" />
+            <SolidColorBrush x:Key="ValidationErrorBrush" Color="#FFE85A5A" />
+            <SolidColorBrush x:Key="GrayBrush2" Color="#888888" />
+
+            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#CC202124" />
+            <SolidColorBrush x:Key="SettingsCardBrush" Color="#B324272E" />
+            <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#66FFFFFF" />
+
+            <Style x:Key="MaterialDesignFlatButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="6,4" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Root"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Root" Property="Background" Value="{DynamicResource MaterialDesignFlatButtonClick}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MaterialDesignMenuCommandButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFlatButton}" />
+            <Style x:Key="MaterialDesignListBox" TargetType="{x:Type ListBox}" />
+            <Style x:Key="MaterialDesignListBoxItem" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Padding" Value="4,2" />
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            </Style>
+            <Style x:Key="MaterialDesignComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}" />
+            <Style x:Key="MaterialDesignComboBoxItemSelectedCollapsedStyle" TargetType="{x:Type ComboBoxItem}" />
+            <Style x:Key="MaterialDesignComboBoxToggleButton" TargetType="{x:Type ToggleButton}" />
+            <Style x:Key="MaterialDesignTextBox" TargetType="{x:Type TextBox}" />
+            <Style x:Key="MaterialDesignFloatingActionButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFlatButton}" />
+            <Style x:Key="MaterialDesignHamburgerToggleButton" TargetType="{x:Type ToggleButton}" />
+            <Style x:Key="MaterialDesignTabablzControlStyle" TargetType="{x:Type TabControl}" />
 
             <DataTemplate DataType="{x:Type searching:SearchOptionsViewModel}">
                 <searching:SearchOptionsView />
@@ -33,6 +91,10 @@
 
             <DataTemplate DataType="{x:Type tail:TailViewModel}">
                 <tail:TailView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type windowManagement:StartTabViewModel}">
+                <windowManagement:StartTabView />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type fileDrop:FileDropContainer}">

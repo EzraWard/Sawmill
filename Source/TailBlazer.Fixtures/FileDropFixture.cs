@@ -1,15 +1,16 @@
-﻿using System.IO;
+using System.IO;
 using System.Reactive.Subjects;
 using System.Windows;
 using FluentAssertions;
 using TailBlazer.Views.FileDrop;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileDropFixture
 {
-    [Fact]
+    [TestMethod]
     public void FileDropContainerShouldReturnFileNames()
     {
         var input = new[] { @"c:\temp\file1.txt", @"c:\temp\file2.txt" };
@@ -19,7 +20,7 @@ public class FileDropFixture
         container.Files.Should().BeEquivalentTo(expectedResult);
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropContainerShouldHandleNulls()
     {
         var input = new[] { @"c:\temp\file1.txt", null, @"c:\temp\file2.txt" };
@@ -29,7 +30,7 @@ public class FileDropFixture
         container.Files.Should().BeEquivalentTo(expectedResult);
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropContainerShouldHandleEmpty()
     {
         var input = new string[0];
@@ -39,7 +40,7 @@ public class FileDropFixture
         container.Files.Should().BeEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropContainerShouldHandleNull()
     {
         var container = new FileDropContainer(null);
@@ -47,7 +48,7 @@ public class FileDropFixture
         container.Files.Should().BeEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropMonitorShouldHandleNull()
     {
         var monitor = new FileDropMonitor();
@@ -56,7 +57,7 @@ public class FileDropFixture
 
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropMonitorShouldOnlyUseUiElement()
     {
         var monitor = new FileDropMonitor();
@@ -68,7 +69,7 @@ public class FileDropFixture
         ((Subject<FileInfo>)monitor.Dropped).HasObservers.Should().Be(false);
     }
 
-    [Fact]
+    [TestMethod]
     public void FileDropMonitorShouldOnlyObserveWithUiElement()
     {
         var monitor = new FileDropMonitor();
@@ -80,3 +81,4 @@ public class FileDropFixture
         ((Subject<FileInfo>)monitor.Dropped).HasObservers.Should().Be(false);
     }
 }
+

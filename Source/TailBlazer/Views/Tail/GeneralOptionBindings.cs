@@ -19,7 +19,7 @@ public class GeneralOptionBindings: IDisposable
     {
         UsingDarkTheme = generalOptions.Value
             .ObserveOn(schedulerProvider.MainThread)
-            .Select(options => options.Theme == Theme.Dark)
+            .Select(options => options.Theme != Theme.Light)
             .ForBinding();
 
         HighlightTail = generalOptions.Value

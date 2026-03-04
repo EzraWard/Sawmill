@@ -8,13 +8,14 @@ using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
 using TailBlazer.Domain.Infrastructure;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class FileSearchFixture
 {
-    [Fact]
+    [TestMethod]
     public void EmptyFile()
     {
         var pulse = new Subject<Unit>();
@@ -37,7 +38,7 @@ public class FileSearchFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void NotExistingFile()
     {
         var pulse = new Subject<Unit>();
@@ -57,7 +58,7 @@ public class FileSearchFixture
         }
     }
 
-    //[Fact]
+    //[TestMethod]
     //Cannot recreate the file as something is hanging on to it.
     public void CreateFileLater()
     {
@@ -81,7 +82,7 @@ public class FileSearchFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void SearchOnDataWhenFileIsPopulated()
     {
         var pulse = new Subject<Unit>();
@@ -102,7 +103,7 @@ public class FileSearchFixture
             }
         }
     }
-    [Fact]
+    [TestMethod]
     public void InitiallyEmptyThenLinesAdded()
     {
         var scheduler = new TestScheduler();
@@ -123,7 +124,7 @@ public class FileSearchFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void WillContinuallyTail()
     {
         var scheduler = new TestScheduler();
@@ -180,7 +181,7 @@ public class FileSearchFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void CanReadLinesBackInLargeFile()
     {
         var scheduler = new TestScheduler();
@@ -210,3 +211,4 @@ public class FileSearchFixture
         }
     }
 }
+

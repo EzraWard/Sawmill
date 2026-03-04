@@ -19,16 +19,18 @@ public sealed class GeneralOptionsViewModel : AbstractNotifyPropertyChanged, IDi
     private bool _highlightTail;
     private double _highlightDuration;
     private double _scale;
-    private bool _useDarkTheme;
+    private Theme _selectedTheme;
     private int _rating;
     private bool _openRecentOnStartup;
     private bool _showLineNumbers;
 
     public GeneralOptionsViewModel(ISetting<GeneralOptions> setting)
     {
+        ThemeOptions = [Theme.System, Theme.Dark, Theme.Light];
+
         var reader = setting.Value.Subscribe(options =>
         {
-            UseDarkTheme = options.Theme== Theme.Dark;
+            SelectedTheme = options.Theme;
             HighlightTail = options.HighlightTail;
             HighlightDuration = options.HighlightDuration;
             Scale = options.Scale;
@@ -50,7 +52,7 @@ public sealed class GeneralOptionsViewModel : AbstractNotifyPropertyChanged, IDi
         var writter = this.WhenAnyPropertyChanged()
             .Subscribe(vm =>
             {
-                setting.Write(new GeneralOptions(UseDarkTheme ? Theme.Dark : Theme.Light, HighlightTail, HighlightDuration, Scale, Rating, OpenRecentOnStartup, ShowLineNumbers));
+                setting.Write(new GeneralOptions(SelectedTheme, HighlightTail, HighlightDuration, Scale, Rating, OpenRecentOnStartup, ShowLineNumbers));
             });
             
         HighlightDurationText = this.WhenValueChanged(vm=>vm.HighlightDuration)
@@ -81,10 +83,12 @@ public sealed class GeneralOptionsViewModel : AbstractNotifyPropertyChanged, IDi
 
     public IProperty<string> HighlightDurationText { get; }
 
-    public bool UseDarkTheme
+    public Theme[] ThemeOptions { get; }
+
+    public Theme SelectedTheme
     {
-        get { return _useDarkTheme; }
-        set { SetAndRaise(ref _useDarkTheme, value); }
+        get { return _selectedTheme; }
+        set { SetAndRaise(ref _selectedTheme, value); }
     }
 
     public bool HighlightTail

@@ -1,0 +1,97 @@
+<UserControl x:Class="TailBlazer.Views.Options.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:options="clr-namespace:TailBlazer.Views.Options"
+             xmlns:controls="clr-namespace:TailBlazer.Controls"
+             mc:Ignorable="d">
+
+    <Grid Background="Transparent">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="32,24" MaxWidth="1000">
+                <TextBlock Text="Settings"
+                           FontSize="30"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,4" />
+                <TextBlock Text="Personalize Sawmill behavior and appearance."
+                           Opacity="0.8"
+                           Margin="0,0,0,8" />
+
+                <!-- General options (Look and Feel + Performance) -->
+                <options:GeneralOptionsView />
+
+                <!-- ════════════════ About ════════════════ -->
+                <TextBlock Text="About"
+                           Style="{DynamicResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsExpander Header="Sawmill"
+                                           Description="© 2026. All rights reserved.">
+                    <controls:SettingsExpander.HeaderIcon>
+                        <Image Source="/Images/sawmill.png"
+                               Width="20" Height="20"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </controls:SettingsExpander.HeaderIcon>
+                    <controls:SettingsExpander.Content>
+                        <TextBlock Text="v0.10.0"
+                                   Opacity="0.6"
+                                   FontSize="12" />
+                    </controls:SettingsExpander.Content>
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard Header="Acknowledgement"
+                                               Style="{StaticResource SettingsExpanderItemStyle}">
+                            <controls:SettingsCard.HeaderIcon>
+                                <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                            </controls:SettingsCard.HeaderIcon>
+                            <controls:SettingsCard.Description>
+                                <TextBlock TextWrapping="Wrap" FontSize="12" Opacity="0.8" LineHeight="18">
+                                    Sawmill is built on the foundation of TailBlazer, an exceptional open-source 
+                                    log file viewer created by Roland Pheasant. None of this would be possible 
+                                    without his original vision and work. Thank you, Roland, for sharing 
+                                    TailBlazer with the community.
+                                </TextBlock>
+                            </controls:SettingsCard.Description>
+                        </controls:SettingsCard>
+
+                        <controls:SettingsCard Style="{StaticResource SettingsExpanderItemStyle}">
+                            <controls:SettingsCard.HeaderIcon>
+                                <TextBlock Text="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                            </controls:SettingsCard.HeaderIcon>
+                            <controls:SettingsCard.Header>
+                                <StackPanel>
+                                    <TextBlock Text="Source code" FontSize="14" />
+                                    <TextBlock Margin="0,4,0,0" FontSize="12">
+                                        <Hyperlink NavigateUri="https://github.com/EzraWard/TailBlazer"
+                                                   RequestNavigate="Hyperlink_RequestNavigate"
+                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                            github.com/EzraWard/TailBlazer
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </controls:SettingsCard.Header>
+                        </controls:SettingsCard>
+
+                        <controls:SettingsCard Style="{StaticResource SettingsExpanderItemStyle}">
+                            <controls:SettingsCard.HeaderIcon>
+                                <TextBlock Text="&#xE71B;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                            </controls:SettingsCard.HeaderIcon>
+                            <controls:SettingsCard.Header>
+                                <StackPanel>
+                                    <TextBlock Text="Original project" FontSize="14" />
+                                    <TextBlock Margin="0,4,0,0" FontSize="12">
+                                        <Hyperlink NavigateUri="https://github.com/RolandPheasant/TailBlazer"
+                                                   RequestNavigate="Hyperlink_RequestNavigate"
+                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                            github.com/RolandPheasant/TailBlazer
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </controls:SettingsCard.Header>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

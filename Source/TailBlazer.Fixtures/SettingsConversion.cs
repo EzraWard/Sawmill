@@ -4,15 +4,16 @@ using System.Threading;
 using FluentAssertions;
 using TailBlazer.Domain.FileHandling.Recent;
 using TailBlazer.Domain.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TailBlazer.Views.Tail;
 using TailBlazer.Domain.Settings;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class SettingsConversion
 {
-    [Fact]
+    [TestMethod]
     public void RecentFiles()
     {
 
@@ -28,19 +29,19 @@ public class SettingsConversion
         restored.Should().BeEquivalentTo(files);
     }
 
-    [Fact]
+    [TestMethod]
     public void GeneralOptionsWithCultureDeDe()
     {
         SerializeAndDeserializeWithCulture("de-DE");
     }
 
-    [Fact]
+    [TestMethod]
     public void GeneralOptionsWithCultureEnUs()
     {
         SerializeAndDeserializeWithCulture("en-Us");
     }
 
-    [Fact]
+    [TestMethod]
     public void EmptySearchShouldReturnDefault()
     {
         var converter = new SearchMetadataToStateConverter();
@@ -48,7 +49,7 @@ public class SettingsConversion
         state.Should().BeEquivalentTo(converter.GetDefaultValue());
     }
 
-    [Fact]
+    [TestMethod]
     public void NullSearchShouldReturnDefault()
     {
         var converter = new SearchMetadataToStateConverter();
@@ -68,3 +69,4 @@ public class SettingsConversion
         restored.Should().BeEquivalentTo(original);
     }
 }
+

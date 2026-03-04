@@ -1,13 +1,14 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using MaterialDesignThemes.Wpf;
 using TailBlazer.Views.Formatting;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class IconDescriptionFixture
 {
-    [Fact]
+    [TestMethod]
     public void IconDescriptionShoudBeComparable()
     {
         var id1 = new IconDescription(new PackIconKind(), "test");
@@ -18,7 +19,7 @@ public class IconDescriptionFixture
         result.Should().BeTrue();
     }
 
-    [Fact]
+    [TestMethod]
     public void IconDescriptionShoudBeComparableInEqual()
     {
         var id1 = new IconDescription(new PackIconKind(), "test1");
@@ -30,3 +31,4 @@ public class IconDescriptionFixture
     }
 
 }
+

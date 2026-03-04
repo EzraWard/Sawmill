@@ -1,12 +1,13 @@
 using FluentAssertions;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TailBlazer.Views.Searching;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class SearchHintEx
 {
-    [Fact]
+    [TestMethod]
     public void ShouldAskForTextWhenTextIsEmpty()
     {
         var searchRequest = new SearchRequest("", false);
@@ -17,7 +18,7 @@ public class SearchHintEx
         result.Message.Should().Be("Type to search using plain text");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldAskForTextWhenRegexIsEmpty()
     {
         var searchRequest = new SearchRequest("", true);
@@ -28,7 +29,7 @@ public class SearchHintEx
         result.Message.Should().Be("Type to search using regex");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeValidWhenSearchingPlainText()
     {
         var searchRequest = new SearchRequest("[inf", false);
@@ -39,7 +40,7 @@ public class SearchHintEx
         result.Message.Should().Be("Hit enter to search using plain text");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeValidWhenSearchingAValidRegex()
     {
         var searchRequest = new SearchRequest("[inf]", true);
@@ -50,7 +51,7 @@ public class SearchHintEx
         result.Message.Should().Be("Hit enter to search using regex");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeInvalidWhenSearchingTooShortRegEx()
     {
         var searchRequest = new SearchRequest(".", true);
@@ -61,7 +62,7 @@ public class SearchHintEx
         result.Message.Should().Be("Regex must be at least 2 characters");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeValidWhenSearchingPlainTextExclusion()
     {
         var searchRequest = new SearchRequest("-[inf", false);
@@ -72,7 +73,7 @@ public class SearchHintEx
         result.Message.Should().Be("Hit enter to search using plain text");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeInvalidWhenPlainTextExclusionTextIsTooShort()
     {
         var searchRequest = new SearchRequest("-f", false);
@@ -83,7 +84,7 @@ public class SearchHintEx
         result.Message.Should().Be("Text must be at least 3 characters");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeInvalidWhenSearchingIrregularRegEx()
     {
         var searchRequest = new SearchRequest("[inf", true);
@@ -94,7 +95,7 @@ public class SearchHintEx
         result.Message.Should().Be("Invalid regular expression");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeInvalidWhenPlainTextContainsIllegalCharacter()
     {
         var searchRequest = new SearchRequest(@"[i\nf", false);
@@ -105,7 +106,7 @@ public class SearchHintEx
         result.Message.Should().Be("Text contains illegal characters");
     }
 
-    [Fact]
+    [TestMethod]
     public void ShouldBeInvalidWhenPlainTextContainsOnlyWhiteSpaces()
     {
         var searchRequest = new SearchRequest("-    \t", false);
@@ -116,3 +117,4 @@ public class SearchHintEx
         result.Message.Should().Be("Text contains illegal characters");
     }
 }
+

@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using System.Linq;
 using DynamicData.Kernel;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using TailBlazer.Domain.FileHandling;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailBlazer.Fixtures;
 
+[TestClass]
 public class ExludeLinesFixture
 {
-    [Fact]
+    [TestMethod]
     public void ExludedFilesAre()
     {
         var scheduler = new TestScheduler();
@@ -35,7 +36,7 @@ public class ExludeLinesFixture
         }
     }
 
-    [Fact]
+    [TestMethod]
     public void WillCheckPreviousPage()
     {
         var scheduler = new TestScheduler();
@@ -65,3 +66,4 @@ public class ExludeLinesFixture
         }
     }
 }
+
