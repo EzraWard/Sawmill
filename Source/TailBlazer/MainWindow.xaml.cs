@@ -17,6 +17,8 @@ namespace TailBlazer;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private Point? _tabDragStartPoint;
+    private HeaderedView _tabDragSource;
 
     public MainWindow()
     {
@@ -191,6 +193,86 @@ public partial class MainWindow : Window
             sv.ScrollToHorizontalOffset(sv.HorizontalOffset - e.Delta);
             e.Handled = true;
         }
+    }
+
+    private void TitleBarTabs_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is DependencyObject source && FindAncestor<Button>(source) != null)
+            return;
+
+        if (e.OriginalSource is not DependencyObject original)
+            return;
+
+        var tabItem = FindAncestor<TabItem>(original);
+        if (tabItem?.DataContext is not HeaderedView headeredView)
+            return;
+
+        _tabDragStartPoint = e.GetPosition(TitleBarTabs);
+        _tabDragSource = headeredView;
+    }
+
+    private void TitleBarTabs_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed || _tabDragStartPoint == null || _tabDragSource == null)
+            return;
+
+        var current = e.GetPosition(TitleBarTabs);
+        var delta = current - _tabDragStartPoint.Value;
+        if (Math.Abs(delta.X) < SystemParameters.MinimumHorizontalDragDistance &&
+            Math.Abs(delta.Y) < SystemParameters.MinimumVerticalDragDistance)
+            return;
+
+        DragDrop.DoDragDrop(TitleBarTabs, _tabDragSource, DragDropEffects.Move);
+        _tabDragStartPoint = null;
+        _tabDragSource = null;
+    }
+
+    private void TitleBarTabs_DragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = e.Data.GetData(typeof(HeaderedView)) is HeaderedView ? DragDropEffects.Move : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private void TitleBarTabs_Drop(object sender, DragEventArgs e)
+    {
+        _tabDragStartPoint = null;
+
+        if (DataContext is not WindowViewModel vm)
+            return;
+
+        if (e.Data.GetData(typeof(HeaderedView)) is not HeaderedView source)
+            return;
+
+        var target = GetTabHeaderedViewFromPoint(e.GetPosition(TitleBarTabs));
+        if (target == null || source.Equals(target))
+            return;
+
+        var oldIndex = vm.Views.IndexOf(source);
+        var newIndex = vm.Views.IndexOf(target);
+        if (oldIndex < 0 || newIndex < 0 || oldIndex == newIndex)
+            return;
+
+        vm.Views.Move(oldIndex, newIndex);
+        vm.Selected = source;
+    }
+
+    private HeaderedView GetTabHeaderedViewFromPoint(Point point)
+    {
+        var element = TitleBarTabs.InputHitTest(point) as DependencyObject;
+        var tabItem = FindAncestor<TabItem>(element);
+        return tabItem?.DataContext as HeaderedView;
+    }
+
+    private static T FindAncestor<T>(DependencyObject source) where T : DependencyObject
+    {
+        while (source != null)
+        {
+            if (source is T match)
+                return match;
+            source = VisualTreeHelper.GetParent(source);
+        }
+
+        return null;
     }
 
     private void UpdateSelectedTabConnectionGap()

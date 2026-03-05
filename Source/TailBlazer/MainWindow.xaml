@@ -105,8 +105,13 @@
                         <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    AllowDrop="True"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom">
+                                    VerticalAlignment="Bottom"
+                                    PreviewMouseLeftButtonDown="TitleBarTabs_PreviewMouseLeftButtonDown"
+                                    PreviewMouseMove="TitleBarTabs_PreviewMouseMove"
+                                    DragOver="TitleBarTabs_DragOver"
+                                    Drop="TitleBarTabs_Drop">
                             <TabControl.Resources>
                                 <Style TargetType="TabPanel">
                                     <Setter Property="ClipToBounds" Value="False" />
