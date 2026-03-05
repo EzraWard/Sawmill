@@ -47,6 +47,8 @@
                     Margin="6,2,2,2"
                     IsHitTestVisible="True"
                     Text="{Binding DisplayName}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap"
                     ToolTip="{Binding FullName}"
                     ToolTipService.ShowOnDisabled="True" />
 
@@ -179,9 +181,17 @@
                             </TabControl.Template>
                             <TabControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ContentPresenter Content="{Binding Header}" />
-                                        <Button Margin="8,0,0,0"
+                                    <Grid ClipToBounds="True">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ContentPresenter Grid.Column="0"
+                                                          Margin="0,0,4,0"
+                                                          HorizontalAlignment="Stretch"
+                                                          Content="{Binding Header}" />
+                                        <Button Grid.Column="1"
+                                                Margin="8,0,0,0"
                                                 Width="20"
                                                 Height="20"
                                                 Padding="0"
@@ -197,7 +207,7 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center" />
                                         </Button>
-                                    </StackPanel>
+                                    </Grid>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
                         </TabControl>
