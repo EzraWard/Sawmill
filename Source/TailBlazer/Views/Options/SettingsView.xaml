@@ -33,9 +33,9 @@
                                RenderOptions.BitmapScalingMode="HighQuality" />
                     </controls:SettingsExpander.HeaderIcon>
                     <controls:SettingsExpander.Content>
-                        <TextBlock Text="v1.0.0"
-                                   Opacity="0.6"
-                                   FontSize="12" />
+                        <TextBlock Text="v1.1.0"
+                                    Opacity="0.6"
+                                    FontSize="12" />
                     </controls:SettingsExpander.Content>
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard Header="Acknowledgement"
