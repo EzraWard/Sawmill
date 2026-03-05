@@ -1,9 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
-using Dragablz;
-using Dragablz.Dockablz;
 using DynamicData.Kernel;
 using TailBlazer.Domain.Annotations;
 using TailBlazer.Domain.Infrastructure;
@@ -88,18 +86,19 @@ public class LayoutConverter : ILayoutConverter
 
             shells.Add(shellNode);
 
-            //add children to shell node
-            var layoutAccessor = window.Layout.Query();
-            layoutAccessor.Visit(shellNode, BranchAccessorVisitor, TabablzControlVisitor);
+            if (window.DataContext is WindowViewModel windowViewModel)
+            {
+                AddChildren(shellNode, windowViewModel.Views);
+            }
         }
 
         root.Add(shells);
         return root;
     }
 
-    private static void TabablzControlVisitor(XElement stateNode, TabablzControl tabablzControl)
+    private static void AddChildren(XElement stateNode, IEnumerable<HeaderedView> views)
     {
-        var tabStates = tabablzControl.Items.OfType<HeaderedView>()
+        var tabStates = views
             .Select(item => item.Content).OfType<IPersistentView>()
             .Select(provider => provider.CaptureState())
             .Select(state =>
@@ -112,23 +111,6 @@ public class LayoutConverter : ILayoutConverter
 
         var elements = new XElement(XmlStructure.ViewNode.Children, tabStates);
         stateNode.Add(elements);
-    }
-
-    private static void BranchAccessorVisitor(XElement stateNode, BranchAccessor branchAccessor)
-    {
-        var proportion = branchAccessor.Branch.GetFirstProportion();
-        var firstBranch = new XElement(XmlStructure.BranchNode.Branch, new XAttribute(XmlStructure.BranchNode.Proportion, proportion));
-        var secondBranch = new XElement(XmlStructure.BranchNode.Branch, new XAttribute(XmlStructure.BranchNode.Proportion, 1 - proportion));
-
-        var branchNode = new XElement(XmlStructure.BranchNode.Branches, new XAttribute(XmlStructure.BranchNode.Orientation, branchAccessor.Branch.Orientation.ToString()));
-        branchNode.Add(firstBranch);
-        branchNode.Add(secondBranch);
-
-        stateNode.Add(branchNode);
-
-        branchAccessor
-            .Visit(firstBranch, BranchItem.First, BranchAccessorVisitor, TabablzControlVisitor)
-            .Visit(secondBranch, BranchItem.Second, BranchAccessorVisitor, TabablzControlVisitor);
     }
 
     #endregion
@@ -164,46 +146,8 @@ public class LayoutConverter : ILayoutConverter
             })
             .ForEach(x =>
             {
-                RestoreBranches(x.window, x.shellState);
-                    
                 if (_generalOptionsViewModel.OpenRecentOnStartup)
                     RestoreChildren(x.window, x.shellState);
-            });
-    }
-
-    private void RestoreBranches(MainWindow window, XElement element)
-    {
-        var tabControl = window.InitialTabablzControl;
-
-        element.Elements(XmlStructure.BranchNode.Branches)
-            .ForEach(branch =>
-            {
-                var orientaton = branch.AttributeOrThrow(XmlStructure.BranchNode.Orientation)
-                    .ParseEnum<Orientation>()
-                    .ValueOr(() => Orientation.Horizontal);
-                var childBranches = branch.Elements(XmlStructure.BranchNode.Branch).ToArray();
-                var firstBranch = childBranches.ElementAt(0);
-                var secondBranch = childBranches.ElementAt(1);
-                    
-                var proportion = firstBranch.AttributeOrThrow(XmlStructure.BranchNode.Proportion)
-                    .ParseDouble()
-                    .ValueOr(() => 0.5);
-
-                var firstChildList = GetViews(firstBranch);
-                var secondChildList = GetViews(secondBranch);
-                    
-                var windowViewModel = (IViewOpener)window.DataContext;
-                foreach (var headeredView in firstChildList.Union(secondChildList))
-                {
-                    windowViewModel.OpenView(headeredView);
-                }
-
-                //TODO: Sort this out. Throws an exception when I try to create a branch
-                //var branchResult = Dragablz.Dockablz.Layout.Branch(tabControl, orientaton, false, proportion);
-                    
-                //Create branches + add children to branche
-                //branchResult.TabablzControl.AddToSource(newItem);
-                //branchResult.TabablzControl.SelectedItem = newItem;
             });
     }
         

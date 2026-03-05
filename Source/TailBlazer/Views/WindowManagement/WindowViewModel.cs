@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using Dragablz;
 using DynamicData;
 using DynamicData.Binding;
 using Microsoft.Win32;
@@ -36,7 +35,6 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
     public ObservableCollection<HeaderedView> Views { get; } = new ObservableCollection<HeaderedView>();
     public RecentFilesViewModel RecentFiles { get; }
     public GeneralOptionsViewModel GeneralOptions { get; }
-    public IInterTabClient InterTabClient { get; }
     public ICommand OpenFileCommand { get; }
     public Command ShowInGitHubCommand { get; }
     public string Version { get; }
@@ -64,11 +62,9 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         get => _fullScreenContent;
         set => SetAndRaise(ref _fullScreenContent, value);
     }
-    public ItemActionCallback ClosingTabItemHandler => ClosingTabItemHandlerImpl;
     public ApplicationExitingDelegate WindowExiting { get; }
 
     public WindowViewModel(IObjectProvider objectProvider, 
-        IWindowFactory windowFactory, 
         ILogger logger,
         IWindowsController windowsController,
         RecentFilesViewModel recentFilesViewModel,
@@ -82,7 +78,6 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         GeneralOptions = generalOptionsViewModel;
         _schedulerProvider = schedulerProvider;
         _objectProvider = objectProvider;
-        InterTabClient = new InterTabClient(windowFactory);
         OpenFileCommand =  new Command(OpenFile);
 
         ShowInGitHubCommand = new Command(()=>   Process.Start("https://github.com/RolandPheasant"));
@@ -272,11 +267,6 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         Views.Select(vc => vc.Content)
             .OfType<IDisposable>()
             .ForEach(x => x.Dispose());
-    }
-
-    private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
-    {
-        CloseView((HeaderedView)args.DragablzItem.DataContext);
     }
 
     private void CloseView(HeaderedView container)

@@ -1,0 +1,2 @@
+MainPackage=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x64\Release\Upload\SawmillPackage_1.0.0.0_x64.msix
+SymbolPackage=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x64\Release\Upload\SawmillPackage_1.0.0.0\SawmillPackage_1.0.0.0_x64.appxsym

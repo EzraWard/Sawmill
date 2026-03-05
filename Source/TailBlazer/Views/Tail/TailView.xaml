@@ -11,7 +11,6 @@
              xmlns:searching="clr-namespace:TailBlazer.Views.Searching"
              xmlns:tail="clr-namespace:TailBlazer.Views.Tail"
              xmlns:fileHandling="clr-namespace:TailBlazer.Domain.FileHandling;assembly=TailBlazer.Domain"
-             xmlns:converters="clr-namespace:Dragablz.Converters;assembly=Dragablz"
              xmlns:virtualisation="clr-namespace:TailBlazer.Infrastructure.Virtualisation"
              Background="Transparent"
              x:Name="Control"
@@ -35,7 +34,7 @@
             <infrastucture:CheckedToLengthConverter TrueValue="175" FalseValue="0" x:Key="c2" />
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter"/>
+            <infrastucture:EqualsToVisibilityConverter x:Key="EqualityToVisibilityConverter"/>
             <infrastucture:NotEqualsToVisibilityConverter x:Key="NotEqualsToVisibilityConverter"/>
             <system:Int32 x:Key="Zero">0</system:Int32>
             <system:Int32 x:Key="One">1</system:Int32>

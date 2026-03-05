@@ -4,8 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls1="clr-namespace:TailBlazer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
-    xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     xmlns:infrastucture="clr-namespace:TailBlazer.Infrastructure"
     xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -292,38 +290,18 @@
 
                 <Grid Grid.Row="1" Background="Transparent" Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
-                        <dockablz:Layout x:Name="Layout">
-                            <Grid>
-                                <!-- keep existing Dragablz control collapsed for compatibility; new TabControl used for UI -->
-                                <dragablz:TabablzControl
-                                    x:Name="InitialTabablzControl"
-                                    Visibility="Collapsed"
-                                    Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=Background}"
-                                    ClosingItemCallback="{Binding ClosingTabItemHandler}"
-                                    HeaderMemberPath="Header"
-                                    IsTabStop="True"
-                                    ItemsSource="{Binding Views}"
-                                    SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    ShowDefaultCloseButton="True"
-                                    TextElement.Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, Path=(TextElement.Foreground)}">
-
-                                    <dragablz:TabablzControl.InterTabController>
-                                        <dragablz:InterTabController InterTabClient="{Binding InterTabClient}" />
-                                    </dragablz:TabablzControl.InterTabController>
-                                </dragablz:TabablzControl>
-
-                                <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
-                                <Grid x:Name="ContentFrameHost">
-                                    <ContentControl x:Name="ContentFrameBorder" Content="{Binding Selected}" />
-                                    <Border x:Name="SelectedTabTopGap"
-                                            Height="1"
-                                            VerticalAlignment="Top"
-                                            HorizontalAlignment="Left"
-                                            Background="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}"
-                                            Visibility="Collapsed" />
-                                </Grid>
+                        <Grid>
+                            <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
+                            <Grid x:Name="ContentFrameHost">
+                                <ContentControl x:Name="ContentFrameBorder" Content="{Binding Selected}" />
+                                <Border x:Name="SelectedTabTopGap"
+                                        Height="1"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Background="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}"
+                                        Visibility="Collapsed" />
                             </Grid>
-                        </dockablz:Layout>
+                        </Grid>
 
                         <StackPanel 
                             HorizontalAlignment="Center"

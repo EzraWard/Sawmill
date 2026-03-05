@@ -1,8 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:TailBlazer.Controls"
-    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz">
+    xmlns:controls="clr-namespace:TailBlazer.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Icons.xaml" />
@@ -13,8 +12,6 @@
         <!--<ResourceDictionary Source="pack://application:,,,/TailBlazer;component/Themes/Colours.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 
-
-    <Style TargetType="{x:Type dragablz:TabablzControl}" />
 
     <Style TargetType="{x:Type controls:HighlightTextControl}">
         <Setter Property="BorderThickness" Value="2" />

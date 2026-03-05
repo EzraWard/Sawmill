@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Dragablz;
 using DynamicData;
 using DynamicData.Binding;
 using TailBlazer.Domain.FileHandling.Search;
@@ -19,8 +18,6 @@ public class SearchProxyCollection : ISearchProxyCollection
 
     public ReadOnlyObservableCollection<SearchOptionsProxy> Included { get; }
     public ReadOnlyObservableCollection<SearchOptionsProxy> Excluded { get; }
-
-    public VerticalPositionMonitor PositionMonitor { get; } = new VerticalPositionMonitor();
 
     public SearchProxyCollection(ISearchMetadataCollection metadataCollection,
         Guid id,
@@ -69,8 +66,6 @@ public class SearchProxyCollection : ISearchProxyCollection
 
         Count = proxyItems.CountChanged.StartWith(0).ForBinding();
 
-        var monitor = MonitorPositionalChanges().Subscribe(metadataCollection.Add);
-            
         //load data onto grid
         var collection = new ObservableCollectionExtended<SearchOptionsProxy>();
 
@@ -96,33 +91,7 @@ public class SearchProxyCollection : ISearchProxyCollection
         Excluded = excluded;
         Included = new ReadOnlyObservableCollection<SearchOptionsProxy>(collection);
 
-        _cleanUp = new CompositeDisposable(proxyItems, includedLoader, excludedLoader, monitor);
-    }
-
-    private IObservable<IEnumerable<SearchMetadata>> MonitorPositionalChanges()
-    {
-        return Observable.FromEventPattern<OrderChangedEventArgs>(
-                h => PositionMonitor.OrderChanged += h,
-                h => PositionMonitor.OrderChanged -= h)
-            .Throttle(TimeSpan.FromMilliseconds(125))
-            .Select(evt => evt.EventArgs)
-            .Where(args => args.PreviousOrder != null && !args.PreviousOrder.SequenceEqual(args.NewOrder))
-            .Select(positionChangedArgs =>
-            {
-                var newOrder = positionChangedArgs.NewOrder
-                    .OfType<SearchOptionsProxy>()
-                    .Select((item, index) =>
-                    {
-                        item.Position = index;
-                        return new { Meta = (SearchMetadata)item, index };
-                    })
-                    .ToArray();
-
-                //reprioritise filters and highlights
-                return newOrder
-                    .Select(x => new SearchMetadata(x.Meta, x.index))
-                    .ToArray();
-            });
+        _cleanUp = new CompositeDisposable(proxyItems, includedLoader, excludedLoader);
     }
 
     public void Dispose()

@@ -1,5 +1,4 @@
-﻿using Dragablz;
-using TailBlazer.Domain.Infrastructure;
+﻿using TailBlazer.Domain.Infrastructure;
 
 namespace TailBlazer.Views.WindowManagement;
 
@@ -21,8 +20,6 @@ public class WindowFactory : IWindowFactory
 
         window.Closing += (sender, e) =>
         {
-            if (TabablzControl.GetIsClosingAsPartOfDragOperation(window)) return;
-
             var todispose = ((MainWindow) sender).DataContext as IDisposable;
             todispose?.Dispose();
         };

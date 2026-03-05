@@ -10,6 +10,7 @@
     <SelfContained>false</SelfContained>
     <ImplicitUsings>true</ImplicitUsings>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dragablz" Version="0.0.3.234" />
     <PackageReference Include="DynamicData" Version="9.4.1" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
   </ItemGroup>
@@ -40,6 +40,32 @@
   <ItemGroup>
     <ProjectReference Include="..\TailBlazer.Domain\TailBlazer.Domain.csproj" />
   </ItemGroup>
+
+  <!--
+    Workaround: During WAP bundle builds the Desktop Bridge targets set BaseIntermediateOutputPath
+    (and therefore MSBuildProjectExtensionsPath) to per-RID subdirectories such as
+    obj\wappublish\win-x64\ or obj\wappublish\win-arm64\. NuGet restore does not consistently
+    generate .nuget.g.props, .nuget.g.targets, and .nuget.dgspec.json in every per-RID directory.
+    The WPF markup compilation target (_GenerateTemporaryTargetAssembly) then fails trying to copy
+    those missing files. This target copies them from the default obj\ directory (where NuGet always
+    generates them) before _GenerateTemporaryTargetAssembly runs.
+  -->
+  <Target Name="_EnsureNuGetFilesForWapPublish"
+          BeforeTargets="_GenerateTemporaryTargetAssembly"
+          Condition="$(MSBuildProjectExtensionsPath.Contains('wappublish')) AND !Exists('$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props')">
+    <PropertyGroup>
+      <_DefaultObjDir>$(MSBuildProjectDirectory)\obj\</_DefaultObjDir>
+    </PropertyGroup>
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props"
+          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props"
+          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props')" />
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets"
+          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.targets"
+          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets')" />
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json"
+          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.dgspec.json"
+          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json')" />
+  </Target>
 
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
