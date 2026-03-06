@@ -13,7 +13,10 @@ public class SimpleFileLogger : ILogger
 
     static SimpleFileLogger()
     {
-        var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        var logDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "TailBlazer",
+            "logs");
         Directory.CreateDirectory(logDir);
         LogPath = Path.Combine(logDir, "logger.log");
     }
