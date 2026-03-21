@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using TailBlazer.Infrastructure;
 using TailBlazer.Views.WindowManagement;
@@ -21,6 +22,36 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        // Safe runtime load for icon and brand image - prevents XAML parse-time failures if resources are missing
+        try
+        {
+            var iconUri = new Uri("pack://application:,,,/TailBlazer;component/sawmill.ico", UriKind.Absolute);
+            var iconStream = Application.GetResourceStream(iconUri)?.Stream;
+            if (iconStream != null)
+            {
+                Icon = BitmapFrame.Create(iconStream);
+            }
+        }
+        catch
+        {
+            // ignore - missing icon should not stop startup
+        }
+
+        try
+        {
+            var imgUri = new Uri("pack://application:,,,/TailBlazer;component/Images/sawmill.png", UriKind.Absolute);
+            var bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = imgUri;
+            bi.CacheOption = BitmapCacheOption.OnLoad;
+            bi.EndInit();
+            BrandImage.Source = bi;
+        }
+        catch
+        {
+            // ignore - missing image should not stop startup
+        }
 
         Closing += MainWindow_Closing;
         Loaded += MainWindow_Loaded;
