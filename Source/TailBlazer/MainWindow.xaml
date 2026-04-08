@@ -21,7 +21,6 @@
     WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
-    infrastucture:WindowAssist.ApplicationClosing="{Binding WindowExiting}"
 
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"

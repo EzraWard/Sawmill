@@ -21,14 +21,7 @@ public static class WindowAssist
 
     public static void OnClosingDelegateSet(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        var window = (Window) sender;
-        var closingDelegate = args.NewValue as ApplicationExitingDelegate;
-
-        window.Closing += (s, e) =>
-        {
-            var windows = Application.Current.Windows.OfType<MainWindow>().Count();
-            if (windows == 1)
-                closingDelegate?.Invoke();
-        };
+        // Intentionally empty: MainWindow_Closing invokes the delegate directly,
+        // in the correct order relative to OnWindowClosing() and Shutdown().
     }
 }

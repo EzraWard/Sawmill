@@ -19,15 +19,9 @@
   <ItemGroup>
     <Page Remove="Themes\ComboBox.xaml" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="sawmill.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="sawmill.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="sawmill.ico" />
     <Resource Include="Images\sawmill.png" />
   </ItemGroup>
 

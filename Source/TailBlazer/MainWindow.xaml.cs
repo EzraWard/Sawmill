@@ -8,6 +8,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Dragablz;
 using TailBlazer.Infrastructure;
 using TailBlazer.Views.WindowManagement;
 
@@ -124,8 +125,23 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
+        // Let Dragablz handle window closure during tab drag operations.
+        if (TabablzControl.GetIsClosingAsPartOfDragOperation(this))
+            return;
+
         var windowsModel = DataContext as WindowViewModel;
+
+        // Publish ShuttingDown BEFORE disposing views so LayoutConverter.CaptureState()
+        // can still walk Application.Current.Windows and read live tab state.
+        // DistinctUntilChanged in ApplicationStateBroker suppresses any duplicate
+        // publishes that fire when subsequent windows close during shutdown.
+        windowsModel?.WindowExiting?.Invoke();
+
         windowsModel?.OnWindowClosing();
+
+        // Explicit shutdown ensures the process always exits when any window is closed,
+        // including scenarios where multiple windows exist (layout restore, tab tear-out).
+        Application.Current.Shutdown();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
