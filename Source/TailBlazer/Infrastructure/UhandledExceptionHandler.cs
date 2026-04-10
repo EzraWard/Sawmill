@@ -27,6 +27,11 @@ public class UhandledExceptionHandler
         var ex = e.Exception;
         _logger.Error(ex, ex.Message);
         e.Handled = true;
+
+        // If no window is visible the app is effectively headless — shut down rather than
+        // leaving an invisible process running (which causes Store certification failures).
+        if (!Application.Current.Windows.OfType<Window>().Any(w => w.IsVisible))
+            Application.Current.Shutdown();
     }
 
 }

@@ -6,7 +6,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Dragablz;
 using TailBlazer.Infrastructure;
 using TailBlazer.Views.WindowManagement;
 
@@ -23,6 +25,36 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        // Safe runtime load for icon and brand image - prevents XAML parse-time failures if resources are missing
+        try
+        {
+            var iconUri = new Uri("pack://application:,,,/TailBlazer;component/sawmill.ico", UriKind.Absolute);
+            var iconStream = Application.GetResourceStream(iconUri)?.Stream;
+            if (iconStream != null)
+            {
+                Icon = BitmapFrame.Create(iconStream);
+            }
+        }
+        catch
+        {
+            // ignore - missing icon should not stop startup
+        }
+
+        try
+        {
+            var imgUri = new Uri("pack://application:,,,/TailBlazer;component/Images/sawmill.png", UriKind.Absolute);
+            var bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = imgUri;
+            bi.CacheOption = BitmapCacheOption.OnLoad;
+            bi.EndInit();
+            BrandImage.Source = bi;
+        }
+        catch
+        {
+            // ignore - missing image should not stop startup
+        }
 
         Closing += MainWindow_Closing;
         Loaded += MainWindow_Loaded;
@@ -95,8 +127,23 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
+        // Let Dragablz handle window closure during tab drag operations.
+        if (TabablzControl.GetIsClosingAsPartOfDragOperation(this))
+            return;
+
         var windowsModel = DataContext as WindowViewModel;
+
+        // Publish ShuttingDown BEFORE disposing views so LayoutConverter.CaptureState()
+        // can still walk Application.Current.Windows and read live tab state.
+        // DistinctUntilChanged in ApplicationStateBroker suppresses any duplicate
+        // publishes that fire when subsequent windows close during shutdown.
+        windowsModel?.WindowExiting?.Invoke();
+
         windowsModel?.OnWindowClosing();
+
+        // Explicit shutdown ensures the process always exits when any window is closed,
+        // including scenarios where multiple windows exist (layout restore, tab tear-out).
+        Application.Current.Shutdown();
     }
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)

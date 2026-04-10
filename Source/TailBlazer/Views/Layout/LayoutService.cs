@@ -1,4 +1,3 @@
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Xml.Linq;
 using TailBlazer.Domain.Infrastructure;
@@ -16,14 +15,12 @@ public class LayoutService : ILayoutService
 
     public LayoutService(ISettingsStore store, 
         ILogger logger,
-        ISchedulerProvider schedulerProvider,
         IObjectProvider objectProvider,
         IApplicationStateNotifier stateNotifier)
     {
         _store = store;
         _logger = logger;
         _objectProvider = objectProvider;
-        schedulerProvider.MainThread.Schedule(Restore);
 
         stateNotifier.StateChanged.Where(state => state == ApplicationState.ShuttingDown)
             .Subscribe(_ =>

@@ -12,14 +12,13 @@
     xmlns:windowManagement="clr-namespace:TailBlazer.Views.WindowManagement"
     x:Name="Window"
     Title=""
-    Icon="sawmill.ico"
+
     Width="950"
     Height="650"
     
     WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
-    infrastucture:WindowAssist.ApplicationClosing="{Binding WindowExiting}"
 
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
@@ -94,7 +93,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="/Images/sawmill.png" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <Image Grid.Column="0" x:Name="BrandImage" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
                     <Grid Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollBarVisibility="Disabled"

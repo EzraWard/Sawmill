@@ -28,7 +28,7 @@
                 <controls:SettingsExpander Header="Sawmill"
                                            Description="© 2026. All rights reserved.">
                     <controls:SettingsExpander.HeaderIcon>
-                        <Image Source="/Images/sawmill.png"
+                        <Image x:Name="SettingsSawmillImage"
                                Width="20" Height="20"
                                RenderOptions.BitmapScalingMode="HighQuality" />
                     </controls:SettingsExpander.HeaderIcon>
