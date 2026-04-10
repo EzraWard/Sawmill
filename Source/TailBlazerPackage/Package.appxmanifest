@@ -31,7 +31,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Sawmill Log Viewer"
+        DisplayName="Sawmill"
         Description="A log viewer for Windows"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
