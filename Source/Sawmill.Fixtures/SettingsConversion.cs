@@ -1,0 +1,72 @@
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using FluentAssertions;
+using Sawmill.Domain.FileHandling.Recent;
+using Sawmill.Domain.Formatting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sawmill.Views.Tail;
+using Sawmill.Domain.Settings;
+
+namespace Sawmill.Fixtures;
+
+[TestClass]
+public class SettingsConversion
+{
+    [TestMethod]
+    public void RecentFiles()
+    {
+
+        var files = new[]
+        {
+            new RecentFile(new FileInfo(@"C:\\File1.txt")),
+            new RecentFile(new FileInfo(@"C:\\File2.txt"))
+        };
+
+        var converter = new RecentFilesToStateConverter();
+        var state = converter.Convert(files);
+        var restored = converter.Convert(state);
+        restored.Should().BeEquivalentTo(files);
+    }
+
+    [TestMethod]
+    public void GeneralOptionsWithCultureDeDe()
+    {
+        SerializeAndDeserializeWithCulture("de-DE");
+    }
+
+    [TestMethod]
+    public void GeneralOptionsWithCultureEnUs()
+    {
+        SerializeAndDeserializeWithCulture("en-Us");
+    }
+
+    [TestMethod]
+    public void EmptySearchShouldReturnDefault()
+    {
+        var converter = new SearchMetadataToStateConverter();
+        var state = converter.Convert(State.Empty);
+        state.Should().BeEquivalentTo(converter.GetDefaultValue());
+    }
+
+    [TestMethod]
+    public void NullSearchShouldReturnDefault()
+    {
+        var converter = new SearchMetadataToStateConverter();
+        State nullState = null;
+        var state = converter.Convert(nullState);
+        state.Should().BeEquivalentTo(converter.GetDefaultValue());
+    }
+
+    private void SerializeAndDeserializeWithCulture(string cultureName)
+    {
+        Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
+
+        var original = new GeneralOptions(Theme.Dark, false,0.5, 125,5, true, false);
+        var converter = new GeneralOptionsConverter();
+        var state = converter.Convert(original);
+        var restored = converter.Convert(state);
+        restored.Should().BeEquivalentTo(original);
+    }
+}
+

@@ -98,27 +98,27 @@ No game rating required — this is a productivity/developer tool.
 
 ## Privacy Policy
 
-Sawmill does not collect, transmit, or store any personal data. All settings are saved locally on the user's machine under `%LocalAppData%\TailBlazer`. No telemetry, analytics, or network requests are made by the application.
+Sawmill does not collect, transmit, or store any personal data. All settings are saved locally on the user's machine under `%LocalAppData%\Sawmill`. No telemetry, analytics, or network requests are made by the application.
 
 ## Support Contact
 
-GitHub Issues: https://github.com/EzraWard/TailBlazer/issues
+GitHub Issues: https://github.com/EzraWard/Sawmill/issues
 
 ## Website
 
-https://github.com/EzraWard/TailBlazer
+https://github.com/EzraWard/Sawmill
 
 ## Copyright / Trademark
 
-© 2025 Ezra Ward. Sawmill is a fork of TailBlazer by Roland Pheasant, used under the MIT License.
+© 2025 Ezra Ward. Sawmill is a fork of Sawmill by Roland Pheasant, used under the MIT License.
 
 ## License
 
-MIT License — see https://github.com/EzraWard/TailBlazer/blob/main/LICENSE
+MIT License — see https://github.com/EzraWard/Sawmill/blob/main/LICENSE
 
 ## Store Logo and Screenshot Notes
 
-**App Icon**: Use `Source/TailBlazer/Images/sawmill.png` (the circular saw blade logo)
+**App Icon**: Use `Source/Sawmill/Images/sawmill.png` (the circular saw blade logo)
 
 **Recommended Screenshots** (1366×768 or higher):
 1. Main view — tailing a log file with highlighted search results

@@ -210,6 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-/Source/TailBlazer.sln.GhostDoc.xml
-Source/TailBlazer/Themes/MaterialDesign.xaml
+/Source/Sawmill.sln.GhostDoc.xml
+Source/Sawmill/Themes/MaterialDesign.xaml
 *.DotSettings
