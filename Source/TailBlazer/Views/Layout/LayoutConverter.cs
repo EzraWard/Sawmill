@@ -25,6 +25,7 @@ public class LayoutConverter : ILayoutConverter
     private readonly IViewFactoryProvider _viewFactoryProvider;
     private readonly ISchedulerProvider _schedulerProvider;
     private readonly GeneralOptionsViewModel _generalOptionsViewModel;
+    private readonly ILogger _logger;
 
     private static class XmlStructure
     {
@@ -61,12 +62,14 @@ public class LayoutConverter : ILayoutConverter
     public LayoutConverter([NotNull] IWindowFactory windowFactory,
         [NotNull] IViewFactoryProvider viewFactoryProvider,
         [NotNull] ISchedulerProvider schedulerProvider,
-        [NotNull] GeneralOptionsViewModel generalOptionsViewModel)
+        [NotNull] GeneralOptionsViewModel generalOptionsViewModel,
+        [NotNull] ILogger logger)
     {
         _windowFactory = windowFactory ?? throw new ArgumentNullException(nameof(windowFactory));
         _viewFactoryProvider = viewFactoryProvider ?? throw new ArgumentNullException(nameof(viewFactoryProvider));
         _schedulerProvider = schedulerProvider ?? throw new ArgumentNullException(nameof(schedulerProvider));
         _generalOptionsViewModel = generalOptionsViewModel ?? throw new ArgumentNullException(nameof(generalOptionsViewModel));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     #region Capture state
@@ -152,12 +155,43 @@ public class LayoutConverter : ILayoutConverter
                 var main = Application.Current.Windows.OfType<MainWindow>().First();
                 var window = index == 0 ? main : _windowFactory.Create();
 
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
-                window.WindowState = winState;
-                window.Left = left;
-                window.Top = top;
-                window.Width = width;
-                window.Height = height;
+                // Validate restored bounds and ensure window is visible on at least one monitor.
+                var virtualLeft = SystemParameters.VirtualScreenLeft;
+                var virtualTop = SystemParameters.VirtualScreenTop;
+                var virtualRight = virtualLeft + SystemParameters.VirtualScreenWidth;
+                var virtualBottom = virtualTop + SystemParameters.VirtualScreenHeight;
+
+                double intersectWidth = Math.Min(left + width, virtualRight) - Math.Max(left, virtualLeft);
+                double intersectHeight = Math.Min(top + height, virtualBottom) - Math.Max(top, virtualTop);
+
+                var reasonableSize = width >= 100 && height >= 100;
+                var onScreen = intersectWidth > 100 && intersectHeight > 100;
+
+                if (reasonableSize && onScreen)
+                {
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
+                    if (winState == WindowState.Minimized)
+                    {
+                        _logger.Info($"Restored window {index} had Minimized state; forcing Normal to ensure visibility.");
+                        window.WindowState = WindowState.Normal;
+                    }
+                    else
+                    {
+                        window.WindowState = winState;
+                    }
+
+                    window.Left = left;
+                    window.Top = top;
+                    window.Width = Math.Max(width, 100);
+                    window.Height = Math.Max(height, 100);
+                }
+                else
+                {
+                    _logger.Warn($"Saved window bounds for shell {index} appear off-screen or invalid (left={left},top={top},w={width},h={height},state={winState}); falling back to centered Normal window.");
+                    // Fallback to centered, normal window if the saved state looks invalid or off-screen.
+                    window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    window.WindowState = WindowState.Normal;
+                }
 
                 window.Show();
                 return new { window, shellState };

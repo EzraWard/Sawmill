@@ -8,8 +8,6 @@ using TailBlazer.Infrastructure.AppState;
 using TailBlazer.Views.Layout;
 using TailBlazer.Views.WindowManagement;
 
-using System.Reactive.Concurrency;
-
 
 
 namespace TailBlazer;
@@ -26,19 +24,16 @@ public partial class App : Application
     {
         FreeConsole();
 
-        var tempWindowToGetDispatcher = new Window();
-
         var container = new Container(x => x.AddRegistry<AppRegistry>());
-        container.Configure(x => x.For<Dispatcher>().Add(tempWindowToGetDispatcher.Dispatcher));
+        container.Configure(x => x.For<Dispatcher>().Add(Dispatcher.CurrentDispatcher));
         container.GetInstance<StartupController>();
 
         var factory = container.GetInstance<WindowFactory>();
         var window = factory.Create(e.Args);
-        tempWindowToGetDispatcher.Close();
 
         var layoutServce = container.GetInstance<ILayoutService>();
-        var scheduler = container.GetInstance<ISchedulerProvider>();
-        scheduler.MainThread.Schedule(window.Show);
+        layoutServce.Restore();
+        window.Show();
 
         var appStatePublisher = container.GetInstance<IApplicationStatePublisher>();
         Exit += (sender, e) => appStatePublisher.Publish(ApplicationState.ShuttingDown);
