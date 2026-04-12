@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
     xmlns:sawmill="clr-namespace:Sawmill"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:windowManagement="clr-namespace:Sawmill.Views.WindowManagement"
     x:Name="Window"
     Title=""
@@ -51,6 +52,15 @@
                     ToolTip="{Binding FullName}"
                     ToolTipService.ShowOnDisabled="True" />
 
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type sys:String}">
+                <TextBlock
+                    Margin="6,2,2,2"
+                    IsHitTestVisible="True"
+                    Text="{Binding}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type infrastucture:HeaderedView}">

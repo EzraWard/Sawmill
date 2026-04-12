@@ -67,6 +67,14 @@ public partial class MainWindow : Window
     }
 
     private const int WM_GETMINMAXINFO = 0x0024;
+    private const int WM_NCLBUTTONDOWN = 0x00A1;
+    private const int HTCAPTION = 0x0002;
+
+    [DllImport("user32.dll")]
+    private static extern bool ReleaseCapture();
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct POINT { public int x, y; }
@@ -179,9 +187,13 @@ public partial class MainWindow : Window
             return;
         }
 
-        // DragMove() handles both normal drag and restore-from-maximized-then-drag
-        // natively — no need to manually toggle WindowState on single click.
-        DragMove();
+        // Send WM_NCLBUTTONDOWN with HTCAPTION to start a system-managed caption drag.
+        // This properly handles restore-from-maximized when dragging, unlike DragMove()
+        // which can fail with custom WS_OVERLAPPEDWINDOW + WM_NCCALCSIZE interop.
+        var hwnd = new WindowInteropHelper(this).Handle;
+        ReleaseCapture();
+        SendMessage(hwnd, WM_NCLBUTTONDOWN, (IntPtr)HTCAPTION, IntPtr.Zero);
+        e.Handled = true;
     }
 
     private static bool IsFromInteractiveControl(DependencyObject source)

@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!-- Menu bar matching TailView style -->
-        <Border BorderBrush="#18FFFFFF" BorderThickness="0,0,0,1" Margin="0,0,0,2" Background="#FF282828">
+        <Border BorderBrush="{DynamicResource SettingsCardStrokeBrush}" BorderThickness="0,0,0,1" Margin="0,0,0,2" Background="{DynamicResource ContentAreaBrush}">
             <Grid MinHeight="36">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -63,10 +63,10 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="Bd" Property="Background" Value="#15FFFFFF" />
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource TabHoverBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="Bd" Property="Background" Value="#22FFFFFF" />
+                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource CaptionButtonHoverBrush}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -78,8 +78,8 @@
             </Grid>
         </Border>
 
-        <!-- Content area with opaque background -->
-        <Border Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}">
+        <!-- Content area -->
+        <Border Grid.Row="1" Background="{DynamicResource ContentAreaBrush}">
             <Grid Margin="24">
                 <StackPanel Orientation="Vertical"
                             MaxWidth="700"
@@ -87,8 +87,8 @@
                             VerticalAlignment="Center">
                     <Border Padding="24"
                             CornerRadius="12"
-                            Background="{DynamicResource SettingsCardBrush}"
-                            BorderBrush="{DynamicResource SettingsCardBorderBrush}"
+                            Background="{DynamicResource SettingsCardBackgroundBrush}"
+                            BorderBrush="{DynamicResource SettingsCardStrokeBrush}"
                             BorderThickness="1">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Open a log file"
@@ -106,12 +106,23 @@
                                     Command="{Binding OpenFileCommand}" />
                         </StackPanel>
                     </Border>
-                    <Border Margin="0,16,0,0"
+                    <Border x:Name="RecentFilesBorder"
+                            Margin="0,16,0,0"
                             Padding="16"
                             CornerRadius="12"
-                            Background="{DynamicResource SettingsCardBrush}"
-                            BorderBrush="{DynamicResource SettingsCardBorderBrush}"
+                            Background="{DynamicResource SettingsCardBackgroundBrush}"
+                            BorderBrush="{DynamicResource SettingsCardStrokeBrush}"
                             BorderThickness="1">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DataContext.RecentFiles.Files.Count, RelativeSource={RelativeSource AncestorType=Window}}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <recent:RecentFilesView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RecentFiles}" />
                     </Border>
                 </StackPanel>
