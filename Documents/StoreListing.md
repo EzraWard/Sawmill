@@ -110,11 +110,11 @@ https://github.com/EzraWard/Sawmill
 
 ## Copyright / Trademark
 
-© 2025 Ezra Ward. Sawmill is a fork of Sawmill by Roland Pheasant, used under the MIT License.
+© 2025 Ezra Ward. Sawmill is a fork of TailBlazer by Roland Pheasant, used under the GNU General Public License v3 (GPLv3).
 
 ## License
 
-MIT License — see https://github.com/EzraWard/Sawmill/blob/main/LICENSE
+GNU General Public License v3 (GPLv3) — see https://github.com/EzraWard/Sawmill/blob/main/LICENSE
 
 ## Store Logo and Screenshot Notes
 
