@@ -44,6 +44,7 @@ public sealed class SwatchesProvider
         {
             var accentHues = new[]
             {
+                new Hue("Accent100", Shift(accent, 0.30), fg),
                 new Hue("Accent200", Shift(accent, 0.20), fg),
                 new Hue("Accent400", Shift(accent, 0.10), fg),
                 new Hue("Accent500", accent, fg),

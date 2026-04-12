@@ -143,56 +143,29 @@ public class MatchedStringEnumerator : IEnumerable<MatchedString>
         if (string.IsNullOrEmpty(input))
             yield break;
 
+        var matches = Regex.Matches(input, tomatch, RegexOptions.IgnoreCase);
 
-        //TODO: Check whether there are perf-issues with RegEx
-        var split = Regex.Split(input, tomatch, RegexOptions.IgnoreCase);
-
-        var length = split.Length;
-
-        if (length == 0) yield break;
-
-        if (length == 1)
+        if (matches.Count == 0)
         {
             yield return new MatchedString(input);
             yield break;
         }
 
-        //  int start =0;
-        int currentLength = 0;
-
-        for (int i = 0; i < split.Length; i++)
+        int currentPos = 0;
+        foreach (Match match in matches)
         {
-            var current = split[i] ?? string.Empty;
-
-            if (string.IsNullOrEmpty(current))
+            if (match.Index > currentPos)
             {
-                //Get original string back as the user may have searched in a different case
-                var originalString = input.Substring(currentLength, tomatch.Length);
-                yield return new MatchedString(originalString, true);
-
-                currentLength = current.Length + currentLength + tomatch.Length;
-                if (currentLength + tomatch.Length > input.Length)
-                    yield break;
-            }
-            else if (i > 0 && !string.IsNullOrEmpty(split[i - 1]))
-            {
-                if (currentLength + tomatch.Length > input.Length)
-                    yield break;
-
-                //Get original string back as the user may have searched in a different case
-                var originalString = input.Substring(currentLength, tomatch.Length);
-
-                yield return new MatchedString(originalString, true);
-                yield return new MatchedString(current);
-
-                currentLength = current.Length + currentLength + tomatch.Length;
-            }
-            else
-            {
-                yield return new MatchedString(current);
-                currentLength = current.Length + currentLength;
+                yield return new MatchedString(input.Substring(currentPos, match.Index - currentPos));
             }
 
+            yield return new MatchedString(match.Value, true);
+            currentPos = match.Index + match.Length;
+        }
+
+        if (currentPos < input.Length)
+        {
+            yield return new MatchedString(input.Substring(currentPos));
         }
     }
 
