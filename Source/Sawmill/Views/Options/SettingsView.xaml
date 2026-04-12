@@ -45,10 +45,10 @@
                             </controls:SettingsCard.HeaderIcon>
                             <controls:SettingsCard.Description>
                                 <TextBlock TextWrapping="Wrap" FontSize="12" Opacity="0.8" LineHeight="18">
-                                    Sawmill is built on the foundation of Sawmill, an exceptional open-source 
+                                    Sawmill is built on the foundation of TailBlazer, an exceptional open-source 
                                     log file viewer created by Roland Pheasant. None of this would be possible 
                                     without his original vision and work. Thank you, Roland, for sharing 
-                                    Sawmill with the community.
+                                    TailBlazer with the community.
                                 </TextBlock>
                             </controls:SettingsCard.Description>
                         </controls:SettingsCard>
@@ -79,10 +79,10 @@
                                 <StackPanel>
                                     <TextBlock Text="Original project" FontSize="14" />
                                     <TextBlock Margin="0,4,0,0" FontSize="12">
-                                        <Hyperlink NavigateUri="https://github.com/RolandPheasant/Sawmill"
+                                        <Hyperlink NavigateUri="https://github.com/RolandPheasant/TailBlazer"
                                                    RequestNavigate="Hyperlink_RequestNavigate"
                                                    Foreground="{DynamicResource PrimaryHueLightBrush}">
-                                            github.com/RolandPheasant/Sawmill
+                                            github.com/RolandPheasant/TailBlazer
                                         </Hyperlink>
                                     </TextBlock>
                                 </StackPanel>

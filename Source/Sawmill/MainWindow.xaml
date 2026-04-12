@@ -99,8 +99,9 @@
                                       VerticalScrollBarVisibility="Disabled"
                                       CanContentScroll="False"
                                       PreviewMouseWheel="TabScrollViewer_PreviewMouseWheel"
-                                      ClipToBounds="False">
-                            <StackPanel Orientation="Horizontal" ClipToBounds="False">
+                                      ClipToBounds="False"
+                                      Padding="8,0,0,0">
+                            <StackPanel Orientation="Horizontal" ClipToBounds="False" Margin="8,0,0,0">
                         <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"
                                     SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -114,18 +115,20 @@
                             <TabControl.Resources>
                                 <Style TargetType="TabPanel">
                                     <Setter Property="ClipToBounds" Value="False" />
-                                    <Setter Property="Margin" Value="8,0,0,0" />
+                                    <Setter Property="Margin" Value="0" />
                                 </Style>
                                 <Style TargetType="{x:Type TabItem}">
                                     <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
                                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
-                                    <Setter Property="Padding" Value="12,8,4,8" />
+                                    <Setter Property="Padding" Value="14,0,6,0" />
+                                    <Setter Property="MinWidth" Value="80" />
                                     <Setter Property="MaxWidth" Value="240" />
+                                    <Setter Property="Height" Value="36" />
                                     <Setter Property="Panel.ZIndex" Value="0" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="TabItem">
-                                                <Grid x:Name="Root" Margin="0,4,0,0" SnapsToDevicePixels="True">
+                                                <Grid x:Name="Root" Margin="0,2,0,0" SnapsToDevicePixels="True">
                                                     <Border x:Name="TabBorder"
                                                             Background="Transparent"
                                                             CornerRadius="8,8,0,0"
@@ -134,7 +137,7 @@
                                                     </Border>
                                                     <Path x:Name="LeftCorner"
                                                           Data="M 0,8 A 8,8 0 0 0 8,0 L 8,8 Z"
-                                                          Fill="#FF282828"
+                                                          Fill="{DynamicResource TabSelectedBrush}"
                                                           Width="8" Height="8"
                                                           HorizontalAlignment="Left"
                                                           VerticalAlignment="Bottom"
@@ -145,7 +148,7 @@
                                                     </Path>
                                                     <Path x:Name="RightCorner"
                                                           Data="M 8,8 A 8,8 0 0 1 0,0 L 0,8 Z"
-                                                          Fill="#FF282828"
+                                                          Fill="{DynamicResource TabSelectedBrush}"
                                                           Width="8" Height="8"
                                                           HorizontalAlignment="Right"
                                                           VerticalAlignment="Bottom"
@@ -157,7 +160,7 @@
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsSelected" Value="True">
-                                                        <Setter TargetName="TabBorder" Property="Background" Value="#FF282828" />
+                                                        <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource TabSelectedBrush}" />
                                                         <Setter TargetName="LeftCorner" Property="Visibility" Value="Visible" />
                                                         <Setter TargetName="RightCorner" Property="Visibility" Value="Visible" />
                                                         <Setter TargetName="Root" Property="Margin" Value="0,0,0,0" />
@@ -168,7 +171,7 @@
                                                             <Condition Property="IsMouseOver" Value="True" />
                                                             <Condition Property="IsSelected" Value="False" />
                                                         </MultiTrigger.Conditions>
-                                                        <Setter TargetName="TabBorder" Property="Background" Value="#15FFFFFF" />
+                                                        <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource TabHoverBrush}" />
                                                     </MultiTrigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -193,31 +196,53 @@
                                         <ContentPresenter Grid.Column="0"
                                                           Margin="0,0,4,0"
                                                           HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Center"
                                                           Content="{Binding Header}" />
                                         <Button Grid.Column="1"
-                                                Margin="8,0,0,0"
+                                                Margin="4,0,0,0"
                                                 Width="20"
                                                 Height="20"
                                                 Padding="0"
-                                                BorderThickness="0"
-                                                Background="Transparent"
-                                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}"
                                                 Command="{Binding DataContext.CloseViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                 CommandParameter="{Binding}"
                                                 ToolTip="Close tab">
-                                            <TextBlock Text="&#xE711;"
-                                                       FontFamily="Segoe MDL2 Assets"
-                                                       FontSize="10"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center" />
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Foreground}" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="CloseBorder"
+                                                                        Background="{TemplateBinding Background}"
+                                                                        CornerRadius="4"
+                                                                        Width="20" Height="20">
+                                                                    <TextBlock Text="&#xE711;"
+                                                                               FontFamily="Segoe MDL2 Assets"
+                                                                               FontSize="9"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Center"
+                                                                               Foreground="{TemplateBinding Foreground}" />
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="CloseBorder" Property="Background" Value="{DynamicResource TabHoverBrush}" />
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
                         </TabControl>
-                        <Button Width="20"
-                                Height="20"
-                                Margin="6,0,0,0"
+                        <Button Width="28"
+                                Height="28"
+                                Margin="4,0,0,0"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"
                                 Padding="0"
@@ -225,11 +250,36 @@
                                 VerticalContentAlignment="Center"
                                 ToolTip="New tab (Ctrl+T)"
                                 Command="{Binding NewTabCommand}">
-                            <TextBlock Text="&#xE710;"
-                                       FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center" />
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="NewTabBorder"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="4"
+                                                        Width="{TemplateBinding Width}"
+                                                        Height="{TemplateBinding Height}">
+                                                    <TextBlock Text="&#xE710;"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="{TemplateBinding Foreground}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="NewTabBorder" Property="Background" Value="{DynamicResource TabHoverBrush}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
                         </Button>
                             </StackPanel>
                         </ScrollViewer>
@@ -251,7 +301,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="Root" Property="Background" Value="#22FFFFFF" />
+                                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource CaptionButtonHoverBrush}" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -302,7 +352,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" Background="Transparent" Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <Grid Grid.Row="1" Background="{DynamicResource ContentAreaBrush}" Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
                         <Grid>
                             <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->
@@ -312,7 +362,7 @@
                                         Height="1"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
-                                        Background="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}"
+                                        Background="{DynamicResource TabSelectedBrush}"
                                         Visibility="Collapsed" />
                             </Grid>
                         </Grid>
@@ -343,7 +393,7 @@
 
                     <!-- Full screen settings overlay -->
                     <Border Grid.Row="1"
-                            Background="{DynamicResource SettingsMicaBrush}"
+                            Background="{DynamicResource ContentAreaBrush}"
                             Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DockPanel>
                             <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" HorizontalAlignment="Left"

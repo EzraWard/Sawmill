@@ -39,6 +39,11 @@
             <SolidColorBrush x:Key="SettingsCardBrush" Color="#B324272E" />
             <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#66FFFFFF" />
 
+            <SolidColorBrush x:Key="TabSelectedBrush" Color="#FF282828" />
+            <SolidColorBrush x:Key="TabHoverBrush" Color="#15FFFFFF" />
+            <SolidColorBrush x:Key="CaptionButtonHoverBrush" Color="#22FFFFFF" />
+            <SolidColorBrush x:Key="ContentAreaBrush" Color="#FF282828" />
+
             <Style x:Key="MaterialDesignFlatButton" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />

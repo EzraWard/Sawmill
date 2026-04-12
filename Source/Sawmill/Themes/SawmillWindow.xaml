@@ -38,14 +38,7 @@
                     <Border>
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=WindowState, RelativeSource={RelativeSource TemplatedParent}}" Value="Normal">
-                                        <Setter Property="Padding" Value="0" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=WindowState, RelativeSource={RelativeSource TemplatedParent}}" Value="Maximized">
-                                        <Setter Property="Padding" Value="8" />
-                                    </DataTrigger>
-                                </Style.Triggers>
+                                <Setter Property="Padding" Value="0" />
                             </Style>
                         </Border.Style>
                         <Border Grid.Column="1" Grid.Row="1" ClipToBounds="True"
@@ -108,7 +101,7 @@
                                                         </Border>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="CaptionButtonRoot" Property="Background" Value="#22FFFFFF" />
+                                                                <Setter TargetName="CaptionButtonRoot" Property="Background" Value="{DynamicResource CaptionButtonHoverBrush}" />
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>

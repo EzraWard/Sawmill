@@ -50,9 +50,9 @@
          Layout: [HeaderIcon] [Header / Description] [Content] [ActionIcon]
          ═══════════════════════════════════════════════════════════════════ -->
     <Style TargetType="controls:SettingsCard">
-        <Setter Property="Background" Value="{StaticResource SettingsCardBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SettingsCardBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SettingsCardStrokeBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SettingsCardStrokeBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinHeight" Value="{StaticResource SettingsCardMinHeight}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -107,7 +107,7 @@
                                                   Content="{TemplateBinding Description}"
                                                   Margin="0,2,0,0"
                                                   TextElement.FontSize="{StaticResource SettingsCardDescriptionFontSize}"
-                                                  TextElement.Foreground="{StaticResource SettingsCardDescriptionForegroundBrush}" />
+                                                  TextElement.Foreground="{DynamicResource SettingsCardDescriptionForegroundBrush}" />
                             </StackPanel>
 
                             <!-- Content (right-aligned control) -->
@@ -161,14 +161,14 @@
                         <!-- Pointer over -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_RootBorder" Property="Background"
-                                    Value="{StaticResource SettingsCardBackgroundPointerOverBrush}" />
+                                    Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
                             <Setter TargetName="PART_RootBorder" Property="BorderBrush"
-                                    Value="{StaticResource SettingsCardStrokePointerOverBrush}" />
+                                    Value="{DynamicResource SettingsCardStrokePointerOverBrush}" />
                         </Trigger>
                         <!-- Disabled -->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_RootBorder" Property="Background"
-                                    Value="{StaticResource SettingsCardBackgroundDisabledBrush}" />
+                                    Value="{DynamicResource SettingsCardBackgroundDisabledBrush}" />
                             <Setter TargetName="PART_RootBorder" Property="Opacity" Value="0.6" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -191,7 +191,7 @@
                             MinHeight="{TemplateBinding MinHeight}"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{StaticResource SettingsCardStrokeBrush}"
+                            BorderBrush="{DynamicResource SettingsCardStrokeBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="0"
                             SnapsToDevicePixels="True">
@@ -219,7 +219,7 @@
                                                   Content="{TemplateBinding Description}"
                                                   Margin="0,2,0,0"
                                                   TextElement.FontSize="{StaticResource SettingsCardDescriptionFontSize}"
-                                                  TextElement.Foreground="{StaticResource SettingsCardDescriptionForegroundBrush}" />
+                                                  TextElement.Foreground="{DynamicResource SettingsCardDescriptionForegroundBrush}" />
                             </StackPanel>
 
                             <ContentPresenter Grid.Column="2"
@@ -241,7 +241,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_RootBorder" Property="Background"
-                                    Value="{StaticResource SettingsCardBackgroundPointerOverBrush}" />
+                                    Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_RootBorder" Property="Opacity" Value="0.6" />
@@ -258,9 +258,9 @@
          A collapsible container hosting a SettingsCard header + child items
          ═══════════════════════════════════════════════════════════════════ -->
     <Style TargetType="controls:SettingsExpander">
-        <Setter Property="Background" Value="{StaticResource SettingsCardBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SettingsCardBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-        <Setter Property="BorderBrush" Value="{StaticResource SettingsCardStrokeBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SettingsCardStrokeBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinHeight" Value="{StaticResource SettingsCardMinHeight}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -307,7 +307,7 @@
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="ToggleBorder" Property="Background"
-                                                        Value="{StaticResource SettingsCardBackgroundPointerOverBrush}" />
+                                                        Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -342,7 +342,7 @@
                                                           Content="{TemplateBinding Description}"
                                                           Margin="0,2,0,0"
                                                           TextElement.FontSize="{StaticResource SettingsCardDescriptionFontSize}"
-                                                          TextElement.Foreground="{StaticResource SettingsCardDescriptionForegroundBrush}" />
+                                                          TextElement.Foreground="{DynamicResource SettingsCardDescriptionForegroundBrush}" />
                                     </StackPanel>
 
                                     <!-- Content (right side of header) -->
@@ -416,7 +416,7 @@
                         <!-- Hover on root -->
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_RootBorder" Property="BorderBrush"
-                                    Value="{StaticResource SettingsCardStrokePointerOverBrush}" />
+                                    Value="{DynamicResource SettingsCardStrokePointerOverBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

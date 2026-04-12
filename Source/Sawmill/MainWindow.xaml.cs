@@ -8,7 +8,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Dragablz;
 using Sawmill.Infrastructure;
 using Sawmill.Views.WindowManagement;
 
@@ -127,10 +126,6 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
-        // Let Dragablz handle window closure during tab drag operations.
-        if (TabablzControl.GetIsClosingAsPartOfDragOperation(this))
-            return;
-
         var windowsModel = DataContext as WindowViewModel;
 
         // Publish ShuttingDown BEFORE disposing views so LayoutConverter.CaptureState()
@@ -184,25 +179,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (WindowState == WindowState.Maximized)
-        {
-            // Get cursor position relative to window before restoring
-            var cursorPos = e.GetPosition(this);
-            var proportionalX = cursorPos.X / ActualWidth;
-
-            WindowState = WindowState.Normal;
-
-            // Position window so cursor stays at same proportional X, near top
-            Left = cursorPos.X + Left - (ActualWidth * proportionalX);
-            Top = 0;
-
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
-        else
-        {
-            DragMove();
-        }
+        // DragMove() handles both normal drag and restore-from-maximized-then-drag
+        // natively — no need to manually toggle WindowState on single click.
+        DragMove();
     }
 
     private static bool IsFromInteractiveControl(DependencyObject source)
