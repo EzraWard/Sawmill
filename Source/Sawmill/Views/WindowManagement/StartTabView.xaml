@@ -22,27 +22,27 @@
                 </Grid.ColumnDefinitions>
 
                 <Menu Grid.Column="0" Background="Transparent" VerticalAlignment="Center" Margin="4,0,8,0">
-                    <MenuItem Header="_File">
-                        <MenuItem Header="_Open File..." Command="{Binding OpenFileCommand}" />
+                    <MenuItem Header="File">
+                        <MenuItem Header="Open File..." Command="{Binding OpenFileCommand}" />
                         <Separator />
-                        <MenuItem Header="Open in _Default App" IsEnabled="False" />
-                        <MenuItem Header="Show in _Explorer" IsEnabled="False" />
-                        <MenuItem Header="Copy _Path" IsEnabled="False" />
+                        <MenuItem Header="Open in Default App" IsEnabled="False" />
+                        <MenuItem Header="Show in Explorer" IsEnabled="False" />
+                        <MenuItem Header="Copy Path" IsEnabled="False" />
                         <Separator />
-                        <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
+                        <MenuItem Header="Exit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
                     </MenuItem>
-                    <MenuItem Header="_Edit" IsEnabled="False">
-                        <MenuItem Header="_Copy" IsEnabled="False" />
+                    <MenuItem Header="Edit" IsEnabled="False">
+                        <MenuItem Header="Copy" IsEnabled="False" />
                         <Separator />
-                        <MenuItem Header="Cl_ear" IsEnabled="False" />
-                        <MenuItem Header="_Un-Clear" IsEnabled="False" />
+                        <MenuItem Header="Clear" IsEnabled="False" />
+                        <MenuItem Header="Un-Clear" IsEnabled="False" />
                     </MenuItem>
-                    <MenuItem Header="_View" IsEnabled="False">
-                        <MenuItem Header="Follow _Tail" IsEnabled="False" />
-                        <MenuItem Header="Show _Inline" IsEnabled="False" />
+                    <MenuItem Header="View" IsEnabled="False">
+                        <MenuItem Header="Follow Tail" IsEnabled="False" />
+                        <MenuItem Header="Show Inline" IsEnabled="False" />
                         <Separator />
-                        <MenuItem Header="Use _Regex" IsEnabled="False" />
-                        <MenuItem Header="Search _Options..." IsEnabled="False" />
+                        <MenuItem Header="Use Regex" IsEnabled="False" />
+                        <MenuItem Header="Search Options..." IsEnabled="False" />
                     </MenuItem>
                 </Menu>
 

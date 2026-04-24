@@ -12,11 +12,10 @@
     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:windowManagement="clr-namespace:Sawmill.Views.WindowManagement"
     x:Name="Window"
-    Title=""
+    Title="Sawmill"
 
     Width="950"
     Height="650"
-    
     WindowStyle="None"
     d:DataContext="{d:DesignInstance windowManagement:WindowViewModel,
                                      IsDesignTimeCreatable=False}"
@@ -24,7 +23,7 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     WindowStartupLocation="CenterScreen"
-   
+    
     mc:Ignorable="d">
 
     <shell:WindowChrome.WindowChrome>
@@ -311,7 +310,7 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource CaptionButtonHoverBrush}" />
+                                                    <Setter TargetName="Root" Property="Background" Value="{DynamicResource CaptionButtonHoverBrush}" />
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>

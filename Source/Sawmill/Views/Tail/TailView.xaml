@@ -107,25 +107,25 @@
 
                     <!-- Notepad-style menu bar -->
                     <Menu Grid.Column="0" Background="Transparent" VerticalAlignment="Center" Margin="4,0,8,0">
-                        <MenuItem Header="_File">
-                            <MenuItem Header="_Open in Default App" Command="{Binding OpenFileCommand}" />
-                            <MenuItem Header="Show in _Explorer" Command="{Binding OpenFolderCommand}" />
-                            <MenuItem Header="Copy _Path" Command="{Binding CopyPathToClipboardCommand}" />
+                        <MenuItem Header="File">
+                            <MenuItem Header="Open in Default App" Command="{Binding OpenFileCommand}" />
+                            <MenuItem Header="Show in Explorer" Command="{Binding OpenFolderCommand}" />
+                            <MenuItem Header="Copy Path" Command="{Binding CopyPathToClipboardCommand}" />
                             <Separator />
-                            <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
+                            <MenuItem Header="Exit" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
                         </MenuItem>
-                        <MenuItem Header="_Edit">
-                            <MenuItem Header="_Copy" Command="{Binding CopyToClipboardCommand}" InputGestureText="Ctrl+C" />
+                        <MenuItem Header="Edit">
+                            <MenuItem Header="Copy" Command="{Binding CopyToClipboardCommand}" InputGestureText="Ctrl+C" />
                             <Separator />
-                            <MenuItem Header="Cl_ear" Command="{Binding ClearCommand}" />
-                            <MenuItem Header="_Un-Clear" Command="{Binding UnClearCommand}" />
+                            <MenuItem Header="Clear" Command="{Binding ClearCommand}" />
+                            <MenuItem Header="Un-Clear" Command="{Binding UnClearCommand}" />
                         </MenuItem>
-                        <MenuItem Header="_View">
-                            <MenuItem Header="Follow _Tail" IsCheckable="True" IsChecked="{Binding AutoTail, Mode=TwoWay}" />
-                            <MenuItem Header="Show _Inline" IsCheckable="True" IsChecked="{Binding ShowInline, Mode=TwoWay}" />
+                        <MenuItem Header="View">
+                            <MenuItem Header="Follow Tail" IsCheckable="True" IsChecked="{Binding AutoTail, Mode=TwoWay}" />
+                            <MenuItem Header="Show Inline" IsCheckable="True" IsChecked="{Binding ShowInline, Mode=TwoWay}" />
                             <Separator />
-                            <MenuItem Header="Use _Regex" IsCheckable="True" IsChecked="{Binding SearchHints.UseRegex, Mode=TwoWay}" />
-                            <MenuItem Header="Search _Options..." Command="{Binding OpenSearchOptionsCommand}" />
+                            <MenuItem Header="Use Regex" IsCheckable="True" IsChecked="{Binding SearchHints.UseRegex, Mode=TwoWay}" />
+                            <MenuItem Header="Search Options..." Command="{Binding OpenSearchOptionsCommand}" />
                         </MenuItem>
                     </Menu>
 
@@ -311,7 +311,7 @@
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <ContextMenu.Items>
-                                <MenuItem Header="_Copy" Command="{Binding CopyToClipboardCommand}">
+                                <MenuItem Header="Copy" Command="{Binding CopyToClipboardCommand}">
                                     <MenuItem.Icon>
                                         <Viewbox Width="16" Height="16">
                                             <Canvas Width="24" Height="24">

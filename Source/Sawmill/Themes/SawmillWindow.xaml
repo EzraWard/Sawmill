@@ -5,7 +5,6 @@
     <Style TargetType="{x:Type controls:SawmillWindow}" >
         <Setter Property="Background" Value="{DynamicResource MaterialDesignBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-        <Setter Property="WindowStyle" Value="None" />
         <Setter Property="MinWidth" Value="128" />
         <Setter Property="MinHeight" Value="128" />
         <Setter Property="WindowChrome.WindowChrome">

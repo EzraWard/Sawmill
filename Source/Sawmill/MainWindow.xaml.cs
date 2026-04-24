@@ -18,6 +18,21 @@ namespace Sawmill;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private const int DwmWindowAttributeSystemBackdropType = 38;
+    private const int DwmWindowAttributeUseImmersiveDarkMode = 20;
+    private const int DwmWindowAttributeNcRenderingPolicy = 2;
+    private const int DwmWindowAttributeWindowCornerPreference = 33;
+    private const int DwmSystemBackdropMainWindow = 2;
+    private const int DwmNcRenderingPolicyDisabled = 1;
+    private const int DwmWindowCornerPreferenceRound = 2;
+    private const int GWL_STYLE = -16;
+    private const int WS_POPUP = unchecked((int)0x80000000);
+    private const int WS_THICKFRAME = 0x00040000;
+    private const int WS_CAPTION = 0x00C00000;
+    private const int WS_MAXIMIZEBOX = 0x00010000;
+    private const int WS_MINIMIZEBOX = 0x00020000;
+    private const int WS_SYSMENU = 0x00080000;
+    private const int WM_NCCALCSIZE = 0x0083;
     private Point? _tabDragStartPoint;
     private HeaderedView _tabDragSource;
 
@@ -62,13 +77,38 @@ public partial class MainWindow : Window
 
     private void MainWindow_SourceInitialized(object sender, EventArgs e)
     {
-        var handle = new WindowInteropHelper(this).Handle;
-        HwndSource.FromHwnd(handle)?.AddHook(WindowProc);
+        if (PresentationSource.FromVisual(this) is not HwndSource source)
+            return;
+
+        var hwnd = source.Handle;
+        source.AddHook(WindowProc);
+
+        var style = GetWindowLong(hwnd, GWL_STYLE);
+        style = (style & ~WS_POPUP) | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
+        SetWindowLong(hwnd, GWL_STYLE, style);
+        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+        var ncRenderingPolicy = DwmNcRenderingPolicyDisabled;
+        _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeNcRenderingPolicy, ref ncRenderingPolicy, Marshal.SizeOf<int>());
+
+        var cornerPreference = DwmWindowCornerPreferenceRound;
+        _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeWindowCornerPreference, ref cornerPreference, Marshal.SizeOf<int>());
+
+        var backdrop = DwmSystemBackdropMainWindow;
+        _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeSystemBackdropType, ref backdrop, Marshal.SizeOf<int>());
+
+        var darkMode = 1;
+        _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
     }
 
-    private const int WM_GETMINMAXINFO = 0x0024;
     private const int WM_NCLBUTTONDOWN = 0x00A1;
     private const int HTCAPTION = 0x0002;
+    private const int WM_GETMINMAXINFO = 0x0024;
+    private const uint MONITOR_DEFAULTTONEAREST = 2;
+    private const uint SWP_NOMOVE = 0x0002;
+    private const uint SWP_NOSIZE = 0x0001;
+    private const uint SWP_NOZORDER = 0x0004;
+    private const uint SWP_FRAMECHANGED = 0x0020;
 
     [DllImport("user32.dll")]
     private static extern bool ReleaseCapture();
@@ -76,8 +116,24 @@ public partial class MainWindow : Window
     [DllImport("user32.dll")]
     private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, ref int pvAttribute, int cbAttribute);
+
+    [DllImport("user32.dll")]
+    private static extern int GetWindowLong(IntPtr hwnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    private static extern int SetWindowLong(IntPtr hwnd, int nIndex, int dwNewLong);
+
+    [DllImport("user32.dll")]
+    private static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint flags);
+
     [StructLayout(LayoutKind.Sequential)]
-    private struct POINT { public int x, y; }
+    private struct POINT
+    {
+        public int X;
+        public int Y;
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     private struct MINMAXINFO
@@ -89,48 +145,29 @@ public partial class MainWindow : Window
         public POINT ptMaxTrackSize;
     }
 
-    [DllImport("user32.dll")]
-    private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
-
-    [DllImport("user32.dll")]
-    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct RECT { public int Left, Top, Right, Bottom; }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     private struct MONITORINFO
     {
         public int cbSize;
         public RECT rcMonitor;
         public RECT rcWork;
-        public uint dwFlags;
+        public int dwFlags;
     }
 
-    private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    {
-        if (msg == WM_GETMINMAXINFO)
-        {
-            var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
+    [DllImport("user32.dll")]
+    private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
 
-            var monitor = MonitorFromWindow(hwnd, 0x00000002); // MONITOR_DEFAULTTONEAREST
-            if (monitor != IntPtr.Zero)
-            {
-                var monitorInfo = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
-                GetMonitorInfo(monitor, ref monitorInfo);
-
-                var work = monitorInfo.rcWork;
-                var mon = monitorInfo.rcMonitor;
-
-                mmi.ptMaxPosition = new POINT { x = work.Left - mon.Left, y = work.Top - mon.Top };
-                mmi.ptMaxSize = new POINT { x = work.Right - work.Left, y = work.Bottom - work.Top };
-            }
-
-            Marshal.StructureToPtr(mmi, lParam, true);
-            handled = true;
-        }
-        return IntPtr.Zero;
-    }
+    [DllImport("user32.dll")]
+    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
@@ -156,6 +193,42 @@ public partial class MainWindow : Window
         SizeChanged += (_, _) => UpdateSelectedTabConnectionGap();
 
         Dispatcher.BeginInvoke(UpdateSelectedTabConnectionGap, DispatcherPriority.Loaded);
+    }
+
+    private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        switch (msg)
+        {
+            case WM_NCCALCSIZE when wParam != IntPtr.Zero:
+                handled = true;
+                return IntPtr.Zero;
+
+            case WM_GETMINMAXINFO:
+                WmGetMinMaxInfo(hwnd, lParam);
+                handled = true;
+                return IntPtr.Zero;
+        }
+
+        return IntPtr.Zero;
+    }
+
+    private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+    {
+        var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
+        var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+        if (monitor != IntPtr.Zero)
+        {
+            var mi = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
+            if (GetMonitorInfo(monitor, ref mi))
+            {
+                mmi.ptMaxPosition.X = mi.rcWork.Left - mi.rcMonitor.Left;
+                mmi.ptMaxPosition.Y = mi.rcWork.Top - mi.rcMonitor.Top;
+                mmi.ptMaxSize.X = mi.rcWork.Right - mi.rcWork.Left;
+                mmi.ptMaxSize.Y = mi.rcWork.Bottom - mi.rcWork.Top;
+            }
+        }
+
+        Marshal.StructureToPtr(mmi, lParam, false);
     }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)

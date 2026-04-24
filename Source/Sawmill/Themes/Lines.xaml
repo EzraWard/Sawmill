@@ -257,7 +257,7 @@
 
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding CopyToClipboardCommand}" Header="_Copy">
+                    <MenuItem Command="{Binding CopyToClipboardCommand}" Header="Copy">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
                                 <Canvas Width="24" Height="24">

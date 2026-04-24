@@ -20,6 +20,10 @@ public class SawmillWindow : Window
     private const int WM_NCCALCSIZE = 0x0083;
     private const int WM_GETMINMAXINFO = 0x0024;
     private const uint MONITOR_DEFAULTTONEAREST = 2;
+    private const uint SWP_NOMOVE = 0x0002;
+    private const uint SWP_NOSIZE = 0x0001;
+    private const uint SWP_NOZORDER = 0x0004;
+    private const uint SWP_FRAMECHANGED = 0x0020;
 
     static SawmillWindow()
     {
@@ -34,6 +38,7 @@ public class SawmillWindow : Window
             return;
 
         var hwnd = source.Handle;
+        source.AddHook(WndProc);
 
         // Replace WS_POPUP with standard overlapped styles so DWM provides
         // native minimize / maximize / close animations. WindowChrome still
@@ -41,14 +46,13 @@ public class SawmillWindow : Window
         var style = GetWindowLong(hwnd, GWL_STYLE);
         style = (style & ~WS_POPUP) | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
         SetWindowLong(hwnd, GWL_STYLE, style);
+        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
         var backdrop = DwmSystemBackdropMainWindow;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeSystemBackdropType, ref backdrop, Marshal.SizeOf<int>());
 
         var darkMode = 1;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
-
-        source.AddHook(WndProc);
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -183,6 +187,9 @@ public class SawmillWindow : Window
 
     [DllImport("user32.dll")]
     private static extern int SetWindowLong(IntPtr hwnd, int nIndex, int dwNewLong);
+
+    [DllImport("user32.dll")]
+    private static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint flags);
 
     [DllImport("user32.dll")]
     private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
