@@ -261,6 +261,7 @@
                         Grid.Row="1"
                         MaxHeight="100"
                         Margin="14,6,0,4"
+                        Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
                         VerticalScrollBarVisibility="Auto"
                         Visibility="{Binding Excluded.Count, Converter={StaticResource NotEqualsToVisibilityConverter}, ConverterParameter={StaticResource Zero}}">
                         <ItemsControl ItemTemplate="{StaticResource ExcludedTemplate}" ItemsSource="{Binding Excluded}" />
@@ -275,6 +276,7 @@
                     <ScrollViewer
                         Grid.Row="3"
                         Margin="0,6,0,12"
+                        Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
                         VerticalScrollBarVisibility="Auto"
                         Visibility="{Binding Included.Count, Converter={StaticResource NotEqualsToVisibilityConverter}, ConverterParameter={StaticResource Zero}}">
                         <ItemsControl ItemTemplate="{StaticResource IncludedTemplate}" ItemsSource="{Binding Included}" />

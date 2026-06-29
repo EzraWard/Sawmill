@@ -8,7 +8,8 @@
              mc:Ignorable="d">
 
     <Grid Background="Transparent">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
+                      VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="32,24" MaxWidth="1000">
                 <TextBlock Text="Settings"
                            FontSize="30"

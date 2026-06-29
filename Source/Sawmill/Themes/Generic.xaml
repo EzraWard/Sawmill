@@ -12,6 +12,17 @@
         <!--<ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Colours.xaml" />-->
     </ResourceDictionary.MergedDictionaries>
 
+    <Style x:Key="TouchFriendlyVerticalScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="PanningMode" Value="VerticalFirst" />
+        <Setter Property="PanningDeceleration" Value="0.001" />
+        <Setter Property="PanningRatio" Value="1" />
+    </Style>
+
+    <Style x:Key="TouchFriendlyHorizontalScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="PanningMode" Value="HorizontalFirst" />
+        <Setter Property="PanningDeceleration" Value="0.001" />
+        <Setter Property="PanningRatio" Value="1" />
+    </Style>
 
     <Style TargetType="{x:Type controls:HighlightTextControl}">
         <Setter Property="BorderThickness" Value="2" />
