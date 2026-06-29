@@ -32,6 +32,9 @@ public partial class MainWindow : Window
     private const int WS_MINIMIZEBOX = 0x00020000;
     private const int WS_SYSMENU = 0x00080000;
     private const int WM_NCCALCSIZE = 0x0083;
+    private const int SM_CXSIZEFRAME = 32;
+    private const int SM_CYSIZEFRAME = 33;
+    private const int SM_CXPADDEDBORDER = 92;
     private Point? _tabDragStartPoint;
     private HeaderedView _tabDragSource;
     private WindowViewModel _currentWindowViewModel;
@@ -74,6 +77,7 @@ public partial class MainWindow : Window
         Loaded += MainWindow_Loaded;
         SourceInitialized += MainWindow_SourceInitialized;
         DataContextChanged += MainWindow_DataContextChanged;
+        StateChanged += (_, _) => UpdateMaximizedContentMargin();
     }
 
     private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -87,9 +91,9 @@ public partial class MainWindow : Window
         source.AddHook(WindowProc);
 
         var style = GetWindowLong(hwnd, GWL_STYLE);
-        style = (style & ~WS_POPUP) | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
+        style = (style & ~(WS_POPUP | WS_SYSMENU)) | WS_THICKFRAME | WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
         SetWindowLong(hwnd, GWL_STYLE, style);
-        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        RefreshWindowFrame(hwnd);
 
         var cornerPreference = DwmWindowCornerPreferenceRound;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeWindowCornerPreference, ref cornerPreference, Marshal.SizeOf<int>());
@@ -99,6 +103,38 @@ public partial class MainWindow : Window
 
         var darkMode = 1;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
+
+        Dispatcher.BeginInvoke(() =>
+        {
+            RefreshWindowFrame(hwnd);
+            UpdateMaximizedContentMargin();
+        }, DispatcherPriority.Loaded);
+    }
+
+    private static void RefreshWindowFrame(IntPtr hwnd)
+    {
+        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+    }
+
+    private void UpdateMaximizedContentMargin()
+    {
+        RootContent.Margin = WindowState == WindowState.Maximized
+            ? GetResizeFrameThickness()
+            : new Thickness(0);
+    }
+
+    private Thickness GetResizeFrameThickness()
+    {
+        var frameX = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+        var frameY = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+
+        if (PresentationSource.FromVisual(this) is HwndSource source)
+        {
+            var topLeft = source.CompositionTarget.TransformFromDevice.Transform(new Point(frameX, frameY));
+            return new Thickness(topLeft.X, topLeft.Y, topLeft.X, topLeft.Y);
+        }
+
+        return new Thickness(frameX, frameY, frameX, frameY);
     }
 
     private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -243,6 +279,9 @@ public partial class MainWindow : Window
     [DllImport("user32.dll")]
     private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int nIndex);
+
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
         var windowsModel = DataContext as WindowViewModel;
@@ -273,7 +312,7 @@ public partial class MainWindow : Window
     {
         switch (msg)
         {
-            case WM_NCCALCSIZE when wParam != IntPtr.Zero:
+            case WM_NCCALCSIZE:
                 handled = true;
                 return IntPtr.Zero;
 
@@ -295,10 +334,13 @@ public partial class MainWindow : Window
             var mi = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
             if (GetMonitorInfo(monitor, ref mi))
             {
-                mmi.ptMaxPosition.X = mi.rcWork.Left - mi.rcMonitor.Left;
-                mmi.ptMaxPosition.Y = mi.rcWork.Top - mi.rcMonitor.Top;
-                mmi.ptMaxSize.X = mi.rcWork.Right - mi.rcWork.Left;
-                mmi.ptMaxSize.Y = mi.rcWork.Bottom - mi.rcWork.Top;
+                var frameX = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+                var frameY = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+
+                mmi.ptMaxPosition.X = mi.rcWork.Left - mi.rcMonitor.Left - frameX;
+                mmi.ptMaxPosition.Y = mi.rcWork.Top - mi.rcMonitor.Top - frameY;
+                mmi.ptMaxSize.X = mi.rcWork.Right - mi.rcWork.Left + (frameX * 2);
+                mmi.ptMaxSize.Y = mi.rcWork.Bottom - mi.rcWork.Top + (frameY * 2);
             }
         }
 

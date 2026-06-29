@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Sawmill.Controls;
 
@@ -20,6 +21,9 @@ public class SawmillWindow : Window
     private const int WS_SYSMENU = 0x00080000;
     private const int WM_NCCALCSIZE = 0x0083;
     private const int WM_GETMINMAXINFO = 0x0024;
+    private const int SM_CXSIZEFRAME = 32;
+    private const int SM_CYSIZEFRAME = 33;
+    private const int SM_CXPADDEDBORDER = 92;
     private const uint MONITOR_DEFAULTTONEAREST = 2;
     private const uint SWP_NOMOVE = 0x0002;
     private const uint SWP_NOSIZE = 0x0001;
@@ -47,22 +51,29 @@ public class SawmillWindow : Window
         // native minimize / maximize / close animations. WindowChrome still
         // handles hit-testing for the custom caption area.
         var style = GetWindowLong(hwnd, GWL_STYLE);
-        style = (style & ~WS_POPUP) | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
+        style = (style & ~(WS_POPUP | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX)) | WS_THICKFRAME | WS_CAPTION;
         SetWindowLong(hwnd, GWL_STYLE, style);
-        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        RefreshWindowFrame(hwnd);
 
         var backdrop = DwmSystemBackdropMainWindow;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeSystemBackdropType, ref backdrop, Marshal.SizeOf<int>());
 
         var darkMode = 1;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
+
+        Dispatcher.BeginInvoke(() => RefreshWindowFrame(hwnd), DispatcherPriority.Loaded);
+    }
+
+    private static void RefreshWindowFrame(IntPtr hwnd)
+    {
+        SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         switch (msg)
         {
-            case WM_NCCALCSIZE when wParam != IntPtr.Zero:
+            case WM_NCCALCSIZE:
                 // Tell Windows the entire window is the client area, hiding
                 // the default titlebar / border that WS_CAPTION would draw.
                 handled = true;
@@ -88,10 +99,13 @@ public class SawmillWindow : Window
             var mi = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
             if (GetMonitorInfo(monitor, ref mi))
             {
-                mmi.ptMaxPosition.X = mi.rcWork.Left - mi.rcMonitor.Left;
-                mmi.ptMaxPosition.Y = mi.rcWork.Top - mi.rcMonitor.Top;
-                mmi.ptMaxSize.X = mi.rcWork.Right - mi.rcWork.Left;
-                mmi.ptMaxSize.Y = mi.rcWork.Bottom - mi.rcWork.Top;
+                var frameX = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+                var frameY = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+
+                mmi.ptMaxPosition.X = mi.rcWork.Left - mi.rcMonitor.Left - frameX;
+                mmi.ptMaxPosition.Y = mi.rcWork.Top - mi.rcMonitor.Top - frameY;
+                mmi.ptMaxSize.X = mi.rcWork.Right - mi.rcWork.Left + (frameX * 2);
+                mmi.ptMaxSize.Y = mi.rcWork.Bottom - mi.rcWork.Top + (frameY * 2);
             }
         }
         Marshal.StructureToPtr(mmi, lParam, false);
@@ -199,6 +213,9 @@ public class SawmillWindow : Window
 
     [DllImport("user32.dll")]
     private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int nIndex);
 
     #endregion
 }
