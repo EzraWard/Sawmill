@@ -9,14 +9,15 @@
 
     <Grid Background="Transparent">
         <ScrollViewer Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
-                      VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="32,24" MaxWidth="1000">
+                      VerticalScrollBarVisibility="Visible">
+            <StackPanel Margin="16"
+                        MaxWidth="1000"
+                        HorizontalAlignment="Stretch">
                 <TextBlock Text="Settings"
-                           FontSize="30"
-                           FontWeight="SemiBold"
+                           Style="{StaticResource PageHeaderTitleStyle}"
                            Margin="0,0,0,4" />
                 <TextBlock Text="Personalize Sawmill behavior and appearance."
-                           Opacity="0.8"
+                           Style="{StaticResource PageHeaderSubtitleStyle}"
                            Margin="0,0,0,8" />
 
                 <!-- General options (Look and Feel + Performance) -->
@@ -35,8 +36,7 @@
                     </controls:SettingsExpander.HeaderIcon>
                     <controls:SettingsExpander.Content>
                         <TextBlock Text="v1.1.0"
-                                    Opacity="0.6"
-                                    FontSize="12" />
+                                   Style="{StaticResource PageHeaderSubtitleStyle}" />
                     </controls:SettingsExpander.Content>
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard Header="Acknowledgement"
@@ -87,6 +87,14 @@
                                         </Hyperlink>
                                     </TextBlock>
                                 </StackPanel>
+                            </controls:SettingsCard.Header>
+                        </controls:SettingsCard>
+
+                        <controls:SettingsCard Style="{StaticResource SettingsExpanderItemStyle}">
+                            <controls:SettingsCard.Header>
+                                <TextBlock Text="👨🏻‍👩🏻‍👧🏻‍👦🏻 Hello from Williamstown"
+                                           FontFamily="Segoe UI Emoji, Segoe UI"
+                                           FontSize="14" />
                             </controls:SettingsCard.Header>
                         </controls:SettingsCard>
                     </controls:SettingsExpander.Items>

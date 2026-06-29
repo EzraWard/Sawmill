@@ -22,6 +22,7 @@
 
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
+    Background="Transparent"
     WindowStartupLocation="CenterScreen"
     
     mc:Ignorable="d">
@@ -30,7 +31,7 @@
         <shell:WindowChrome
             CaptionHeight="1"
             ResizeBorderThickness="4"
-            GlassFrameThickness="-1"
+            GlassFrameThickness="0"
             UseAeroCaptionButtons="False" />
     </shell:WindowChrome.WindowChrome>
 
@@ -402,9 +403,14 @@
                 </Grid>
 
                     <!-- Full screen settings overlay -->
-                    <Border Grid.Row="1"
-                            Background="{DynamicResource ContentAreaBrush}"
-                            Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Border x:Name="SettingsOverlay"
+                            Grid.Row="1"
+                            Background="{DynamicResource SettingsMicaBrush}"
+                            Opacity="0"
+                            Visibility="Collapsed">
+                        <Border.RenderTransform>
+                            <TranslateTransform x:Name="SettingsOverlayTranslate" Y="24" />
+                        </Border.RenderTransform>
                         <DockPanel>
                             <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" HorizontalAlignment="Left"
                                     Width="40" Height="40" Margin="8" ToolTip="Back"

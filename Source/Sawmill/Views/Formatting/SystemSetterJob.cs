@@ -4,6 +4,7 @@ using System.Reactive.Concurrency;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Sawmill;
 using Sawmill.Controls;
 using Sawmill.Domain.Formatting;
 using Sawmill.Domain.Infrastructure;
@@ -75,7 +76,7 @@ public sealed class SystemSetterJob: IDisposable
             SetBrush(resources, "GrayBrush2", "#888888");
 
             // Settings
-            SetBrush(resources, "SettingsMicaBrush", "#FF202124");
+            SetBrush(resources, "SettingsMicaBrush", "#CC202124");
             SetBrush(resources, "SettingsCardBrush", "#B324272E");
             SetBrush(resources, "SettingsCardBorderBrush", "#66FFFFFF");
 
@@ -116,7 +117,7 @@ public sealed class SystemSetterJob: IDisposable
             SetBrush(resources, "GrayBrush2", "#FF888888");
 
             // Settings
-            SetBrush(resources, "SettingsMicaBrush", "#FFF3F3F3");
+            SetBrush(resources, "SettingsMicaBrush", "#CCF3F3F3");
             SetBrush(resources, "SettingsCardBrush", "#FFFFFFFF");
             SetBrush(resources, "SettingsCardBorderBrush", "#FFE0E0E0");
 
@@ -142,6 +143,10 @@ public sealed class SystemSetterJob: IDisposable
             if (window is SawmillWindow sawmillWindow)
             {
                 SawmillWindow.SetDwmDarkMode(sawmillWindow, isDark);
+            }
+            else if (window is MainWindow mainWindow)
+            {
+                MainWindow.SetDwmDarkMode(mainWindow, isDark);
             }
         }
     }

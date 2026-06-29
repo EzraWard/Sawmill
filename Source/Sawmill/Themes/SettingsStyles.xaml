@@ -11,6 +11,9 @@
     <!-- Card spacing -->
     <system:Double x:Key="SettingsCardSpacing">4</system:Double>
 
+    <!-- Settings typography, matching the Drip/Elementary WinUI settings pages -->
+    <FontFamily x:Key="SettingsFontFamily">Segoe UI</FontFamily>
+
     <!-- SettingsCard dimensions -->
     <Thickness x:Key="SettingsCardPadding">16</Thickness>
     <system:Double x:Key="SettingsCardMinHeight">68</system:Double>
@@ -25,6 +28,7 @@
     <Thickness x:Key="SettingsExpanderHeaderPadding">16,16,4,16</Thickness>
     <Thickness x:Key="SettingsExpanderItemPadding">58,8,44,8</Thickness>
     <Thickness x:Key="SettingsExpanderItemBorderThickness">0,1,0,0</Thickness>
+    <Thickness x:Key="ClickableSettingsExpanderItemPadding">58,8,16,8</Thickness>
     <system:Double x:Key="SettingsExpanderChevronButtonSize">32</system:Double>
 
     <!-- Card colors (dark theme) -->
@@ -38,10 +42,24 @@
 
     <!-- Section header style -->
     <Style x:Key="SettingsSectionHeaderTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Margin" Value="1,30,0,6" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+    </Style>
+
+    <Style x:Key="PageHeaderTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+    </Style>
+
+    <Style x:Key="PageHeaderSubtitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource SettingsCardDescriptionForegroundBrush}" />
     </Style>
 
 
@@ -60,6 +78,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,2" />
         <Setter Property="Padding" Value="{StaticResource SettingsCardPadding}" />
+        <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -252,6 +271,15 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ClickableSettingsExpanderItemStyle" TargetType="controls:SettingsCard"
+           BasedOn="{StaticResource SettingsExpanderItemStyle}">
+        <Setter Property="Padding" Value="{StaticResource ClickableSettingsExpanderItemPadding}" />
+    </Style>
+
+    <controls:SettingsExpanderItemStyleSelector x:Key="SettingsExpanderItemStyleSelector"
+                                                DefaultStyle="{StaticResource SettingsExpanderItemStyle}"
+                                                ClickableStyle="{StaticResource ClickableSettingsExpanderItemStyle}" />
+
 
     <!-- ═══════════════════════════════════════════════════════════════════
          SettingsExpander Template
@@ -268,6 +296,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,2" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource SettingsExpanderItemStyleSelector}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SettingsExpander">
@@ -292,6 +321,7 @@
                                           IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                           Background="Transparent"
                                           BorderThickness="0"
+                                          HorizontalAlignment="Stretch"
                                           HorizontalContentAlignment="Stretch"
                                           Cursor="Hand"
                                           Focusable="True"
@@ -315,6 +345,7 @@
 
                                 <!-- Header content grid -->
                                 <Grid MinHeight="{StaticResource SettingsCardMinHeight}"
+                                      HorizontalAlignment="Stretch"
                                       Margin="{StaticResource SettingsExpanderHeaderPadding}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -380,13 +411,9 @@
                             <StackPanel x:Name="PART_ItemsPanel"
                                         Grid.Row="1"
                                         Visibility="Collapsed">
-                                <ItemsControl ItemsSource="{TemplateBinding Items}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <ContentPresenter Content="{Binding}" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ContentPresenter Content="{TemplateBinding ItemsHeader}" />
+                                <ItemsControl x:Name="PART_ItemsRepeater"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}" />
                                 <ContentPresenter Content="{TemplateBinding ItemsFooter}" />
                             </StackPanel>
                         </Grid>

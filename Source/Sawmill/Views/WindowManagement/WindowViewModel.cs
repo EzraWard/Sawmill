@@ -189,7 +189,6 @@ public class WindowViewModel: AbstractNotifyPropertyChanged, IDisposable, IViewO
         _schedulerProvider.MainThread.Schedule(() =>
         {
             IsShowingSettings = false;
-            FullScreenContent = null;
         });
     }
 

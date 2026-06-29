@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Sawmill.Infrastructure;
@@ -20,10 +21,8 @@ public partial class MainWindow : Window
 {
     private const int DwmWindowAttributeSystemBackdropType = 38;
     private const int DwmWindowAttributeUseImmersiveDarkMode = 20;
-    private const int DwmWindowAttributeNcRenderingPolicy = 2;
     private const int DwmWindowAttributeWindowCornerPreference = 33;
     private const int DwmSystemBackdropMainWindow = 2;
-    private const int DwmNcRenderingPolicyDisabled = 1;
     private const int DwmWindowCornerPreferenceRound = 2;
     private const int GWL_STYLE = -16;
     private const int WS_POPUP = unchecked((int)0x80000000);
@@ -35,6 +34,7 @@ public partial class MainWindow : Window
     private const int WM_NCCALCSIZE = 0x0083;
     private Point? _tabDragStartPoint;
     private HeaderedView _tabDragSource;
+    private WindowViewModel _currentWindowViewModel;
 
     public MainWindow()
     {
@@ -73,12 +73,15 @@ public partial class MainWindow : Window
         Closing += MainWindow_Closing;
         Loaded += MainWindow_Loaded;
         SourceInitialized += MainWindow_SourceInitialized;
+        DataContextChanged += MainWindow_DataContextChanged;
     }
 
     private void MainWindow_SourceInitialized(object sender, EventArgs e)
     {
         if (PresentationSource.FromVisual(this) is not HwndSource source)
             return;
+
+        source.CompositionTarget.BackgroundColor = Colors.Transparent;
 
         var hwnd = source.Handle;
         source.AddHook(WindowProc);
@@ -88,9 +91,6 @@ public partial class MainWindow : Window
         SetWindowLong(hwnd, GWL_STYLE, style);
         SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
-        var ncRenderingPolicy = DwmNcRenderingPolicyDisabled;
-        _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeNcRenderingPolicy, ref ncRenderingPolicy, Marshal.SizeOf<int>());
-
         var cornerPreference = DwmWindowCornerPreferenceRound;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeWindowCornerPreference, ref cornerPreference, Marshal.SizeOf<int>());
 
@@ -99,6 +99,80 @@ public partial class MainWindow : Window
 
         var darkMode = 1;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
+    }
+
+    private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (_currentWindowViewModel != null)
+        {
+            _currentWindowViewModel.PropertyChanged -= WindowViewModel_PropertyChanged;
+        }
+
+        _currentWindowViewModel = e.NewValue as WindowViewModel;
+
+        if (_currentWindowViewModel != null)
+        {
+            _currentWindowViewModel.PropertyChanged += WindowViewModel_PropertyChanged;
+            SetSettingsOverlayState(_currentWindowViewModel.IsShowingSettings, false);
+        }
+    }
+
+    private void WindowViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(WindowViewModel.IsShowingSettings) && sender is WindowViewModel viewModel)
+        {
+            SetSettingsOverlayState(viewModel.IsShowingSettings, true);
+        }
+    }
+
+    private void SetSettingsOverlayState(bool isShowing, bool animate)
+    {
+        if (isShowing)
+        {
+            SettingsOverlay.Visibility = Visibility.Visible;
+            AnimateSettingsOverlay(1, 0, animate ? 250 : 0, EasingMode.EaseOut);
+        }
+        else if (animate)
+        {
+            var opacityAnimation = CreateSettingsAnimation(0, 167, EasingMode.EaseIn);
+            opacityAnimation.Completed += (_, _) => SettingsOverlay.Visibility = Visibility.Collapsed;
+            SettingsOverlay.BeginAnimation(OpacityProperty, opacityAnimation);
+            SettingsOverlayTranslate.BeginAnimation(TranslateTransform.YProperty, CreateSettingsAnimation(16, 167, EasingMode.EaseIn));
+        }
+        else
+        {
+            SettingsOverlay.BeginAnimation(OpacityProperty, null);
+            SettingsOverlayTranslate.BeginAnimation(TranslateTransform.YProperty, null);
+            SettingsOverlay.Opacity = 0;
+            SettingsOverlayTranslate.Y = 24;
+            SettingsOverlay.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private void AnimateSettingsOverlay(double opacity, double y, int milliseconds, EasingMode easingMode)
+    {
+        SettingsOverlay.BeginAnimation(OpacityProperty, CreateSettingsAnimation(opacity, milliseconds, easingMode));
+        SettingsOverlayTranslate.BeginAnimation(TranslateTransform.YProperty, CreateSettingsAnimation(y, milliseconds, easingMode));
+    }
+
+    private static DoubleAnimation CreateSettingsAnimation(double to, int milliseconds, EasingMode easingMode)
+    {
+        return new DoubleAnimation
+        {
+            To = to,
+            Duration = TimeSpan.FromMilliseconds(milliseconds),
+            EasingFunction = new CubicEase { EasingMode = easingMode },
+            FillBehavior = FillBehavior.HoldEnd
+        };
+    }
+
+    public static void SetDwmDarkMode(MainWindow window, bool isDark)
+    {
+        if (PresentationSource.FromVisual(window) is not HwndSource source)
+            return;
+
+        var darkMode = isDark ? 1 : 0;
+        _ = DwmSetWindowAttribute(source.Handle, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
     }
 
     private const int WM_NCLBUTTONDOWN = 0x00A1;

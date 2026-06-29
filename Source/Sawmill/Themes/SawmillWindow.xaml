@@ -11,7 +11,7 @@
             <Setter.Value>
                 <WindowChrome CaptionHeight="40"
                               UseAeroCaptionButtons="False"
-                              GlassFrameThickness="-1"
+                              GlassFrameThickness="0"
                               ResizeBorderThickness="4" />
             </Setter.Value>
         </Setter>

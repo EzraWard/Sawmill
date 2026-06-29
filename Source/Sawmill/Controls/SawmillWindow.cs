@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace Sawmill.Controls;
 
@@ -36,6 +37,8 @@ public class SawmillWindow : Window
 
         if (PresentationSource.FromVisual(this) is not HwndSource source)
             return;
+
+        source.CompositionTarget.BackgroundColor = Colors.Transparent;
 
         var hwnd = source.Handle;
         source.AddHook(WndProc);
