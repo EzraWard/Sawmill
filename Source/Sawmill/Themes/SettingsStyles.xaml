@@ -199,6 +199,7 @@
     <!-- SettingsCard variant for expander child items (flat corners, top border only) -->
     <Style x:Key="SettingsExpanderItemStyle" TargetType="controls:SettingsCard"
            BasedOn="{StaticResource {x:Type controls:SettingsCard}}">
+        <Setter Property="Margin" Value="0" />
         <Setter Property="MinHeight" Value="52" />
         <Setter Property="Padding" Value="{StaticResource SettingsExpanderItemPadding}" />
         <Setter Property="BorderThickness" Value="{StaticResource SettingsExpanderItemBorderThickness}" />

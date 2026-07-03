@@ -116,13 +116,10 @@ public class TailViewModel: AbstractNotifyPropertyChanged, ILinesVisualisation, 
         UnClearCommand = new Command(fileWatcher.Reset);
         ClearCommand = new Command(fileWatcher.Clear);
         KeyAutoTail = new Command(() => { AutoTail = true; });
-        OpenSearchOptionsCommand = new Command(async () =>
+        OpenSearchOptionsCommand = new Command(() =>
         {
-            await Task.Run(() =>
-            {
-                var content = objectProvider.Get<SearchOptionsViewModel>(new Argument<ICombinedSearchMetadataCollection>(combinedSearchMetadataCollection));
-                dialogCoordinator.Show(this, content, x => content.Dispose());
-            });
+            var content = objectProvider.Get<SearchOptionsViewModel>(new Argument<ICombinedSearchMetadataCollection>(combinedSearchMetadataCollection));
+            dialogCoordinator.Show(this, content, x => content.Dispose());
         });
 
         var closeOnDeselect = this.WhenValueChanged(vm => vm.IsSelected, false)

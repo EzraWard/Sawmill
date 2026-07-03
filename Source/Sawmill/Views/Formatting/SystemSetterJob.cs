@@ -70,13 +70,13 @@ public sealed class SystemSetterJob: IDisposable
             SetBrush(resources, "PrimaryHueDarkForegroundBrush", "#FFF4F6FB");
             SetBrush(resources, "PrimaryHueLightBrush", "#FF78A9FF");
             SetBrush(resources, "PrimaryHueLightForegroundBrush", "#FF0E1624");
-            SetBrush(resources, "SecondaryHueMidBrush", "#FF46B5A7");
-            SetBrush(resources, "SecondaryHueMidForegroundBrush", "#FF06211E");
+            SetBrush(resources, "SecondaryHueMidBrush", "#FF0078D4");
+            SetBrush(resources, "SecondaryHueMidForegroundBrush", "#FFFFFFFF");
             SetBrush(resources, "ValidationErrorBrush", "#FFE85A5A");
             SetBrush(resources, "GrayBrush2", "#888888");
 
             // Settings
-            SetBrush(resources, "SettingsMicaBrush", "#CC202124");
+            SetBrush(resources, "SettingsMicaBrush", "#FF282828");
             SetBrush(resources, "SettingsCardBrush", "#B324272E");
             SetBrush(resources, "SettingsCardBorderBrush", "#66FFFFFF");
 
@@ -111,13 +111,13 @@ public sealed class SystemSetterJob: IDisposable
             SetBrush(resources, "PrimaryHueDarkForegroundBrush", "#FF1A1A1A");
             SetBrush(resources, "PrimaryHueLightBrush", "#FF78A9FF");
             SetBrush(resources, "PrimaryHueLightForegroundBrush", "#FF0E1624");
-            SetBrush(resources, "SecondaryHueMidBrush", "#FF46B5A7");
-            SetBrush(resources, "SecondaryHueMidForegroundBrush", "#FF06211E");
+            SetBrush(resources, "SecondaryHueMidBrush", "#FF0078D4");
+            SetBrush(resources, "SecondaryHueMidForegroundBrush", "#FFFFFFFF");
             SetBrush(resources, "ValidationErrorBrush", "#FFD32F2F");
             SetBrush(resources, "GrayBrush2", "#FF888888");
 
             // Settings
-            SetBrush(resources, "SettingsMicaBrush", "#CCF3F3F3");
+            SetBrush(resources, "SettingsMicaBrush", "#FFF3F3F3");
             SetBrush(resources, "SettingsCardBrush", "#FFFFFFFF");
             SetBrush(resources, "SettingsCardBorderBrush", "#FFE0E0E0");
 

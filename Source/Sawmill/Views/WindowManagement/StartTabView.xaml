@@ -45,7 +45,6 @@
                         <MenuItem Header="Show Inline" IsEnabled="False" />
                         <Separator />
                         <MenuItem Header="Use Regex" IsEnabled="False" />
-                        <MenuItem Header="Search Options..." IsEnabled="False" />
                     </MenuItem>
                 </Menu>
 

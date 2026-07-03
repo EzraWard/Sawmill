@@ -38,6 +38,8 @@ public partial class MainWindow : Window
     private Point? _tabDragStartPoint;
     private HeaderedView _tabDragSource;
     private WindowViewModel _currentWindowViewModel;
+    private Point? _lastTitleBarTouchPoint;
+    private int _lastTitleBarTouchTimestamp;
 
     public MainWindow()
     {
@@ -385,6 +387,42 @@ public partial class MainWindow : Window
         e.Handled = true;
     }
 
+    private void TitleBar_PreviewTouchDown(object sender, TouchEventArgs e)
+    {
+        if (IsFromInteractiveControl(e.OriginalSource as DependencyObject))
+            return;
+
+        var touchPoint = e.GetTouchPoint(TitleBarGrid).Position;
+        if (IsTitleBarDoubleTap(touchPoint, e.Timestamp))
+        {
+            _lastTitleBarTouchPoint = null;
+            MaximizeRestoreButton_Click(sender, e);
+            e.Handled = true;
+            return;
+        }
+
+        _lastTitleBarTouchPoint = touchPoint;
+        _lastTitleBarTouchTimestamp = e.Timestamp;
+
+        var hwnd = new WindowInteropHelper(this).Handle;
+        ReleaseCapture();
+        SendMessage(hwnd, WM_NCLBUTTONDOWN, (IntPtr)HTCAPTION, IntPtr.Zero);
+        e.Handled = true;
+    }
+
+    private bool IsTitleBarDoubleTap(Point touchPoint, int timestamp)
+    {
+        if (_lastTitleBarTouchPoint is not { } previousPoint)
+            return false;
+
+        var elapsed = timestamp - _lastTitleBarTouchTimestamp;
+        if (elapsed < 0 || elapsed > SystemParameters.DoubleClickTime)
+            return false;
+
+        return Math.Abs(touchPoint.X - previousPoint.X) <= SystemParameters.DoubleClickWidth &&
+               Math.Abs(touchPoint.Y - previousPoint.Y) <= SystemParameters.DoubleClickHeight;
+    }
+
     private static bool IsFromInteractiveControl(DependencyObject source)
     {
         while (source != null)
@@ -436,6 +474,19 @@ public partial class MainWindow : Window
 
         _tabDragStartPoint = e.GetPosition(TitleBarTabs);
         _tabDragSource = headeredView;
+    }
+
+    private void CloseTabButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not Button { Command: { } command } button)
+            return;
+
+        var parameter = button.CommandParameter;
+        if (!command.CanExecute(parameter))
+            return;
+
+        command.Execute(parameter);
+        e.Handled = true;
     }
 
     private void TitleBarTabs_PreviewMouseMove(object sender, MouseEventArgs e)

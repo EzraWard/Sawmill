@@ -30,12 +30,12 @@
             <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFF4F6FB" />
             <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF78A9FF" />
             <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF0E1624" />
-            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF46B5A7" />
-            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FF06211E" />
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF0078D4" />
+            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFFFF" />
             <SolidColorBrush x:Key="ValidationErrorBrush" Color="#FFE85A5A" />
             <SolidColorBrush x:Key="GrayBrush2" Color="#888888" />
 
-            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#CC202124" />
+            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#FF282828" />
             <SolidColorBrush x:Key="SettingsCardBrush" Color="#B324272E" />
             <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#66FFFFFF" />
 

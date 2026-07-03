@@ -8,7 +8,10 @@
              mc:Ignorable="d">
 
     <Grid Background="Transparent">
-        <ScrollViewer Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
+        <ScrollViewer x:Name="SettingsScrollViewer"
+                      Style="{StaticResource TouchFriendlyVerticalScrollViewer}"
+                      CanContentScroll="False"
+                      PreviewMouseWheel="SettingsScrollViewer_PreviewMouseWheel"
                       VerticalScrollBarVisibility="Visible">
             <StackPanel Margin="16"
                         MaxWidth="1000"

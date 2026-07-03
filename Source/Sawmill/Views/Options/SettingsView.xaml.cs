@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 
 namespace Sawmill.Views.Options;
 
@@ -26,6 +27,15 @@ public partial class SettingsView : UserControl
         {
             // ignore
         }
+    }
+
+    private void SettingsScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is not ScrollViewer scrollViewer)
+            return;
+
+        scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - (e.Delta * 0.45));
+        e.Handled = true;
     }
 
     private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

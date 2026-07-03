@@ -125,7 +125,6 @@
                             <MenuItem Header="Show Inline" IsCheckable="True" IsChecked="{Binding ShowInline, Mode=TwoWay}" />
                             <Separator />
                             <MenuItem Header="Use Regex" IsCheckable="True" IsChecked="{Binding SearchHints.UseRegex, Mode=TwoWay}" />
-                            <MenuItem Header="Search Options..." Command="{Binding OpenSearchOptionsCommand}" />
                         </MenuItem>
                     </Menu>
 

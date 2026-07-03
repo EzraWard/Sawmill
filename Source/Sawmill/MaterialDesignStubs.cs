@@ -105,7 +105,91 @@ public class DialogHost : ContentControl
     public bool CloseOnClickAway { get => (bool)GetValue(CloseOnClickAwayProperty); set => SetValue(CloseOnClickAwayProperty, value); }
     public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
 
+    static DialogHost()
+    {
+        CommandManager.RegisterClassCommandBinding(
+            typeof(DialogHost),
+            new CommandBinding(CloseDialogCommand, CloseDialog));
+    }
+
+    public DialogHost()
+    {
+        Template = CreateTemplate();
+    }
+
     public static Task<object?> Show(object content, object? dialogIdentifier = null) => Task.FromResult<object?>(null);
+
+    private static void CloseDialog(object sender, ExecutedRoutedEventArgs e)
+    {
+        var source = e.OriginalSource as DependencyObject;
+        DialogHost fallback = null;
+
+        while (source is not null)
+        {
+            if (source is DialogHost host)
+            {
+                fallback ??= host;
+                if (host.IsOpen)
+                {
+                    host.IsOpen = false;
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+            source = VisualTreeHelper.GetParent(source);
+        }
+
+        if (fallback is not null)
+        {
+            fallback.IsOpen = false;
+            e.Handled = true;
+        }
+    }
+
+    private static ControlTemplate CreateTemplate()
+    {
+        var template = new ControlTemplate(typeof(DialogHost));
+        var root = new FrameworkElementFactory(typeof(Grid));
+
+        var content = new FrameworkElementFactory(typeof(ContentPresenter));
+        content.SetBinding(ContentPresenter.ContentProperty, new Binding(nameof(Content))
+        {
+            RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent)
+        });
+        root.AppendChild(content);
+
+        var overlay = new FrameworkElementFactory(typeof(Border));
+        overlay.SetValue(Border.BackgroundProperty, new SolidColorBrush(Color.FromArgb(0x99, 0, 0, 0)));
+        overlay.SetBinding(VisibilityProperty, new Binding(nameof(IsOpen))
+        {
+            RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent),
+            Converter = new BooleanToVisibilityConverter()
+        });
+
+        var dialogBorder = new FrameworkElementFactory(typeof(Border));
+        dialogBorder.SetValue(Border.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+        dialogBorder.SetValue(Border.VerticalAlignmentProperty, VerticalAlignment.Center);
+        dialogBorder.SetValue(Border.MarginProperty, new Thickness(24));
+        dialogBorder.SetValue(Border.PaddingProperty, new Thickness(0));
+        dialogBorder.SetResourceReference(Border.BackgroundProperty, "MaterialDesignPaper");
+        dialogBorder.SetBinding(Border.CornerRadiusProperty, new Binding(nameof(CornerRadius))
+        {
+            RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent)
+        });
+
+        var dialogContent = new FrameworkElementFactory(typeof(ContentPresenter));
+        dialogContent.SetBinding(ContentPresenter.ContentProperty, new Binding(nameof(DialogContent))
+        {
+            RelativeSource = new RelativeSource(RelativeSourceMode.TemplatedParent)
+        });
+        dialogBorder.AppendChild(dialogContent);
+        overlay.AppendChild(dialogBorder);
+        root.AppendChild(overlay);
+
+        template.VisualTree = root;
+        return template;
+    }
 }
 
 public class DrawerHost : ContentControl
