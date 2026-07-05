@@ -117,7 +117,7 @@ public class DialogHost : ContentControl
         Template = CreateTemplate();
     }
 
-    public static Task<object?> Show(object content, object? dialogIdentifier = null) => Task.FromResult<object?>(null);
+    public static Task<object> Show(object content, object dialogIdentifier = null) => Task.FromResult<object>(null);
 
     private static void CloseDialog(object sender, ExecutedRoutedEventArgs e)
     {

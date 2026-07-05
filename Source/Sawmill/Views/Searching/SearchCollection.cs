@@ -34,11 +34,10 @@ public class SearchCollection: AbstractNotifyPropertyChanged, IDisposable
         var shared = _viewModels.Connect();//.Publish();
 
         var binderLoader = shared
-            .Sort(SortExpressionComparer<SearchViewModel>
+            .ObserveOn(schedulerProvider.MainThread)
+            .SortAndBind(out _items, SortExpressionComparer<SearchViewModel>
                 .Ascending(tvm => tvm.SearchType== SearchType.All ? 1:2)
                 .ThenByAscending(tvm => tvm.Text))
-            .ObserveOn(schedulerProvider.MainThread)
-            .Bind(out _items)
             .Subscribe();
             
         var autoSelector = shared.WhereReasonsAre(ChangeReason.Add)

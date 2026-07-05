@@ -174,9 +174,9 @@ public class TailViewModel: AbstractNotifyPropertyChanged, ILinesVisualisation, 
             .LogChanges(logger, "Received")
             .Transform(lineProxyFactory.Create)
             .LogChanges(logger, "Sorting")
-            .Sort(SortExpressionComparer<LineProxy>.Ascending(proxy => proxy))
-            .ObserveOn(schedulerProvider.MainThread)
-            .Bind(out _data,100)
+            .SortAndBind(out _data,
+                SortExpressionComparer<LineProxy>.Ascending(proxy => proxy),
+                new SortAndBindOptions { ResetThreshold = 100, Scheduler = schedulerProvider.MainThread })
             .LogChanges(logger, "Bound")
             .DisposeMany()
             .LogErrors(logger)

@@ -4,9 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sawmill.Fixtures;
 
+[TestClass]
 public class DefaultIconSelectorFixture
 {
-    [DataTestMethod,
+    [TestMethod,
      DataRow("DEBUG", false),
      DataRow("DEBUG", true),
      DataRow(null, true),
@@ -21,7 +22,7 @@ public class DefaultIconSelectorFixture
         result.Should().NotBeNullOrEmpty();
     }
 
-    [DataTestMethod,
+    [TestMethod,
      DataRow("DEBUG", true, "INFO"),
      DataRow("DEBUG", false, "INFO"),
      DataRow("DEBUG", true, "xxxxxxx"),

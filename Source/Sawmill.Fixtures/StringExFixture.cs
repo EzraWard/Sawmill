@@ -33,7 +33,7 @@ public class StringExFixture
         result.Should().BeEquivalentTo("8 EB");
     }
 
-    [DataTestMethod
+    [TestMethod
      , DataRow((long)12 * 1024 * 1024)
      , DataRow((long)12 * 1024 * 1024 + 1234567)
      , DataRow((long)3 * 1024 * 1024 * 1024 + 987652342)]

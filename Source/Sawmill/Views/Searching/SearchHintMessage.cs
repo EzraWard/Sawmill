@@ -5,7 +5,11 @@ namespace Sawmill.Views.Searching;
 public sealed  class SearchHintMessage: INotifyPropertyChanged
 {
     //implemented to prevent memory leaks
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged
+    {
+        add { }
+        remove { }
+    }
        
     public static readonly SearchHintMessage Valid = new SearchHintMessage(true, null);
 

@@ -71,19 +71,18 @@ public class SearchProxyCollection : ISearchProxyCollection
 
         var includedLoader = proxyItems
             .Connect(proxy => !proxy.IsExclusion)
-            .Sort(SortExpressionComparer<SearchOptionsProxy>.Ascending(proxy => proxy.Position))
-            .ObserveOn(schedulerProvider.MainThread)
             //force reset for each new or removed item dues to a bug in the underlying dragablz control which inserts in an incorrect position
-            .Bind(collection, new ObservableCollectionAdaptor<SearchOptionsProxy, string>(0))
+            .SortAndBind(collection,
+                SortExpressionComparer<SearchOptionsProxy>.Ascending(proxy => proxy.Position),
+                new SortAndBindOptions { ResetThreshold = 0, Scheduler = schedulerProvider.MainThread })
             .DisposeMany()
             .Subscribe();
 
         var excludedLoader = proxyItems
             .Connect(proxy => proxy.IsExclusion)
-            .Sort(SortExpressionComparer<SearchOptionsProxy>.Ascending(proxy => proxy.Text))
-            .ObserveOn(schedulerProvider.MainThread)
-            //force reset for each new or removed item dues to a bug in the underlying dragablz control which inserts in an incorrect position
-            .Bind(out var excluded)
+            .SortAndBind(out var excluded,
+                SortExpressionComparer<SearchOptionsProxy>.Ascending(proxy => proxy.Text),
+                new SortAndBindOptions { Scheduler = schedulerProvider.MainThread })
             .DisposeMany()
             .Subscribe();
 

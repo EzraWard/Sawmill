@@ -83,9 +83,9 @@ public class InlineViewer : AbstractNotifyPropertyChanged, ILinesVisualisation
         //load lines into observable collection
         var loader = lineScroller.Lines.Connect()
             .Transform(proxyFactory.Create)
-            .Sort(SortExpressionComparer<LineProxy>.Ascending(proxy => proxy))
-            .ObserveOn(schedulerProvider.MainThread)
-            .Bind(out _data)
+            .SortAndBind(out _data,
+                SortExpressionComparer<LineProxy>.Ascending(proxy => proxy),
+                new SortAndBindOptions { Scheduler = schedulerProvider.MainThread })
             .DisposeMany()
             .LogErrors(logger)
             .Subscribe();
