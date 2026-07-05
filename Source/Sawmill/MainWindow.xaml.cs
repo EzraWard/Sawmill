@@ -35,6 +35,8 @@ public partial class MainWindow : Window
     private const int SM_CXSIZEFRAME = 32;
     private const int SM_CYSIZEFRAME = 33;
     private const int SM_CXPADDEDBORDER = 92;
+    private const int SM_CXDOUBLECLK = 36;
+    private const int SM_CYDOUBLECLK = 37;
     private Point? _tabDragStartPoint;
     private HeaderedView _tabDragSource;
     private WindowViewModel _currentWindowViewModel;
@@ -284,6 +286,9 @@ public partial class MainWindow : Window
     [DllImport("user32.dll")]
     private static extern int GetSystemMetrics(int nIndex);
 
+    [DllImport("user32.dll")]
+    private static extern uint GetDoubleClickTime();
+
     private void MainWindow_Closing(object sender, CancelEventArgs e)
     {
         var windowsModel = DataContext as WindowViewModel;
@@ -416,11 +421,19 @@ public partial class MainWindow : Window
             return false;
 
         var elapsed = timestamp - _lastTitleBarTouchTimestamp;
-        if (elapsed < 0 || elapsed > SystemParameters.DoubleClickTime)
+        if (elapsed < 0 || elapsed > GetDoubleClickTime())
             return false;
 
-        return Math.Abs(touchPoint.X - previousPoint.X) <= SystemParameters.DoubleClickWidth &&
-               Math.Abs(touchPoint.Y - previousPoint.Y) <= SystemParameters.DoubleClickHeight;
+        var doubleTapBounds = GetDoubleTapBounds();
+        return Math.Abs(touchPoint.X - previousPoint.X) <= doubleTapBounds.Width &&
+               Math.Abs(touchPoint.Y - previousPoint.Y) <= doubleTapBounds.Height;
+    }
+
+    private Size GetDoubleTapBounds()
+    {
+        var bounds = new Vector(GetSystemMetrics(SM_CXDOUBLECLK), GetSystemMetrics(SM_CYDOUBLECLK));
+        var transformedBounds = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformFromDevice.Transform(bounds) ?? bounds;
+        return new Size(transformedBounds.X, transformedBounds.Y);
     }
 
     private static bool IsFromInteractiveControl(DependencyObject source)
