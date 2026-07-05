@@ -122,7 +122,9 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     PreviewMouseLeftButtonDown="TitleBarTabs_PreviewMouseLeftButtonDown"
+                                    PreviewMouseLeftButtonUp="TitleBarTabs_PreviewMouseLeftButtonUp"
                                     PreviewMouseMove="TitleBarTabs_PreviewMouseMove"
+                                    LostMouseCapture="TitleBarTabs_LostMouseCapture"
                                     DragOver="TitleBarTabs_DragOver"
                                     Drop="TitleBarTabs_Drop">
                             <TabControl.Resources>
@@ -366,7 +368,10 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" Background="{DynamicResource ContentAreaBrush}" Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <Grid Grid.Row="1"
+                      Background="{DynamicResource ContentAreaBrush}"
+                      PreviewMouseLeftButtonDown="ContentArea_PreviewMouseLeftButtonDown"
+                      Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
 
                         <Grid>
                             <!-- Standard WPF TabControl - headers moved to titlebar, content shown here -->

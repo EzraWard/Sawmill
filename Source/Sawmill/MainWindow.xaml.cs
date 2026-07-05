@@ -475,6 +475,8 @@ public partial class MainWindow : Window
 
     private void TitleBarTabs_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        ClearPendingTabDrag();
+
         if (e.OriginalSource is DependencyObject source && FindAncestor<Button>(source) != null)
             return;
 
@@ -487,6 +489,21 @@ public partial class MainWindow : Window
 
         _tabDragStartPoint = e.GetPosition(TitleBarTabs);
         _tabDragSource = headeredView;
+    }
+
+    private void TitleBarTabs_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        ClearPendingTabDrag();
+    }
+
+    private void TitleBarTabs_LostMouseCapture(object sender, MouseEventArgs e)
+    {
+        ClearPendingTabDrag();
+    }
+
+    private void ContentArea_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        ClearPendingTabDrag();
     }
 
     private void CloseTabButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -513,9 +530,14 @@ public partial class MainWindow : Window
             Math.Abs(delta.Y) < SystemParameters.MinimumVerticalDragDistance)
             return;
 
-        DragDrop.DoDragDrop(TitleBarTabs, _tabDragSource, DragDropEffects.Move);
-        _tabDragStartPoint = null;
-        _tabDragSource = null;
+        try
+        {
+            DragDrop.DoDragDrop(TitleBarTabs, _tabDragSource, DragDropEffects.Move);
+        }
+        finally
+        {
+            ClearPendingTabDrag();
+        }
     }
 
     private void TitleBarTabs_DragOver(object sender, DragEventArgs e)
@@ -526,7 +548,7 @@ public partial class MainWindow : Window
 
     private void TitleBarTabs_Drop(object sender, DragEventArgs e)
     {
-        _tabDragStartPoint = null;
+        ClearPendingTabDrag();
 
         if (DataContext is not WindowViewModel vm)
             return;
@@ -545,6 +567,12 @@ public partial class MainWindow : Window
 
         vm.Views.Move(oldIndex, newIndex);
         vm.Selected = source;
+    }
+
+    private void ClearPendingTabDrag()
+    {
+        _tabDragStartPoint = null;
+        _tabDragSource = null;
     }
 
     private HeaderedView GetTabHeaderedViewFromPoint(Point point)
