@@ -28,6 +28,7 @@ public class RecentFilesViewModel: AbstractNotifyPropertyChanged, IDisposable
             .Connect()
             .Transform(rf => new RecentFileProxy(rf, toOpen => _fileOpenRequest.OnNext(new FileInfo(toOpen.Name)),recentFileCollection.Remove))
             .Sort(SortExpressionComparer<RecentFileProxy>.Descending(proxy => proxy.Timestamp))
+            .Top(10)
             .ObserveOn(schedulerProvider.MainThread)
             .Bind(out var data)
             .Subscribe();
