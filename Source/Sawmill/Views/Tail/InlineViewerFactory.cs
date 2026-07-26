@@ -1,0 +1,28 @@
+using Sawmill.Domain.FileHandling;
+using Sawmill.Domain.FileHandling.Search;
+using Sawmill.Domain.Infrastructure;
+
+namespace Sawmill.Views.Tail;
+
+public class InlineViewerFactory : IInlineViewerFactory
+{
+    private readonly IObjectProvider _objectProvider;
+
+    public InlineViewerFactory(IObjectProvider objectProvider)
+    {
+        _objectProvider = objectProvider;
+    }
+
+    public InlineViewer Create(ICombinedSearchMetadataCollection combinedSearchMetadataCollection,  
+        IObservable<ILineProvider> lineProvider, 
+        IObservable<LineProxy> selectedChanged)
+    {
+        var args = new IArgument[]
+        {
+            new Argument<IObservable<ILineProvider>>(lineProvider),
+            new Argument<IObservable<LineProxy>>(selectedChanged),
+            new Argument<ICombinedSearchMetadataCollection>(combinedSearchMetadataCollection)
+        };
+        return _objectProvider.Get<InlineViewer>(args);
+    }
+}

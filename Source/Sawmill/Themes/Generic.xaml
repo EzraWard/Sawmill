@@ -1,0 +1,43 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Sawmill.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Icons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Lines.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/SearchResultIndicator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/SawmillWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/SettingsStyles.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Colours.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="TouchFriendlyVerticalScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="PanningMode" Value="VerticalFirst" />
+        <Setter Property="PanningDeceleration" Value="0.001" />
+        <Setter Property="PanningRatio" Value="1" />
+    </Style>
+
+    <Style x:Key="TouchFriendlyHorizontalScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="PanningMode" Value="HorizontalFirst" />
+        <Setter Property="PanningDeceleration" Value="0.001" />
+        <Setter Property="PanningRatio" Value="1" />
+    </Style>
+
+    <Style TargetType="{x:Type controls:HighlightTextControl}">
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:HighlightTextControl}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <TextBlock x:Name="PART_TEXT" TextWrapping="NoWrap" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

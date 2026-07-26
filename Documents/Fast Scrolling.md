@@ -8,13 +8,13 @@ I have managed to achieve significant performance improvements in tail blazer by
 
 The proof of the pudding is in the eating so look at this:
 
-![Fast scrolling](https://github.com/RolandPheasant/TailBlazer/blob/master/Images/FastScrolling.gif)
+![Fast scrolling](https://github.com/RolandPheasant/Sawmill/blob/master/Images/FastScrolling.gif)
 
 The scrolling is quick with a 76 MB file with almost 700k lines.
 
 Ah but I hear you think what about if the logs are being written to rapidly.  So I generated a very busy log file and tried scrolling to see what would happen.  I abide by the maxim of a picture is worth a thousand words, so here is a picture of a rapidly updating log file whilst a user is interacting.
 
-![Fast scrolling when busy](https://github.com/RolandPheasant/TailBlazer/blob/master/Images/FastScrollingWhenBusy.gif)
+![Fast scrolling when busy](https://github.com/RolandPheasant/Sawmill/blob/master/Images/FastScrollingWhenBusy.gif)
 
 And the scrolling is still quick. So many people have said to me WPF is slow! This proves otherwise.
 
@@ -28,4 +28,4 @@ I would love you tech people, testers or system adminstrators out there to trial
 
 But being as I only started this project 2 weeks ago I am very happy for now.
 
-For you techs out there feel free to build this yourself. For the non-techs or people without Visual Studio 2015 I will regularly be putting releases   the  [Tail Blazer release page](https://github.com/RolandPheasant/TailBlazer/releases) where all you have to do is extract the file and double click TrailBlazer.exe
+For you techs out there feel free to build this yourself. For the non-techs or people without Visual Studio 2015 I will regularly be putting releases   the  [Tail Blazer release page](https://github.com/RolandPheasant/Sawmill/releases) where all you have to do is extract the file and double click TrailBlazer.exe

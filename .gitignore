@@ -155,6 +155,7 @@ csx/
 
 # Windows Store app package directory
 AppPackages/
+/Source/SawmillPackage/BundleArtifacts/
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -210,6 +211,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-/Source/TailBlazer.sln.GhostDoc.xml
-Source/TailBlazer/Themes/MaterialDesign.xaml
+/Source/Sawmill.sln.GhostDoc.xml
+Source/Sawmill/Themes/MaterialDesign.xaml
 *.DotSettings
