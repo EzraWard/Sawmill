@@ -19,7 +19,7 @@ public enum MouseKeyState
 }
 
 /// <summary>
-/// Tail Blazer is fast because it uses true data virtualisation. However this causes a huge headache
+/// Sawmill is fast because it uses true data virtualisation. However this causes a huge headache
 /// when trying to copy and paste items which are selected but no longer visible to the clip-board
 /// 
 /// This drawn out and unsophisticated code attempts to deal with that. 

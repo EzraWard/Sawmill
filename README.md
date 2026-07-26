@@ -28,33 +28,33 @@ Sawmill is a fork of [TailBlazer](https://github.com/RolandPheasant/TailBlazer) 
 ### Build from Source
 
 ```
-git clone https://github.com/EzraWard/TailBlazer.git
-cd TailBlazer
-dotnet build .\Source\TailBlazer\TailBlazer.csproj
+git clone https://github.com/EzraWard/Sawmill.git
+cd Sawmill
+dotnet build .\Source\Sawmill\Sawmill.csproj
 ```
 
 ### Run
 
 ```
-dotnet run --project .\Source\TailBlazer\TailBlazer.csproj
+dotnet run --project .\Source\Sawmill\Sawmill.csproj
 ```
 
-Or build and run `Source\TailBlazer\bin\Debug\net10.0-windows10.0.26100.0\TailBlazer.exe` directly.
+Or build and run `Source\Sawmill\bin\Debug\net10.0-windows10.0.26100.0\Sawmill.exe` directly.
 
 ### Run Tests
 
 ```
-dotnet test .\Source\TailBlazer.Fixtures\TailBlazer.Fixtures.csproj
+dotnet test .\Source\Sawmill.Fixtures\Sawmill.Fixtures.csproj
 ```
 
 ## Architecture
 
 | Project | Purpose |
 |---|---|
-| `TailBlazer` | WPF app — UI, view models, window management |
-| `TailBlazer.Domain` | Core logic — file monitoring, search, settings, reactive pipelines |
-| `TailBlazer.Fixtures` | MSTest test suite |
-| `TailBlazer.TestTextFile` | Console app that writes log lines for manual testing |
+| `Sawmill` | WPF app — UI, view models, window management |
+| `Sawmill.Domain` | Core logic — file monitoring, search, settings, reactive pipelines |
+| `Sawmill.Fixtures` | MSTest test suite |
+| `Sawmill.TestTextFile` | Console app that writes log lines for manual testing |
 
 The app is built on reactive streams ([Rx](https://github.com/dotnet/reactive) + [DynamicData](https://github.com/reactivemarbles/DynamicData)) — file watching, scrolling, searching, and rendering are all wired reactively.
 

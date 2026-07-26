@@ -1,6 +1,0 @@
-MainPackage=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0_x86.msix
-SymbolPackage=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0\SawmillPackage_1.0.0.0_x86.appxsym
-ResourcePack=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0_scale-100.msix
-ResourcePack=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0_scale-125.msix
-ResourcePack=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0_scale-150.msix
-ResourcePack=C:\Users\EzraW\Documents\GitHub\TailBlazer\Source\TailBlazerPackage\bin\x86\Release\Upload\SawmillPackage_1.0.0.0_scale-400.msix

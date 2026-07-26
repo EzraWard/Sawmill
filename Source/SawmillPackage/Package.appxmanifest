@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="21366BowTieWorkshop.SawmillLogViewerDev"
+    Name="21366BowTieWorkshop.SawmillLogViewer"
     Publisher="CN=16499A74-7239-425D-8D4D-A75684AF24BE"
     Version="1.1.0.0" />
 
