@@ -105,7 +105,7 @@ public partial class MainWindow : Window
         var backdrop = DwmSystemBackdropMainWindow;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeSystemBackdropType, ref backdrop, Marshal.SizeOf<int>());
 
-        var darkMode = 1;
+        var darkMode = Application.Current.TryFindResource("IsDarkTheme") is true ? 1 : 0;
         _ = DwmSetWindowAttribute(hwnd, DwmWindowAttributeUseImmersiveDarkMode, ref darkMode, Marshal.SizeOf<int>());
 
         Dispatcher.BeginInvoke(() =>

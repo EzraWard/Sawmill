@@ -54,6 +54,6 @@ public class GeneralOptionsConverter: IConverter<GeneralOptions>
 
     public GeneralOptions GetDefaultValue()
     {
-        return new GeneralOptions(Theme.Dark, true, 5, 100, 5, true, false);
+        return new GeneralOptions(Theme.System, true, 5, 100, 5, true, false);
     }
 }

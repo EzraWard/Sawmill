@@ -67,7 +67,7 @@
                                     <TextBlock Margin="0,4,0,0" FontSize="12">
                                         <Hyperlink NavigateUri="https://github.com/EzraWard/Sawmill"
                                                    RequestNavigate="Hyperlink_RequestNavigate"
-                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                                   Foreground="{DynamicResource AccentTextBrush}">
                                             github.com/EzraWard/Sawmill
                                         </Hyperlink>
                                     </TextBlock>
@@ -85,7 +85,7 @@
                                     <TextBlock Margin="0,4,0,0" FontSize="12">
                                         <Hyperlink NavigateUri="https://github.com/RolandPheasant/TailBlazer"
                                                    RequestNavigate="Hyperlink_RequestNavigate"
-                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                                   Foreground="{DynamicResource AccentTextBrush}">
                                             github.com/RolandPheasant/TailBlazer
                                         </Hyperlink>
                                     </TextBlock>

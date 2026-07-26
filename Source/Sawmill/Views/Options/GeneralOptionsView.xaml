@@ -15,12 +15,12 @@
                    Style="{DynamicResource SettingsSectionHeaderTextBlockStyle}" />
 
         <controls:SettingsCard Header="Theme"
-                               Description="Set the color scheme you prefer">
+                               Description="Follow Windows or choose a fixed color scheme">
             <controls:SettingsCard.HeaderIcon>
                 <TextBlock Text="&#xE790;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
             </controls:SettingsCard.HeaderIcon>
             <ComboBox ItemsSource="{Binding ThemeOptions}"
-                      SelectedItem="{Binding SelectedTheme}"
+                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       MinWidth="120" />
         </controls:SettingsCard>
 

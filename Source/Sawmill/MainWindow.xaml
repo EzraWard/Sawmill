@@ -23,6 +23,7 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     Background="Transparent"
+    Foreground="{DynamicResource MaterialDesignBody}"
     WindowStartupLocation="CenterScreen"
     
     mc:Ignorable="d">
@@ -134,7 +135,7 @@
                                 </Style>
                                 <Style TargetType="{x:Type TabItem}">
                                     <EventSetter Event="PreviewMouseDown" Handler="TitleBarTabItem_PreviewMouseDown" />
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
                                     <Setter Property="Padding" Value="14,0,6,0" />
                                     <Setter Property="MinWidth" Value="80" />
                                     <Setter Property="MaxWidth" Value="240" />
@@ -270,7 +271,7 @@
                                 <Style TargetType="Button">
                                     <Setter Property="Background" Value="Transparent" />
                                     <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
@@ -308,7 +309,7 @@
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
@@ -423,7 +424,7 @@
                             <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" HorizontalAlignment="Left"
                                     Width="40" Height="40" Margin="8" ToolTip="Back"
                                     BorderThickness="0" Background="Transparent"
-                                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                                    Foreground="{DynamicResource MaterialDesignBody}">
                                 <TextBlock Text="&#xE72B;"
                                            FontFamily="Segoe MDL2 Assets"
                                            FontSize="14"

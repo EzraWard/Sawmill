@@ -31,15 +31,6 @@
     <Thickness x:Key="ClickableSettingsExpanderItemPadding">58,8,16,8</Thickness>
     <system:Double x:Key="SettingsExpanderChevronButtonSize">32</system:Double>
 
-    <!-- Card colors (dark theme) -->
-    <SolidColorBrush x:Key="SettingsCardBackgroundBrush" Color="#0DFFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardBackgroundPointerOverBrush" Color="#15FFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardBackgroundPressedBrush" Color="#08FFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardBackgroundDisabledBrush" Color="#05FFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardStrokeBrush" Color="#19FFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardStrokePointerOverBrush" Color="#24FFFFFF" />
-    <SolidColorBrush x:Key="SettingsCardDescriptionForegroundBrush" Color="#9EFFFFFF" />
-
     <!-- Section header style -->
     <Style x:Key="SettingsSectionHeaderTextBlockStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
