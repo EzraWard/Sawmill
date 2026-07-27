@@ -98,7 +98,12 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" x:Name="TitleBarGrid" Height="40" Margin="10,0,0,0" Background="Transparent"
+                <Grid Grid.Row="0"
+                      x:Name="TitleBarGrid"
+                      Height="40"
+                      Margin="10,0,0,0"
+                      Panel.ZIndex="2"
+                      Background="Transparent"
                       PreviewMouseLeftButtonDown="TitleBar_PreviewMouseLeftButtonDown"
                       PreviewTouchDown="TitleBar_PreviewTouchDown">
                     <Grid.ColumnDefinitions>
@@ -106,8 +111,85 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" x:Name="BrandImage" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
-                    <Grid Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,140,0" ClipToBounds="False">
+                    <Image Grid.Column="0"
+                           x:Name="BrandImage"
+                           Width="18"
+                           Height="18"
+                           Margin="0,0,10,0"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}" />
+
+                    <!-- Notepad-style Settings identity: Back replaces the tab
+                         workspace, followed by the app icon and app title. -->
+                    <StackPanel Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Panel.ZIndex="3"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                Visibility="{Binding IsShowingSettings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button Width="30"
+                                Height="24"
+                                Margin="5,0,5,0"
+                                VerticalAlignment="Center"
+                                Padding="0"
+                                Command="{Binding CloseSettingsCommand}"
+                                ToolTip="Back"
+                                AutomationProperties.Name="Back">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="BackButtonRoot"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="4">
+                                                    <TextBlock Text="&#xE72B;"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="{TemplateBinding Foreground}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="BackButtonRoot"
+                                                                Property="Background"
+                                                                Value="{DynamicResource SubtleHoverBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="BackButtonRoot"
+                                                                Property="Background"
+                                                                Value="{DynamicResource SubtlePressedBrush}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Image Width="18"
+                               Height="18"
+                               Margin="12,0,10,0"
+                               VerticalAlignment="Center"
+                               Source="{Binding Source, ElementName=BrandImage}"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        <TextBlock Text="Sawmill"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource MaterialDesignBody}" />
+                    </StackPanel>
+
+                    <Grid Grid.Column="1"
+                          VerticalAlignment="Bottom"
+                          Margin="0,0,140,0"
+                          ClipToBounds="False"
+                          Visibility="{Binding IsShowingSettings, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollBarVisibility="Disabled"
                                       Style="{StaticResource TouchFriendlyHorizontalScrollViewer}"
@@ -411,28 +493,27 @@
                         </StackPanel>
                 </Grid>
 
-                    <!-- Full screen settings overlay -->
+                    <!-- Window-level settings destination. It covers the complete
+                         workspace and titlebar surface; only the app identity and
+                         caption controls remain above it in TitleBarGrid. -->
                     <Border x:Name="SettingsOverlay"
-                            Grid.Row="1"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Panel.ZIndex="1"
                             Background="{DynamicResource SettingsMicaBrush}"
                             Opacity="0"
                             Visibility="Collapsed">
                         <Border.RenderTransform>
                             <TranslateTransform x:Name="SettingsOverlayTranslate" Y="24" />
                         </Border.RenderTransform>
-                        <DockPanel>
-                            <Button Command="{Binding CloseSettingsCommand}" DockPanel.Dock="Top" HorizontalAlignment="Left"
-                                    Width="40" Height="40" Margin="8" ToolTip="Back"
-                                    BorderThickness="0" Background="Transparent"
-                                    Foreground="{DynamicResource MaterialDesignBody}">
-                                <TextBlock Text="&#xE72B;"
-                                           FontFamily="Segoe MDL2 Assets"
-                                           FontSize="14"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center" />
-                            </Button>
-                            <ContentControl Content="{Binding FullScreenContent}" />
-                        </DockPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <ContentControl Grid.Row="1"
+                                            Content="{Binding FullScreenContent}" />
+                        </Grid>
                     </Border>
 
                 </Grid>

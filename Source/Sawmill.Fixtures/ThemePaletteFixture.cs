@@ -27,10 +27,11 @@ public class ThemePaletteFixture
 
     private static readonly (string Boundary, string Surface)[] BoundaryPairs =
     [
+        // Passive card strokes are intentionally subtle Fluent elevation cues.
+        // Only actionable control and structural boundaries require 3:1 contrast.
         ("MaterialDesignTextBoxBorder", "MaterialDesignPaper"),
-        ("SettingsCardBorderBrush", "SettingsCardBrush"),
-        ("SettingsCardStrokeBrush", "SettingsCardBackgroundBrush"),
-        ("DividerBrush", "ToolbarBackgroundBrush")
+        ("DividerBrush", "ToolbarBackgroundBrush"),
+        ("SettingsToggleTrackBorderBrush", "SettingsCardBackgroundBrush")
     ];
 
     [TestMethod]

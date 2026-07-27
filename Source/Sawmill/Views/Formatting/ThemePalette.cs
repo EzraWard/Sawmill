@@ -49,8 +49,8 @@ public sealed class ThemePalette
 
             // Window, content, and command surfaces
             ["SettingsMicaBrush"] = Parse("#FF202020"),
-            ["SettingsCardBrush"] = Parse("#FF2B2B2B"),
-            ["SettingsCardBorderBrush"] = Parse("#FF767676"),
+            ["SettingsCardBrush"] = Parse("#FF2D2D2D"),
+            ["SettingsCardBorderBrush"] = Parse("#FF3D3D3D"),
             ["TabSelectedBrush"] = Parse("#FF2B2B2B"),
             ["TabHoverBrush"] = Parse("#18FFFFFF"),
             ["CaptionButtonHoverBrush"] = Parse("#22FFFFFF"),
@@ -61,13 +61,20 @@ public sealed class ThemePalette
             ["SubtlePressedBrush"] = Parse("#26FFFFFF"),
 
             // Settings cards
-            ["SettingsCardBackgroundBrush"] = Parse("#FF2B2B2B"),
-            ["SettingsCardBackgroundPointerOverBrush"] = Parse("#FF333333"),
-            ["SettingsCardBackgroundPressedBrush"] = Parse("#FF3A3A3A"),
-            ["SettingsCardBackgroundDisabledBrush"] = Parse("#FF252525"),
-            ["SettingsCardStrokeBrush"] = Parse("#FF767676"),
-            ["SettingsCardStrokePointerOverBrush"] = Parse("#FF858585"),
-            ["SettingsCardDescriptionForegroundBrush"] = Parse("#FFC7C7C7")
+            ["SettingsCardBackgroundBrush"] = Parse("#FF2D2D2D"),
+            ["SettingsCardBackgroundPointerOverBrush"] = Parse("#FF343434"),
+            ["SettingsCardBackgroundPressedBrush"] = Parse("#FF292929"),
+            ["SettingsCardBackgroundDisabledBrush"] = Parse("#FF292929"),
+            ["SettingsCardStrokeBrush"] = Parse("#FF3D3D3D"),
+            ["SettingsCardStrokePointerOverBrush"] = Parse("#FF555555"),
+            ["SettingsCardDescriptionForegroundBrush"] = Parse("#FFC7C7C7"),
+
+            // WinUI-style toggle switch
+            ["SettingsToggleTrackBrush"] = Parse("#FF2D2D2D"),
+            ["SettingsToggleTrackPointerOverBrush"] = Parse("#FF3A3A3A"),
+            ["SettingsToggleTrackBorderBrush"] = Parse("#FF9A9A9A"),
+            ["SettingsToggleTrackBorderPointerOverBrush"] = Parse("#FFC7C7C7"),
+            ["SettingsToggleThumbBrush"] = Parse("#FFC7C7C7")
         });
 
     public static ThemePalette Light { get; } = new(
@@ -98,7 +105,7 @@ public sealed class ThemePalette
             // Window, content, and command surfaces
             ["SettingsMicaBrush"] = Parse("#FFF3F3F3"),
             ["SettingsCardBrush"] = Parse("#FFFFFFFF"),
-            ["SettingsCardBorderBrush"] = Parse("#FF8A8A8A"),
+            ["SettingsCardBorderBrush"] = Parse("#FFE5E5E5"),
             ["TabSelectedBrush"] = Parse("#FFFFFFFF"),
             ["TabHoverBrush"] = Parse("#0F000000"),
             ["CaptionButtonHoverBrush"] = Parse("#14000000"),
@@ -110,12 +117,19 @@ public sealed class ThemePalette
 
             // Settings cards
             ["SettingsCardBackgroundBrush"] = Parse("#FFFFFFFF"),
-            ["SettingsCardBackgroundPointerOverBrush"] = Parse("#FFF5F5F5"),
-            ["SettingsCardBackgroundPressedBrush"] = Parse("#FFE9E9E9"),
-            ["SettingsCardBackgroundDisabledBrush"] = Parse("#FFF7F7F7"),
-            ["SettingsCardStrokeBrush"] = Parse("#FF8A8A8A"),
-            ["SettingsCardStrokePointerOverBrush"] = Parse("#FF737373"),
-            ["SettingsCardDescriptionForegroundBrush"] = Parse("#FF5D5D5D")
+            ["SettingsCardBackgroundPointerOverBrush"] = Parse("#FFF9F9F9"),
+            ["SettingsCardBackgroundPressedBrush"] = Parse("#FFF0F0F0"),
+            ["SettingsCardBackgroundDisabledBrush"] = Parse("#FFF8F8F8"),
+            ["SettingsCardStrokeBrush"] = Parse("#FFE5E5E5"),
+            ["SettingsCardStrokePointerOverBrush"] = Parse("#FFC8C8C8"),
+            ["SettingsCardDescriptionForegroundBrush"] = Parse("#FF5D5D5D"),
+
+            // WinUI-style toggle switch
+            ["SettingsToggleTrackBrush"] = Parse("#FFFFFFFF"),
+            ["SettingsToggleTrackPointerOverBrush"] = Parse("#FFF5F5F5"),
+            ["SettingsToggleTrackBorderBrush"] = Parse("#FF737373"),
+            ["SettingsToggleTrackBorderPointerOverBrush"] = Parse("#FF5D5D5D"),
+            ["SettingsToggleThumbBrush"] = Parse("#FF5D5D5D")
         });
 
     private static Color Parse(string value)

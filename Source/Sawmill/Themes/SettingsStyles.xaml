@@ -9,7 +9,8 @@
          ═══════════════════════════════════════════════════════════════════ -->
 
     <!-- Card spacing -->
-    <system:Double x:Key="SettingsCardSpacing">4</system:Double>
+    <system:Double x:Key="SettingsCardSpacing">8</system:Double>
+    <Thickness x:Key="SettingsCardMargin">0,0,0,8</Thickness>
 
     <!-- Settings typography, matching the Drip/Elementary WinUI settings pages -->
     <FontFamily x:Key="SettingsFontFamily">Segoe UI</FontFamily>
@@ -23,6 +24,7 @@
     <Thickness x:Key="SettingsCardActionIconMargin">14,0,0,0</Thickness>
     <system:Double x:Key="SettingsCardActionIconMaxSize">13</system:Double>
     <system:Double x:Key="SettingsCardContentMinWidth">120</system:Double>
+    <CornerRadius x:Key="SettingsControlCornerRadius">4</CornerRadius>
 
     <!-- SettingsExpander dimensions -->
     <Thickness x:Key="SettingsExpanderHeaderPadding">16,16,4,16</Thickness>
@@ -42,7 +44,7 @@
 
     <Style x:Key="PageHeaderTitleStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
-        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontSize" Value="40" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
     </Style>
@@ -51,6 +53,97 @@
         <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{DynamicResource SettingsCardDescriptionForegroundBrush}" />
+    </Style>
+
+    <!-- WPF has no native ToggleSwitch. This keeps CheckBox binding and
+         automation semantics while presenting the WinUI 40 x 20 switch. -->
+    <Style x:Key="SettingsToggleSwitchStyle" TargetType="CheckBox">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid Background="Transparent">
+                        <Border x:Name="FocusRing"
+                                Margin="-3"
+                                BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                                BorderThickness="2"
+                                CornerRadius="13"
+                                IsHitTestVisible="False"
+                                Opacity="0" />
+                        <Border x:Name="Track"
+                                Background="{DynamicResource SettingsToggleTrackBrush}"
+                                BorderBrush="{DynamicResource SettingsToggleTrackBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                            <Grid Margin="3">
+                                <Ellipse x:Name="Thumb"
+                                         Width="12"
+                                         Height="12"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource SettingsToggleThumbBrush}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Track"
+                                    Property="Background"
+                                    Value="{DynamicResource SettingsToggleTrackPointerOverBrush}" />
+                            <Setter TargetName="Track"
+                                    Property="BorderBrush"
+                                    Value="{DynamicResource SettingsToggleTrackBorderPointerOverBrush}" />
+                            <Setter TargetName="Thumb"
+                                    Property="Fill"
+                                    Value="{DynamicResource MaterialDesignBody}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Track"
+                                    Property="Background"
+                                    Value="{DynamicResource PrimaryHueMidBrush}" />
+                            <Setter TargetName="Track"
+                                    Property="BorderBrush"
+                                    Value="{DynamicResource PrimaryHueMidBrush}" />
+                            <Setter TargetName="Thumb"
+                                    Property="HorizontalAlignment"
+                                    Value="Right" />
+                            <Setter TargetName="Thumb"
+                                    Property="Fill"
+                                    Value="{DynamicResource PrimaryHueMidForegroundBrush}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Track"
+                                    Property="Background"
+                                    Value="{DynamicResource PrimaryHueDarkBrush}" />
+                            <Setter TargetName="Track"
+                                    Property="BorderBrush"
+                                    Value="{DynamicResource PrimaryHueDarkBrush}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="FocusRing" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Track" Property="Opacity" Value="0.45" />
+                            <Setter TargetName="Thumb" Property="Opacity" Value="0.65" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 
@@ -67,7 +160,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Margin" Value="{StaticResource SettingsCardMargin}" />
         <Setter Property="Padding" Value="{StaticResource SettingsCardPadding}" />
         <Setter Property="FontFamily" Value="{StaticResource SettingsFontFamily}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -82,7 +175,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="8"
+                            CornerRadius="{StaticResource SettingsControlCornerRadius}"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -108,6 +201,7 @@
 
                             <!-- Header + Description -->
                             <StackPanel Grid.Column="1"
+                                        Margin="0,0,24,0"
                                         VerticalAlignment="Center"
                                         Orientation="Vertical">
                                 <ContentPresenter x:Name="PART_HeaderPresenter"
@@ -123,10 +217,11 @@
                             <!-- Content (right-aligned control) -->
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                               Grid.Column="2"
+                                              MinWidth="{StaticResource SettingsCardContentMinWidth}"
                                               HorizontalAlignment="Right"
                                               VerticalAlignment="Center"
                                               Content="{TemplateBinding Content}"
-                                              Margin="16,0,0,0" />
+                                              Margin="0" />
 
                             <!-- Action Icon (visible when IsClickEnabled) -->
                             <Viewbox x:Name="PART_ActionIconPresenterHolder"
@@ -136,10 +231,11 @@
                                      Margin="{StaticResource SettingsCardActionIconMargin}"
                                      VerticalAlignment="Center"
                                      Visibility="Collapsed">
-                                <TextBlock Text="&#xE974;"
+                                <TextBlock Text="{TemplateBinding ActionIcon}"
                                            FontFamily="Segoe MDL2 Assets"
                                            FontSize="12"
-                                           Opacity="0.6" />
+                                           Opacity="0.72"
+                                           ToolTip="{TemplateBinding ActionIconToolTip}" />
                             </Viewbox>
                         </Grid>
                     </Border>
@@ -168,13 +264,25 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_ActionIconPresenterHolder" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
-                        <!-- Pointer over -->
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!-- Interactive states only apply when the card itself is clickable. -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsClickEnabled" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="PART_RootBorder" Property="Background"
                                     Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
                             <Setter TargetName="PART_RootBorder" Property="BorderBrush"
                                     Value="{DynamicResource SettingsCardStrokePointerOverBrush}" />
-                        </Trigger>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsClickEnabled" Value="True" />
+                                <Condition Property="IsMouseCaptureWithin" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_RootBorder" Property="Background"
+                                    Value="{DynamicResource SettingsCardBackgroundPressedBrush}" />
+                        </MultiTrigger>
                         <!-- Disabled -->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_RootBorder" Property="Background"
@@ -185,6 +293,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsClickEnabled" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Focusable" Value="True" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- SettingsCard variant for expander child items (flat corners, top border only) -->
@@ -250,10 +364,22 @@
                         <Trigger Property="Header" Value="{x:Null}">
                             <Setter TargetName="PART_HeaderPresenter" Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsClickEnabled" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="PART_RootBorder" Property="Background"
                                     Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
-                        </Trigger>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsClickEnabled" Value="True" />
+                                <Condition Property="IsMouseCaptureWithin" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_RootBorder" Property="Background"
+                                    Value="{DynamicResource SettingsCardBackgroundPressedBrush}" />
+                        </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_RootBorder" Property="Opacity" Value="0.6" />
                         </Trigger>
@@ -286,7 +412,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Margin" Value="{StaticResource SettingsCardMargin}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="ItemContainerStyleSelector" Value="{StaticResource SettingsExpanderItemStyleSelector}" />
         <Setter Property="Template">
@@ -296,7 +422,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="8"
+                            CornerRadius="{StaticResource SettingsControlCornerRadius}"
                             SnapsToDevicePixels="True"
                             ClipToBounds="True">
                         <Grid>
@@ -310,6 +436,7 @@
                             <!-- Header row: clickable toggle -->
                             <ToggleButton x:Name="PART_ExpanderToggle"
                                           Grid.Row="0"
+                                          MinHeight="{StaticResource SettingsCardMinHeight}"
                                           IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                           Background="Transparent"
                                           BorderThickness="0"
@@ -320,24 +447,39 @@
                                           OverridesDefaultStyle="True">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="ToggleButton">
-                                        <Border x:Name="ToggleBorder"
-                                                Background="{TemplateBinding Background}"
-                                                SnapsToDevicePixels="True">
-                                            <ContentPresenter HorizontalAlignment="Stretch"
-                                                              VerticalAlignment="Stretch" />
-                                        </Border>
+                                        <Grid>
+                                            <Border x:Name="ToggleBorder"
+                                                    Background="{TemplateBinding Background}"
+                                                    SnapsToDevicePixels="True">
+                                                <ContentPresenter HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch" />
+                                            </Border>
+                                            <Border x:Name="ToggleFocusRing"
+                                                    Margin="2"
+                                                    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                                                    BorderThickness="2"
+                                                    CornerRadius="3"
+                                                    IsHitTestVisible="False"
+                                                    Opacity="0" />
+                                        </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="ToggleBorder" Property="Background"
                                                         Value="{DynamicResource SettingsCardBackgroundPointerOverBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ToggleBorder" Property="Background"
+                                                        Value="{DynamicResource SettingsCardBackgroundPressedBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="ToggleFocusRing" Property="Opacity" Value="1" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
 
                                 <!-- Header content grid -->
-                                <Grid MinHeight="{StaticResource SettingsCardMinHeight}"
-                                      HorizontalAlignment="Stretch"
+                                <Grid HorizontalAlignment="Stretch"
                                       Margin="{StaticResource SettingsExpanderHeaderPadding}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -380,7 +522,7 @@
                                     <Border Grid.Column="3"
                                             Width="{StaticResource SettingsExpanderChevronButtonSize}"
                                             Height="{StaticResource SettingsExpanderChevronButtonSize}"
-                                            Margin="4,0,8,0"
+                                            Margin="4,0,0,0"
                                             VerticalAlignment="Center">
                                         <TextBlock x:Name="ChevronGlyph"
                                                    Text="&#xE70D;"
@@ -431,11 +573,6 @@
                                     <RotateTransform Angle="180" />
                                 </Setter.Value>
                             </Setter>
-                        </Trigger>
-                        <!-- Hover on root -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PART_RootBorder" Property="BorderBrush"
-                                    Value="{DynamicResource SettingsCardStrokePointerOverBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
