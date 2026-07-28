@@ -13,7 +13,7 @@
                       CanContentScroll="False"
                       PreviewMouseWheel="SettingsScrollViewer_PreviewMouseWheel"
                       VerticalScrollBarVisibility="Visible">
-            <StackPanel Margin="16"
+            <StackPanel Margin="48,32,48,32"
                         MaxWidth="1000"
                         HorizontalAlignment="Stretch">
                 <TextBlock Text="Settings"
@@ -44,11 +44,11 @@
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard Header="Acknowledgement"
                                                Style="{StaticResource SettingsExpanderItemStyle}">
-                            <controls:SettingsCard.HeaderIcon>
-                                <TextBlock Text="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
-                            </controls:SettingsCard.HeaderIcon>
                             <controls:SettingsCard.Description>
-                                <TextBlock TextWrapping="Wrap" FontSize="12" Opacity="0.8" LineHeight="18">
+                                <TextBlock TextWrapping="Wrap"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SettingsCardDescriptionForegroundBrush}"
+                                           LineHeight="18">
                                     Sawmill is built on the foundation of TailBlazer, an exceptional open-source 
                                     log file viewer created by Roland Pheasant. None of this would be possible 
                                     without his original vision and work. Thank you, Roland, for sharing 
@@ -58,16 +58,13 @@
                         </controls:SettingsCard>
 
                         <controls:SettingsCard Style="{StaticResource SettingsExpanderItemStyle}">
-                            <controls:SettingsCard.HeaderIcon>
-                                <TextBlock Text="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
-                            </controls:SettingsCard.HeaderIcon>
                             <controls:SettingsCard.Header>
                                 <StackPanel>
                                     <TextBlock Text="Source code" FontSize="14" />
                                     <TextBlock Margin="0,4,0,0" FontSize="12">
                                         <Hyperlink NavigateUri="https://github.com/EzraWard/Sawmill"
                                                    RequestNavigate="Hyperlink_RequestNavigate"
-                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                                   Foreground="{DynamicResource AccentTextBrush}">
                                             github.com/EzraWard/Sawmill
                                         </Hyperlink>
                                     </TextBlock>
@@ -76,16 +73,13 @@
                         </controls:SettingsCard>
 
                         <controls:SettingsCard Style="{StaticResource SettingsExpanderItemStyle}">
-                            <controls:SettingsCard.HeaderIcon>
-                                <TextBlock Text="&#xE71B;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
-                            </controls:SettingsCard.HeaderIcon>
                             <controls:SettingsCard.Header>
                                 <StackPanel>
                                     <TextBlock Text="Original project" FontSize="14" />
                                     <TextBlock Margin="0,4,0,0" FontSize="12">
                                         <Hyperlink NavigateUri="https://github.com/RolandPheasant/TailBlazer"
                                                    RequestNavigate="Hyperlink_RequestNavigate"
-                                                   Foreground="{DynamicResource PrimaryHueLightBrush}">
+                                                   Foreground="{DynamicResource AccentTextBrush}">
                                             github.com/RolandPheasant/TailBlazer
                                         </Hyperlink>
                                     </TextBlock>

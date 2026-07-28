@@ -42,6 +42,14 @@ public class SettingsConversion
     }
 
     [TestMethod]
+    public void GeneralOptionsShouldFollowTheSystemThemeByDefault()
+    {
+        var converter = new GeneralOptionsConverter();
+
+        converter.GetDefaultValue().Theme.Should().Be(Theme.System);
+    }
+
+    [TestMethod]
     public void EmptySearchShouldReturnDefault()
     {
         var converter = new SearchMetadataToStateConverter();

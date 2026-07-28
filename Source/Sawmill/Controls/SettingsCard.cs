@@ -99,9 +99,41 @@ public class SettingsCard : ContentControl
     protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
     {
         base.OnMouseLeftButtonUp(e);
-        if (IsClickEnabled)
+        if (!IsClickEnabled || e.ChangedButton != MouseButton.Left)
+            return;
+
+        var shouldClick = IsMouseCaptured && IsMouseOver;
+        if (IsMouseCaptured)
+        {
+            ReleaseMouseCapture();
+        }
+
+        if (shouldClick)
         {
             RaiseEvent(new RoutedEventArgs(ClickEvent, this));
         }
+
+        e.Handled = true;
+    }
+
+    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseLeftButtonDown(e);
+        if (!IsClickEnabled || e.ChangedButton != MouseButton.Left)
+            return;
+
+        Focus();
+        CaptureMouse();
+        e.Handled = true;
+    }
+
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        base.OnKeyUp(e);
+        if (!IsClickEnabled || (e.Key != Key.Enter && e.Key != Key.Space))
+            return;
+
+        RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+        e.Handled = true;
     }
 }

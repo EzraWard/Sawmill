@@ -21,19 +21,19 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Root" Property="Background" Value="#22FFFFFF" />
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource SubtlePressedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="#33FFFFFF" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextBoxBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Width" Value="26" />
         <Setter Property="Height" Value="26" />
         <Setter Property="Margin" Value="4 0 2 0" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
     </Style>
  
     <Style TargetType="{x:Type Button}" x:Key="CloseButtonStyle" BasedOn="{StaticResource MaterialDesignMenuCommandButtonStyle}">
@@ -58,7 +58,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Root" Property="Background" Value="#22FFFFFF" />
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource SubtlePressedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -68,7 +68,7 @@
         <Setter Property="Width" Value="18" />
         <Setter Property="Height" Value="18" />
         <Setter Property="Margin" Value="3 0 1 0" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
     </Style>
 
 

@@ -26,7 +26,7 @@ public sealed class GeneralOptionsViewModel : AbstractNotifyPropertyChanged, IDi
 
     public GeneralOptionsViewModel(ISetting<GeneralOptions> setting)
     {
-        ThemeOptions = [Theme.System, Theme.Dark, Theme.Light];
+        ThemeOptions = [Theme.System, Theme.Light, Theme.Dark];
 
         var reader = setting.Value.Subscribe(options =>
         {

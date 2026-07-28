@@ -8,41 +8,58 @@
     xmlns:tail="clr-namespace:Sawmill.Views.Tail"
     xmlns:windowManagement="clr-namespace:Sawmill.Views.WindowManagement"
     ShutdownMode="OnLastWindowClose"
+    ThemeMode="Dark"
     >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Generic.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
-
-                <!--<ResourceDictionary Source="pack://application:,,,/Sawmill;component/Themes/Colours.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="MaterialDesignFont">Segoe UI</FontFamily>
-            <SolidColorBrush x:Key="MaterialDesignBackground" Color="#FF1F2024" />
-            <SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF2A2D33" />
-            <SolidColorBrush x:Key="MaterialDesignBody" Color="#FFF3F3F3" />
-            <SolidColorBrush x:Key="MaterialDesignTextBoxBorder" Color="#66FFFFFF" />
+            <SolidColorBrush x:Key="MaterialDesignBackground" Color="#FF202020" />
+            <SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF2B2B2B" />
+            <SolidColorBrush x:Key="MaterialDesignBody" Color="#FFF5F5F5" />
+            <SolidColorBrush x:Key="MaterialDesignBodySecondary" Color="#FFC7C7C7" />
+            <SolidColorBrush x:Key="MaterialDesignTextBoxBorder" Color="#FF858585" />
             <SolidColorBrush x:Key="MaterialDesignFlatButtonClick" Color="#22FFFFFF" />
-            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3C82F6" />
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF0F6CBD" />
             <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFFFF" />
-            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF1E4F9E" />
-            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFF4F6FB" />
-            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF78A9FF" />
-            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF0E1624" />
-            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF0078D4" />
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF004578" />
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF60A5FA" />
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF0B1220" />
+            <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF0F6CBD" />
             <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFFFF" />
-            <SolidColorBrush x:Key="ValidationErrorBrush" Color="#FFE85A5A" />
-            <SolidColorBrush x:Key="GrayBrush2" Color="#888888" />
+            <SolidColorBrush x:Key="AccentTextBrush" Color="#FF8CC8FF" />
+            <SolidColorBrush x:Key="ValidationErrorBrush" Color="#FFFF99A4" />
+            <SolidColorBrush x:Key="GrayBrush2" Color="#FFADADAD" />
 
-            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#FF282828" />
-            <SolidColorBrush x:Key="SettingsCardBrush" Color="#B324272E" />
-            <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#66FFFFFF" />
+            <SolidColorBrush x:Key="SettingsMicaBrush" Color="#FF202020" />
+            <SolidColorBrush x:Key="SettingsCardBrush" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="SettingsCardBorderBrush" Color="#FF3D3D3D" />
 
-            <SolidColorBrush x:Key="TabSelectedBrush" Color="#FF282828" />
-            <SolidColorBrush x:Key="TabHoverBrush" Color="#15FFFFFF" />
+            <SolidColorBrush x:Key="TabSelectedBrush" Color="#FF2B2B2B" />
+            <SolidColorBrush x:Key="TabHoverBrush" Color="#18FFFFFF" />
             <SolidColorBrush x:Key="CaptionButtonHoverBrush" Color="#22FFFFFF" />
-            <SolidColorBrush x:Key="ContentAreaBrush" Color="#FF282828" />
+            <SolidColorBrush x:Key="ContentAreaBrush" Color="#FF2B2B2B" />
+            <SolidColorBrush x:Key="ToolbarBackgroundBrush" Color="#FF242424" />
+            <SolidColorBrush x:Key="DividerBrush" Color="#FF767676" />
+            <SolidColorBrush x:Key="SubtleHoverBrush" Color="#18FFFFFF" />
+            <SolidColorBrush x:Key="SubtlePressedBrush" Color="#26FFFFFF" />
+
+            <SolidColorBrush x:Key="SettingsCardBackgroundBrush" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="SettingsCardBackgroundPointerOverBrush" Color="#FF343434" />
+            <SolidColorBrush x:Key="SettingsCardBackgroundPressedBrush" Color="#FF292929" />
+            <SolidColorBrush x:Key="SettingsCardBackgroundDisabledBrush" Color="#FF292929" />
+            <SolidColorBrush x:Key="SettingsCardStrokeBrush" Color="#FF3D3D3D" />
+            <SolidColorBrush x:Key="SettingsCardStrokePointerOverBrush" Color="#FF555555" />
+            <SolidColorBrush x:Key="SettingsCardDescriptionForegroundBrush" Color="#FFC7C7C7" />
+            <SolidColorBrush x:Key="SettingsToggleTrackBrush" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="SettingsToggleTrackPointerOverBrush" Color="#FF3A3A3A" />
+            <SolidColorBrush x:Key="SettingsToggleTrackBorderBrush" Color="#FF9A9A9A" />
+            <SolidColorBrush x:Key="SettingsToggleTrackBorderPointerOverBrush" Color="#FFC7C7C7" />
+            <SolidColorBrush x:Key="SettingsToggleThumbBrush" Color="#FFC7C7C7" />
 
             <Style x:Key="MaterialDesignFlatButton" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent" />

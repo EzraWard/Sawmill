@@ -63,7 +63,10 @@
 
             <Border Grid.Row="0"
                     Visibility="{Binding FileStatus.Value, Converter={StaticResource NotEqualsToVisibilityConverter},ConverterParameter={x:Static fileHandling:FileStatus.Loading}}"
-                    BorderBrush="#18FFFFFF" BorderThickness="0,0,0,1" Margin="-4,-4,-4,2" Background="#FF282828">
+                    BorderBrush="{DynamicResource DividerBrush}"
+                    BorderThickness="0,0,0,1"
+                    Margin="-4,-4,-4,2"
+                    Background="{DynamicResource TabSelectedBrush}">
                 <Grid MinHeight="36" KeyboardNavigation.TabNavigation="Cycle">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -226,16 +229,16 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Bd" Property="Background" Value="#15FFFFFF" />
+                                        <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SubtleHoverBrush}" />
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="Bd" Property="Background" Value="#22FFFFFF" />
+                                        <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SubtlePressedBrush}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
                         <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" 
-                                   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                   Foreground="{DynamicResource MaterialDesignBody}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
                 </Grid>
@@ -364,7 +367,7 @@
                           Height="5" 
                           ResizeDirection="Rows"
                           Visibility="{Binding Path=DataContext.InlineViewerVisible.Value, ElementName=Control,Converter={StaticResource BooleanToVisibilityConverter}}"
-                          Background="{DynamicResource SettingsMicaBrush}"
+                          Background="{DynamicResource ToolbarBackgroundBrush}"
                           BorderThickness="1" HorizontalAlignment="Stretch"/>
 
 
@@ -372,13 +375,15 @@
                     ContentTemplate="{StaticResource LinesDataTemplate}"
                     Content="{Binding InlineViewer,Mode=OneWay}" />
 
-                <Grid    Grid.Row="3" Margin = "0 0 0 -4"   Background="{DynamicResource SettingsMicaBrush}">
+                <Grid Grid.Row="3"
+                      Margin="0,0,0,-4"
+                      Background="{DynamicResource ToolbarBackgroundBrush}">
 
                     <Grid.Resources>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Opacity" Value="0.76"/>
                             <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBodySecondary}"/>
                         </Style>
                     </Grid.Resources>
 
@@ -390,15 +395,15 @@
                     <StackPanel Grid.Column="0" Margin="6,0,6,0"
                          Orientation="Horizontal" 
                          VerticalAlignment="Center"
-                         TextElement.Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                         TextElement.Foreground="{DynamicResource MaterialDesignBodySecondary}">
 
                         <TextBlock  
                             Text="{Binding  CountText.Value, StringFormat='\{0}.'}"
-                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                            Foreground="{DynamicResource MaterialDesignBodySecondary}"
                             VerticalAlignment="Center"/>
 
                         <TextBlock Margin="6,0,0,0" Text="{Binding FileSizeText.Value}" 
-                                   Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                   Foreground="{DynamicResource MaterialDesignBodySecondary}"/>
 
                     </StackPanel>
 
@@ -412,7 +417,7 @@
                         <Button Width="28" Height="28"
                                 Margin="4 0 0 0" 
                                 Padding="0"
-                                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                Foreground="{DynamicResource MaterialDesignBody}"
                                 Opacity="0.76"
                                 ToolTip="Un-clear to monitor entire file"
                                 Style="{StaticResource MaterialDesignFlatButton}" 
@@ -425,7 +430,7 @@
                                  Padding="0"
                                  Opacity="0.76"
                                  ToolTip="Clear to monitor tail only"
-                                 Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                 Foreground="{DynamicResource MaterialDesignBody}"
                                 Style="{StaticResource MaterialDesignFlatButton}" 
                                 Command="{Binding ClearCommand}">
                             <wpf:PackIcon Kind="Eraser" Width="18" Height="18"/>
