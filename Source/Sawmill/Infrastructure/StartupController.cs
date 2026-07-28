@@ -20,7 +20,7 @@ public class StartupController
     {
         applicationStatePublisher.Publish(ApplicationState.Startup);
 
-        logger.Info($"Starting Sawmill version v{Assembly.GetEntryAssembly().GetName().Version}");
+        logger.Info($"Starting Sawmill version {ApplicationInfo.DisplayVersion}");
         logger.Info($"at {DateTime.UtcNow}");
 
 

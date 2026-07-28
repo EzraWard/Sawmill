@@ -25,8 +25,20 @@ public sealed class SystemSetterJob: IDisposable
         IRatingService ratingService,
         ISchedulerProvider schedulerProvider)
     {
-        var themeSetter = setting.Value.Select(options => options.Theme)
+        // Apply the initial theme before startup continues and creates the first window.
+        // DispatcherScheduler defers work even when this constructor runs on the UI thread,
+        // which otherwise lets the window render once with the XAML fallback palette.
+        var initialTheme = setting.Value
+            .Select(options => options.Theme)
+            .Take(1)
+            .Wait();
+        _selectedTheme = initialTheme;
+        ApplyTheme(initialTheme);
+
+        var themeSetter = setting.Value
+            .Select(options => options.Theme)
             .DistinctUntilChanged()
+            .Skip(1)
             .ObserveOn(schedulerProvider.MainThread)
             .Subscribe(userTheme =>
             {

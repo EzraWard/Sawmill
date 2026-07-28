@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:options="clr-namespace:Sawmill.Views.Options"
              xmlns:controls="clr-namespace:Sawmill.Controls"
+             xmlns:infrastructure="clr-namespace:Sawmill.Infrastructure"
              mc:Ignorable="d">
 
     <Grid Background="Transparent">
@@ -38,7 +39,7 @@
                                RenderOptions.BitmapScalingMode="HighQuality" />
                     </controls:SettingsExpander.HeaderIcon>
                     <controls:SettingsExpander.Content>
-                        <TextBlock Text="v1.1.0"
+                        <TextBlock Text="{x:Static infrastructure:ApplicationInfo.DisplayVersion}"
                                    Style="{StaticResource PageHeaderSubtitleStyle}" />
                     </controls:SettingsExpander.Content>
                     <controls:SettingsExpander.Items>
@@ -49,9 +50,9 @@
                                            FontSize="12"
                                            Foreground="{DynamicResource SettingsCardDescriptionForegroundBrush}"
                                            LineHeight="18">
-                                    Sawmill is built on the foundation of TailBlazer, an exceptional open-source 
-                                    log file viewer created by Roland Pheasant. None of this would be possible 
-                                    without his original vision and work. Thank you, Roland, for sharing 
+                                    Sawmill is built on the foundation of TailBlazer, an exceptional open-source
+                                    log file viewer created by Roland Pheasant. None of this would be possible
+                                    without his original vision and work. Thank you, Roland, for sharing
                                     TailBlazer with the community.
                                 </TextBlock>
                             </controls:SettingsCard.Description>
