@@ -14,8 +14,16 @@ public class WindowFactory : IWindowFactory
     public MainWindow Create(IEnumerable<string> files = null)
     {
         var window = new MainWindow();
-        var model = _objectProvider.Get<WindowViewModel>();
+        var model = Attach(window);
         model.OpenFiles(files);
+        return window;
+    }
+
+    public WindowViewModel Attach(MainWindow window)
+    {
+        ArgumentNullException.ThrowIfNull(window);
+
+        var model = _objectProvider.Get<WindowViewModel>();
         window.DataContext = model;
 
         window.Closing += (sender, e) =>
@@ -24,6 +32,6 @@ public class WindowFactory : IWindowFactory
             todispose?.Dispose();
         };
 
-        return window;
+        return model;
     }
 }
