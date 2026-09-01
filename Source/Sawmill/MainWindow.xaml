@@ -101,7 +101,7 @@
                 <Grid Grid.Row="0"
                       x:Name="TitleBarGrid"
                       Height="40"
-                      Margin="10,0,0,0"
+                      Margin="16,0,0,0"
                       Panel.ZIndex="2"
                       Background="Transparent"
                       PreviewMouseLeftButtonDown="TitleBar_PreviewMouseLeftButtonDown"
@@ -196,7 +196,7 @@
                                       CanContentScroll="False"
                                       PreviewMouseWheel="TabScrollViewer_PreviewMouseWheel"
                                       ClipToBounds="False"
-                                      Padding="8,0,0,0">
+                                      Padding="0">
                             <StackPanel Orientation="Horizontal" ClipToBounds="False" Margin="8,0,0,0">
                         <TabControl x:Name="TitleBarTabs" ClipToBounds="False"
                                     ItemsSource="{Binding Views}"

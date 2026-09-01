@@ -41,14 +41,8 @@ Built with Windows 11 Fluent design principles — clean typography, rounded cor
 
 ## What's New in This Release
 
-- Complete visual redesign with Windows 11 Fluent styling
-- Tabbed interface with Explorer-style tab curves
-- Notepad-style menu bar (File, Edit, View)
-- Keyboard shortcuts (Ctrl+T for new tab, Ctrl+O for open)
-- Tab overflow scrolling for many open files
-- Drag-to-restore window behavior matching native Windows apps
-- Settings page with organized cards and expanders
-- Updated to .NET 10
+- Improved title-bar and tab alignment
+- Updated dependencies for compatibility and reliability
 
 ## Search Keywords (max 7, each max 30 characters)
 

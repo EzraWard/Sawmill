@@ -4,7 +4,7 @@
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>sawmill.ico</ApplicationIcon>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
     <SelfContained>false</SelfContained>
     <ImplicitUsings>true</ImplicitUsings>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="9.4.1" />
+    <PackageReference Include="DynamicData" Version="9.4.33" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
   </ItemGroup>
 
@@ -45,21 +45,13 @@
     those missing files. This target copies them from the default obj\ directory (where NuGet always
     generates them) before _GenerateTemporaryTargetAssembly runs.
   -->
-  <Target Name="_EnsureNuGetFilesForWapPublish"
-          BeforeTargets="_GenerateTemporaryTargetAssembly"
-          Condition="$(MSBuildProjectExtensionsPath.Contains('wappublish')) AND !Exists('$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props')">
+  <Target Name="_EnsureNuGetFilesForWapPublish" BeforeTargets="_GenerateTemporaryTargetAssembly" Condition="$(MSBuildProjectExtensionsPath.Contains('wappublish')) AND !Exists('$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props')">
     <PropertyGroup>
       <_DefaultObjDir>$(MSBuildProjectDirectory)\obj\</_DefaultObjDir>
     </PropertyGroup>
-    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props"
-          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props"
-          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props')" />
-    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets"
-          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.targets"
-          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets')" />
-    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json"
-          DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.dgspec.json"
-          Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json')" />
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props" DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.props" Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.props')" />
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets" DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.g.targets" Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.g.targets')" />
+    <Copy SourceFiles="$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json" DestinationFiles="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).nuget.dgspec.json" Condition="Exists('$(_DefaultObjDir)$(MSBuildProjectFile).nuget.dgspec.json')" />
   </Target>
 
   <ItemGroup>
